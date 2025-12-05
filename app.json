@@ -12,7 +12,7 @@
   },
   "brandColor": "#1a1a1a",
   "description": {
-    "en": "Adds support for a Niko Home Control II installation using the hobby API."
+    "en": "A home that adapts all day to your lifestyle."
   },
   "category": [
     "lights"
@@ -32,6 +32,13 @@
   },
   "source": "https://github.com/georgechoustoulakis/com.choustoulakis.homey-niko-home-control-2",
   "homepage": "https://www.niko.eu/en/our-products/home-automation",
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "GChoustoulakis"
+      }
+    }
+  },
   "drivers": [
     {
       "name": {
@@ -118,7 +125,7 @@
     },
     {
       "name": {
-        "en": "Dimmer"
+        "en": "Dimmer module"
       },
       "class": "light",
       "capabilities": [
@@ -153,7 +160,7 @@
     },
     {
       "name": {
-        "en": "Light"
+        "en": "Switching module"
       },
       "class": "light",
       "capabilities": [
