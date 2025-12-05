@@ -39,6 +39,7 @@
       }
     }
   },
+  "support": "mailto:homey@choustoulakis.com",
   "drivers": [
     {
       "name": {
