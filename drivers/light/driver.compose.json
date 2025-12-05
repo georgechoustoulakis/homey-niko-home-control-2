@@ -1,6 +1,6 @@
 {
   "name": {
-    "en": "light"
+    "en": "Light"
   },
   "class": "light",
   "capabilities": ["onoff"],
