@@ -1,12 +1,9 @@
-'use strict';
-
 import Homey from 'homey';
 
-module.exports = class NikoHomeControlApp extends Homey.App {
-  /**
-   * onInit is called when the app is initialized.
-   */
+class NikoHomeControlApp extends Homey.App {
   async onInit() {
     this.log('NikoHomeControlApp has been initialized');
   }
-};
+}
+
+module.exports = NikoHomeControlApp;
