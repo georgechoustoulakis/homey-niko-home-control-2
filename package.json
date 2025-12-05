@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "build": "tsc",
-    "lint": "eslint",
-    "prettier": "prettier . --write"
+    "lint:fix": "eslint --fix & prettier . --write",
+    "lint:check": "eslint & prettier . --check"
   },
   "devDependencies": {
     "@eslint/css": "^0.14.1",
