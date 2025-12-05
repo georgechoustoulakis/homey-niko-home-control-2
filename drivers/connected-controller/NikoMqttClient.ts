@@ -9,6 +9,8 @@ export interface NikoDeviceWithOwner extends NikoDevice {
   ownerControllerId: string;
 }
 
+const DEBUG_MQTT = false;
+
 export interface NikoDevice {
   Uuid: string;
   Name: string;
@@ -90,7 +92,9 @@ export class NikoMqttClient extends EventEmitter {
   };
 
   private onError = (err: Error): void => {
-    console.log('Niko MQTT Client Error:', err.message);
+    if (DEBUG_MQTT) {
+      console.log('Niko MQTT Client Error:', err.message);
+    }
 
     // Check for non-recoverable authorization errors
     if (
@@ -149,9 +153,9 @@ export class NikoMqttClient extends EventEmitter {
         },
       ],
     };
-
-    console.log(`Setting device ${uuid} status to`, props);
-
+    if (DEBUG_MQTT) {
+      console.log(`Setting device ${uuid} status to`, props);
+    }
     return new Promise((resolve, reject) => {
       this.client?.publish(TOPIC.CMD, JSON.stringify(payload), (err) => {
         if (err) reject(err);
@@ -168,7 +172,9 @@ export class NikoMqttClient extends EventEmitter {
         const receivedDevices: NikoDevice[] = payload.Params?.[0]?.Devices || [];
         this.devices.length = 0;
         this.devices.push(...receivedDevices);
-        console.log(`Niko MQTT client found ${this.devices.length} devices.`);
+        if (DEBUG_MQTT) {
+          console.log(`Niko MQTT client found ${this.devices.length} devices.`);
+        }
         if (this.state !== NikoClientState.CONNECTED) {
           this.setState(NikoClientState.CONNECTED);
         }
@@ -183,8 +189,9 @@ export class NikoMqttClient extends EventEmitter {
         updates.forEach((update: DeviceUpdate) => {
           const uuid = update.Uuid;
           const changedProps = update.Properties;
-          console.log(`Device ${uuid} properties update:`, changedProps);
-
+          if (DEBUG_MQTT) {
+            console.log(`Device ${uuid} properties update:`, changedProps);
+          }
           const device = this.devices.find((d) => d.Uuid === uuid);
           if (!device) {
             console.warn(`Warning: Received update for unknown device UUID: ${uuid}`);
