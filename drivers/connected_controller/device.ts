@@ -1,6 +1,13 @@
 import Homey from 'homey';
 import { ConnectedControllerSettings } from './driver';
-import { NikoClientState, NikoDevice, NikoMqttClient } from './NikoMqttClient';
+import {
+  NikoClientState,
+  NikoDevice,
+  NikoDeviceWithOwner,
+  NikoModel,
+  NikoMqttClient,
+  NikoType,
+} from './NikoMqttClient';
 
 export class ConnectedControllerDevice extends Homey.Device {
   private settings!: ConnectedControllerSettings;
@@ -27,8 +34,15 @@ export class ConnectedControllerDevice extends Homey.Device {
     this.disconnect();
   }
 
-  getNikoDevices(): NikoDevice[] {
-    return this.client?.getDevices() ?? [];
+  getNikoDevices(model: NikoModel, type: NikoType): NikoDeviceWithOwner[] {
+    if (!this.getAvailable()) {
+      return [];
+    }
+    const devices = this.client?.getNikoDevices(model, type) ?? [];
+    return devices.map((device) => ({
+      ...device,
+      ownerControllerId: this.getData().id,
+    }));
   }
 
   setDeviceStatus(uuid: string, status: 'On' | 'Off'): void {
@@ -48,6 +62,9 @@ export class ConnectedControllerDevice extends Homey.Device {
         await this.setUnavailable(
           message || 'An unknown error occurred with the Niko Home Control Controller connection.',
         );
+        setTimeout(() => {
+          void this.connect();
+        }, 30_000);
         break;
     }
   };
@@ -85,7 +102,6 @@ export class ConnectedControllerDevice extends Homey.Device {
 
   disconnect() {
     this.client?.disconnect();
-    this.log('Disconnected from Niko Home Control Controller.');
   }
 }
 

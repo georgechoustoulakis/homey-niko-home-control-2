@@ -1,9 +1,14 @@
 import Homey from 'homey';
-import { NikoDevice } from '../drivers/connected_controller/NikoMqttClient';
+import {
+  NikoDevice,
+  NikoDeviceWithOwner,
+  NikoModel,
+  NikoType,
+} from '../drivers/connected_controller/NikoMqttClient';
 import { ConnectedControllerDevice } from '../drivers/connected_controller/device';
 
-export class NikoDriver extends Homey.Driver {
-  protected getNikoDevicesByModel(type: string): NikoDevice[] {
+export abstract class NikoDriver extends Homey.Driver {
+  protected getNikoDevices(model: NikoModel, type: NikoType): NikoDeviceWithOwner[] {
     const controllerDriver = this.homey.drivers.getDriver('connected_controller');
     const controllerDevices = controllerDriver.getDevices() as ConnectedControllerDevice[];
 
@@ -11,11 +16,10 @@ export class NikoDriver extends Homey.Driver {
       throw new Error('⚠️ First add a Connected Controller.');
     }
 
-    const allNikoDevices = controllerDevices.flatMap((controllerDevice) =>
-      controllerDevice.getNikoDevices(),
-    );
-    console.log(allNikoDevices);
-
-    return allNikoDevices.filter((nikoDevice) => nikoDevice.Model === type);
+    const allDevices: NikoDeviceWithOwner[] = [];
+    for (const controllerDevice of controllerDevices) {
+      allDevices.push(...controllerDevice.getNikoDevices(model, type));
+    }
+    return allDevices;
   }
 }

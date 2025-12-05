@@ -1,31 +1,28 @@
-import Homey from 'homey';
 import { NikoDevice } from '../../src/NikoDevice';
 import { NikoLightStore } from './driver';
 
 class NikoLight extends NikoDevice {
-  private uuid!: string;
-
-  async onInit() {
-    const store = this.getStore() as NikoLightStore;
-    this.uuid = store.uuid;
+  async onInit(): Promise<void> {
+    this.device = (this.getStore() as NikoLightStore).device;
+    await super.onInit();
     this.registerCapabilityListener('onoff', this.onValueChange);
+    await this.updateStatus();
   }
 
   private onValueChange = async (value: boolean) => {
-    this.log(`The 'onoff' capability value has changed to: ${value}`);
-    this.setDeviceStatus(this.uuid, value ? 'On' : 'Off');
+    this.setNikoDeviceStatus(value ? 'On' : 'Off');
   };
 
-  async onAdded() {
-    this.log('MyDevice has been added');
-  }
-
-  async onRenamed(name: string) {
-    this.log('MyDevice was renamed');
-  }
-
-  async onDeleted() {
-    this.log('MyDevice has been deleted');
+  private async updateStatus(): Promise<void> {
+    const statusProp = this.device.Properties.find((prop) =>
+      Object.prototype.hasOwnProperty.call(prop, 'Status'),
+    );
+    if (!statusProp) {
+      console.warn(`Warning: Device "${this.device.Name}" has no 'Status' property.`);
+      return this.setUnavailable('Device is misconfigured, please re-create it.');
+    }
+    await this.setAvailable();
+    await this.setCapabilityValue('onoff', statusProp.Status === 'On');
   }
 }
 

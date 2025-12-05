@@ -1,8 +1,9 @@
 import { NikoDriver } from '../../src/NikoDriver';
 import { GenericDevicePairingData } from '../../src/GenericDevicePairingData';
+import { NikoDeviceWithOwner } from '../connected_controller/NikoMqttClient';
 
 export interface NikoLightStore {
-  uuid: string;
+  device: NikoDeviceWithOwner;
 }
 
 export interface NikoLightPairingData extends GenericDevicePairingData {
@@ -11,14 +12,14 @@ export interface NikoLightPairingData extends GenericDevicePairingData {
 
 class NikoLightDriver extends NikoDriver {
   async onPairListDevices(): Promise<NikoLightPairingData[]> {
-    const devices = this.getNikoDevicesByModel('light');
+    const devices = this.getNikoDevices('light', 'action');
     return devices.map((nikoDevice) => ({
       name: nikoDevice.Name,
       data: {
         id: nikoDevice.Uuid,
       },
       store: {
-        uuid: nikoDevice.Uuid,
+        device: nikoDevice,
       },
     }));
   }

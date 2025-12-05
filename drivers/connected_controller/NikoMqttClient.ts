@@ -1,14 +1,28 @@
-import { connect, MqttClient, IClientOptions } from 'mqtt';
+import { connect, IClientOptions, MqttClient } from 'mqtt';
 import { EventEmitter } from 'events';
 import { ConnectedControllerSettings } from './driver';
+
+export type NikoModel = 'light' | 'dimmer' | 'sunblind' | 'alloff';
+export type NikoType = 'relay' | 'dimmer' | 'motor' | 'action';
+
+export interface NikoDeviceWithOwner extends NikoDevice {
+  ownerControllerId: string;
+}
 
 export interface NikoDevice {
   Uuid: string;
   Name: string;
-  Model: string;
-  Type: string;
-  Properties: Record<string, any>; // e.g. { Status: "On", Brightness: "100" }
-  Online: string; // 'True' or 'False'
+  Model: NikoModel;
+  Technology: 'nikohomecontrol' | string;
+  Type: NikoType;
+  Properties: Record<string, any>[]; // e.g. [{ Status: 'On' }]
+  PropertyDefinitions: any; // TODO
+  Online: 'True' | 'False'; // 'True' or 'False'
+}
+
+interface DeviceUpdate {
+  Uuid: string;
+  Properties: Record<string, any>[];
 }
 
 export enum TOPIC {
@@ -31,7 +45,7 @@ export class NikoMqttClient extends EventEmitter {
   private readonly settings: ConnectedControllerSettings;
   private _state: NikoClientState = NikoClientState.UNINITIALIZED;
 
-  private devices: Map<string, NikoDevice> = new Map();
+  private devices: NikoDevice[] = [];
 
   constructor(settings: ConnectedControllerSettings) {
     super();
@@ -113,12 +127,8 @@ export class NikoMqttClient extends EventEmitter {
     this.client.publish(TOPIC.CMD, payload);
   }
 
-  public getDevices(): NikoDevice[] {
-    return Array.from(this.devices.values());
-  }
-
-  public getDevice(uuid: string): NikoDevice | undefined {
-    return this.devices.get(uuid);
+  public getNikoDevices(model: NikoModel, type: NikoType): NikoDevice[] {
+    return this.devices.filter((device) => device.Model === model && device.Type === type);
   }
 
   public async setDeviceStatus(
@@ -149,6 +159,8 @@ export class NikoMqttClient extends EventEmitter {
       ],
     };
 
+    console.log(`Setting device ${uuid} status to`, properties);
+
     return new Promise((resolve, reject) => {
       this.client?.publish(TOPIC.CMD, JSON.stringify(payload), (err) => {
         if (err) reject(err);
@@ -163,32 +175,46 @@ export class NikoMqttClient extends EventEmitter {
 
       if (topic === TOPIC.RSP && payload.Method === 'devices.list') {
         const receivedDevices: NikoDevice[] = payload.Params?.[0]?.Devices || [];
-
-        this.devices.clear();
-        receivedDevices.forEach((dev) => {
-          this.devices.set(dev.Uuid, dev);
-        });
-
-        console.log(`Niko MQTT client found ${this.devices.size} devices.`);
-        this.setState(NikoClientState.CONNECTED);
+        this.devices.length = 0;
+        this.devices.push(...receivedDevices);
+        console.log(`Niko MQTT client found ${this.devices.length} devices.`);
+        if (this.state !== NikoClientState.CONNECTED) {
+          this.setState(NikoClientState.CONNECTED);
+        }
       }
 
       if (topic === TOPIC.EVT && payload.Method === 'devices.status') {
-        const updates = payload.Params?.[0]?.Devices || [];
-        console.log(`Received device status updates for ${updates.length} devices.`);
+        const updates: DeviceUpdate[] = payload.Params?.[0]?.Devices || [];
 
-        updates.forEach((update: any) => {
+        updates.forEach((update: DeviceUpdate) => {
           const uuid = update.Uuid;
-          const newProps = update.Properties?.[0];
-          console.log(`Device ${uuid} properties update:`, newProps);
+          const changedProps = update.Properties;
+          console.log(`Device ${uuid} properties update:`, changedProps);
 
-          if (this.devices.has(uuid) && newProps) {
-            const cachedDevice = this.devices.get(uuid)!;
-            cachedDevice.Properties = { ...cachedDevice.Properties, ...newProps };
-            this.devices.set(uuid, cachedDevice);
-
-            this.emit('deviceupdate', { uuid, properties: newProps });
+          const device = this.devices.find((d) => d.Uuid === uuid);
+          if (!device) {
+            console.warn(`Warning: Received update for unknown device UUID: ${uuid}`);
+            return;
           }
+
+          if (device.Properties.length === update.Properties.length) {
+            // shortcut
+            device.Properties = changedProps;
+          } else {
+            for (const prop of changedProps) {
+              const propKey = Object.keys(prop)[0];
+              const existingProp = device.Properties.find((p) =>
+                Object.prototype.hasOwnProperty.call(p, propKey),
+              );
+              if (existingProp) {
+                existingProp[propKey] = prop[propKey];
+              } else {
+                device.Properties.push(prop);
+              }
+            }
+          }
+
+          this.emit('deviceupdate', device);
         });
       }
     } catch (error) {
