@@ -6,7 +6,7 @@ export interface ConnectedControllerSettings {
   ip: string;
   port: number;
   username: string;
-  jwt: string | undefined;
+  jwt: string;
 }
 
 export interface ConnectedControllerPairingData extends GenericDevicePairingData {
@@ -34,7 +34,7 @@ class ConnectedControllerDriver extends Homey.Driver {
         ip: result.address,
         port: 8884,
         username: 'hobby',
-        jwt: undefined,
+        jwt: '',
       },
     }));
     this.log('Devices found during pairing:', devicesFound);
