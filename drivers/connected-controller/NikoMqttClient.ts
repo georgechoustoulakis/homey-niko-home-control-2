@@ -46,6 +46,7 @@ export class NikoMqttClient extends EventEmitter {
   private client: MqttClient | null = null;
   private readonly settings: ConnectedControllerSettings;
   private _state: NikoClientState = NikoClientState.UNINITIALIZED;
+  private _updateInterval: any | undefined = undefined;
 
   private devices: NikoDevice[] = [];
 
@@ -89,6 +90,10 @@ export class NikoMqttClient extends EventEmitter {
   private onConnect = (): void => {
     this.subscribeTopics();
     this.requestDeviceList();
+    if (this._updateInterval) {
+      clearInterval(this._updateInterval);
+    }
+    this._updateInterval = setInterval(this.requestDeviceList, 15 * 60_000);
   };
 
   private onError = (err: Error): void => {
@@ -126,7 +131,7 @@ export class NikoMqttClient extends EventEmitter {
   }
 
   private requestDeviceList(): void {
-    if (!this.client) return;
+    if (!this.client || !this.client.connected) return;
     const payload = JSON.stringify({ Method: 'devices.list' });
     this.client.publish(TOPIC.CMD, payload);
   }
@@ -229,6 +234,10 @@ export class NikoMqttClient extends EventEmitter {
     if (this.client) {
       this.setState(NikoClientState.DISCONNECTING);
       this.client.end(true);
+    }
+    if (this._updateInterval) {
+      clearInterval(this._updateInterval);
+      this._updateInterval = undefined;
     }
   }
 }
