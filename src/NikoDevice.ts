@@ -23,7 +23,7 @@ export abstract class NikoDevice extends Homey.Device {
   };
 
   protected getConnectedController(): ConnectedControllerDevice | undefined {
-    const controllerDriver = this.homey.drivers.getDriver('connected_controller');
+    const controllerDriver = this.homey.drivers.getDriver('connected-controller');
     const controllerDevices = controllerDriver.getDevices() as ConnectedControllerDevice[];
     for (const controllerDevice of controllerDevices) {
       if (controllerDevice.getData().id === this.device.ownerControllerId) {
@@ -32,7 +32,7 @@ export abstract class NikoDevice extends Homey.Device {
     }
   }
 
-  protected setNikoDeviceStatus(status: 'On' | 'Off'): { error?: string } | void {
+  protected setNikoDeviceProps(props: Record<string, any>[]): { error?: string } | void {
     const controller = this.getConnectedController();
     if (controller === undefined) {
       return {
@@ -40,7 +40,7 @@ export abstract class NikoDevice extends Homey.Device {
           '⚠️ The Connected Controller device is not found. Please add a Connected Controller first.',
       };
     }
-    controller.setDeviceStatus(this.device.Uuid, status);
+    controller.setDeviceProps(this.device.Uuid, props);
   }
 
   onUninit(): Promise<void> {

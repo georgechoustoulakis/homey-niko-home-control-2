@@ -1,16 +1,16 @@
 import { NikoDevice } from '../../src/NikoDevice';
-import { NikoLightStore } from './driver';
+import { DeviceStore } from '../../src/GenericDevicePairingData';
 
 class NikoLight extends NikoDevice {
   async onInit(): Promise<void> {
-    this.device = (this.getStore() as NikoLightStore).device;
+    this.device = (this.getStore() as DeviceStore).device;
     await super.onInit();
     this.registerCapabilityListener('onoff', this.onValueChange);
     await this.updateStatus();
   }
 
   private onValueChange = async (value: boolean) => {
-    this.setNikoDeviceStatus(value ? 'On' : 'Off');
+    this.setNikoDeviceProps([{ Status: value ? 'On' : 'Off' }]);
   };
 
   async updateStatus(): Promise<void> {

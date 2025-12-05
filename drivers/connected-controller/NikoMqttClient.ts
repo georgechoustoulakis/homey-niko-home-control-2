@@ -2,8 +2,8 @@ import { connect, IClientOptions, MqttClient } from 'mqtt';
 import { EventEmitter } from 'events';
 import { ConnectedControllerSettings } from './driver';
 
-export type NikoModel = 'light' | 'dimmer' | 'sunblind' | 'alloff';
-export type NikoType = 'relay' | 'dimmer' | 'motor' | 'action';
+export type NikoModel = 'light' | 'dimmer' | 'sunblind' | 'alloff' | 'generic';
+export type NikoType = 'relay' | 'dimmer' | 'motor' | 'action' | 'energyhome';
 
 export interface NikoDeviceWithOwner extends NikoDevice {
   ownerControllerId: string;
@@ -131,18 +131,9 @@ export class NikoMqttClient extends EventEmitter {
     return this.devices.filter((device) => device.Model === model && device.Type === type);
   }
 
-  public async setDeviceStatus(
-    uuid: string,
-    status: 'On' | 'Off',
-    brightness?: number,
-  ): Promise<void> {
+  public async setDeviceProps(uuid: string, props: Record<string, any>[]): Promise<void> {
     if (!this.client || this.state !== NikoClientState.CONNECTED) {
       throw new Error('Not connected');
-    }
-
-    const properties: any = { Status: status };
-    if (brightness !== undefined) {
-      properties.Brightness = String(brightness);
     }
 
     const payload = {
@@ -152,14 +143,14 @@ export class NikoMqttClient extends EventEmitter {
           Devices: [
             {
               Uuid: uuid,
-              Properties: [properties],
+              Properties: props,
             },
           ],
         },
       ],
     };
 
-    console.log(`Setting device ${uuid} status to`, properties);
+    console.log(`Setting device ${uuid} status to`, props);
 
     return new Promise((resolve, reject) => {
       this.client?.publish(TOPIC.CMD, JSON.stringify(payload), (err) => {

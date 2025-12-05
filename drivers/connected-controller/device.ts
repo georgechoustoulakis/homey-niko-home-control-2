@@ -45,8 +45,8 @@ export class ConnectedControllerDevice extends Homey.Device {
     }));
   }
 
-  setDeviceStatus(uuid: string, status: 'On' | 'Off'): void {
-    this.client?.setDeviceStatus(uuid, status);
+  setDeviceProps(uuid: string, props: Record<string, any>[]): void {
+    this.client?.setDeviceProps(uuid, props);
   }
 
   private onDeviceUpdate = async (device: NikoDevice) => {

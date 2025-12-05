@@ -46,9 +46,9 @@
         "lan"
       ],
       "images": {
-        "small": "/drivers/connected_controller/assets/images/small.png",
-        "large": "/drivers/connected_controller/assets/images/large.png",
-        "xlarge": "/drivers/connected_controller/assets/images/xlarge.png"
+        "small": "/drivers/connected-controller/assets/images/small.png",
+        "large": "/drivers/connected-controller/assets/images/large.png",
+        "xlarge": "/drivers/connected-controller/assets/images/xlarge.png"
       },
       "pair": [
         {
@@ -66,7 +66,7 @@
           "template": "add_devices"
         }
       ],
-      "id": "connected_controller",
+      "id": "connected-controller",
       "settings": [
         {
           "id": "ip",

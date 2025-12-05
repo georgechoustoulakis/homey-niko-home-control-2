@@ -9,7 +9,7 @@ import { ConnectedControllerDevice } from '../drivers/connected-controller/devic
 
 export abstract class NikoDriver extends Homey.Driver {
   protected getNikoDevices(model: NikoModel, type: NikoType): NikoDeviceWithOwner[] {
-    const controllerDriver = this.homey.drivers.getDriver('connected_controller');
+    const controllerDriver = this.homey.drivers.getDriver('connected-controller');
     const controllerDevices = controllerDriver.getDevices() as ConnectedControllerDevice[];
 
     if (controllerDevices.length === 0) {
