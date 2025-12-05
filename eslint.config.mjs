@@ -31,4 +31,9 @@ export default defineConfig([
     extends: ['css/recommended'],
   },
   globalIgnores(['node_modules/', 'package-lock.json']),
+  {
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'off',
+    },
+  },
 ]);
