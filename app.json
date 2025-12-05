@@ -1,3 +1,218 @@
 {
-  "_comment": "This file is generated. Please edit .homeycompose/app.json instead."
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
+  "id": "com.choustoulakis.homey-niko-home-control-2",
+  "version": "1.0.0",
+  "compatibility": ">=12.5.0",
+  "sdk": 3,
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "Niko Home Control 2"
+  },
+  "brandColor": "#1a1a1a",
+  "description": {
+    "en": "A home that adapts all day to your lifestyle."
+  },
+  "category": [
+    "lights"
+  ],
+  "permissions": [],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "email": "homey@choustoulakis.com",
+    "name": "George Choustoulakis"
+  },
+  "bugs": {
+    "url": "https://github.com/georgechoustoulakis/com.choustoulakis.homey-niko-home-control-2/issues"
+  },
+  "source": "https://github.com/georgechoustoulakis/com.choustoulakis.homey-niko-home-control-2",
+  "homepage": "https://www.niko.eu/en/our-products/home-automation",
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "GChoustoulakis"
+      }
+    }
+  },
+  "support": "mailto:homey@choustoulakis.com",
+  "drivers": [
+    {
+      "name": {
+        "en": "Connected Controller"
+      },
+      "class": "bridge",
+      "capabilities": [],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/connected-controller/assets/images/small.png",
+        "large": "/drivers/connected-controller/assets/images/large.png",
+        "xlarge": "/drivers/connected-controller/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "options": {
+            "singular": true
+          },
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "connected-controller",
+      "settings": [
+        {
+          "id": "ip",
+          "type": "text",
+          "label": {
+            "en": "IP Address"
+          },
+          "value": "",
+          "hint": {
+            "en": "The IP of the Connected Controller."
+          }
+        },
+        {
+          "id": "port",
+          "type": "number",
+          "label": {
+            "en": "Port"
+          },
+          "value": 8884,
+          "min": 0,
+          "max": 65535,
+          "hint": {
+            "en": "The Port of the Connected Controller (default = 8884)."
+          }
+        },
+        {
+          "id": "username",
+          "type": "text",
+          "label": {
+            "en": "Username"
+          },
+          "value": "hobby",
+          "hint": {
+            "en": "The username to connect to the Connected Controller (default = hobby)."
+          }
+        },
+        {
+          "id": "jwt",
+          "type": "password",
+          "label": {
+            "en": "Token"
+          },
+          "value": "",
+          "hint": {
+            "en": "The JWT that needs to be generated yearly from the Niko programming software."
+          }
+        }
+      ]
+    },
+    {
+      "name": {
+        "en": "Dimmer module"
+      },
+      "class": "light",
+      "capabilities": [
+        "onoff",
+        "dim"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/dimmer/assets/images/small.png",
+        "large": "/drivers/dimmer/assets/images/large.png",
+        "xlarge": "/drivers/dimmer/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "dimmer"
+    },
+    {
+      "name": {
+        "en": "Switching module"
+      },
+      "class": "light",
+      "capabilities": [
+        "onoff"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/light/assets/images/small.png",
+        "large": "/drivers/light/assets/images/large.png",
+        "xlarge": "/drivers/light/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "light"
+    }
+  ],
+  "discovery": {
+    "niko_home_control": {
+      "type": "mdns-sd",
+      "mdns-sd": {
+        "name": "http",
+        "protocol": "tcp"
+      },
+      "id": "{{FP}}",
+      "conditions": [
+        [
+          {
+            "field": "name",
+            "match": {
+              "type": "regex",
+              "value": "^FP[0-9A-F]{12}$"
+            }
+          }
+        ]
+      ]
+    }
+  }
 }

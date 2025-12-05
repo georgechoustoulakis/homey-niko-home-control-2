@@ -1,0 +1,19 @@
+{
+  "type": "mdns-sd",
+  "mdns-sd": {
+    "name": "http",
+    "protocol": "tcp"
+  },
+  "id": "{{FP}}",
+  "conditions": [
+    [
+      {
+        "field": "name",
+        "match": {
+          "type": "regex",
+          "value": "^FP[0-9A-F]{12}$"
+        }
+      }
+    ]
+  ]
+}

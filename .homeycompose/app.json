@@ -1,14 +1,15 @@
 {
-  "id": "com.choustoulakis.nhc2",
+  "id": "com.choustoulakis.homey-niko-home-control-2",
   "version": "1.0.0",
-  "compatibility": ">=12.4.0",
+  "compatibility": ">=12.5.0",
   "sdk": 3,
   "platforms": ["local"],
   "name": {
-    "en": "Niko Home Control 2 - Hobby API"
+    "en": "Niko Home Control 2"
   },
+  "brandColor": "#1a1a1a",
   "description": {
-    "en": "Adds support for a NHC 2 installation using the hobby API."
+    "en": "A home that adapts all day to your lifestyle."
   },
   "category": ["lights"],
   "permissions": [],
@@ -16,5 +17,22 @@
     "small": "/assets/images/small.png",
     "large": "/assets/images/large.png",
     "xlarge": "/assets/images/xlarge.png"
-  }
+  },
+  "author": {
+    "email": "homey@choustoulakis.com",
+    "name": "George Choustoulakis"
+  },
+  "bugs": {
+    "url": "https://github.com/georgechoustoulakis/com.choustoulakis.homey-niko-home-control-2/issues"
+  },
+  "source": "https://github.com/georgechoustoulakis/com.choustoulakis.homey-niko-home-control-2",
+  "homepage": "https://www.niko.eu/en/our-products/home-automation",
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "GChoustoulakis"
+      }
+    }
+  },
+  "support": "mailto:homey@choustoulakis.com"
 }
