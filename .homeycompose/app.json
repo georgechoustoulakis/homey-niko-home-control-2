@@ -16,5 +16,9 @@
     "small": "/assets/images/small.png",
     "large": "/assets/images/large.png",
     "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "email": "homey@choustoulakis.com",
+    "name": "George Choustoulakis"
   }
 }
