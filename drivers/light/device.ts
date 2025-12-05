@@ -18,7 +18,6 @@ class NikoLight extends NikoDevice {
       Object.prototype.hasOwnProperty.call(prop, 'Status'),
     );
     if (!statusProp) {
-      console.warn(`Warning: Device "${this.device.Name}" has no 'Status' property.`);
       return this.setUnavailable('Device is misconfigured, please re-create it.');
     }
     await this.setAvailable();
