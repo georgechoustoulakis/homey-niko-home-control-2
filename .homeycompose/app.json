@@ -1,9 +1,11 @@
 {
   "id": "com.choustoulakis.homey-niko-home-control-2",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "compatibility": ">=12.5.0",
   "sdk": 3,
-  "platforms": ["local"],
+  "platforms": [
+    "local"
+  ],
   "name": {
     "en": "Niko Home Control 2"
   },
@@ -11,7 +13,9 @@
   "description": {
     "en": "A home that adapts all day to your lifestyle."
   },
-  "category": ["lights"],
+  "category": [
+    "lights"
+  ],
   "permissions": [],
   "images": {
     "small": "/assets/images/small.png",
