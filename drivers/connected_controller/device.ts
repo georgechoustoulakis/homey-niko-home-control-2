@@ -7,6 +7,8 @@ class ConnectedControllerDevice extends Homey.Device {
   private client!: NikoMqttClient;
 
   async onInit() {
+    // TODO: Validate reconnection strategy.
+    // TODO: IP address change must be detected with re-discovery strategy
     this.settings = this.getSettings();
     this.log('Connected Controller has been initialized with settings:', this.settings);
     void this.connect();
