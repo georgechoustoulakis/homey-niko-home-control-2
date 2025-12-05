@@ -24,7 +24,6 @@ export class ConnectedControllerDevice extends Homey.Device {
   }
 
   async onUninit() {
-    this.log('Connected Controller Device is being uninitialized');
     this.disconnect();
   }
 
@@ -53,13 +52,30 @@ export class ConnectedControllerDevice extends Homey.Device {
     }
   };
 
-  async connect() {
+  async connect(): Promise<void> {
     this.disconnect();
-    const error = this.validDateSettings();
-    if (error) {
-      this.log('Connection settings are invalid:', error);
-      await this.setUnavailable(error);
-      return;
+    // Validate settings
+    const ipRegex =
+      /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    if (!this.settings.ip || !ipRegex.test(this.settings.ip)) {
+      return await this.setUnavailable("Invalid IP address in the device's settings menu.");
+    }
+    if (!this.settings.port || isNaN(this.settings.port)) {
+      return await this.setUnavailable("Invalid port number in the device's settings menu.");
+    }
+    if (!this.settings.username || this.settings.username.trim() === '') {
+      return await this.setUnavailable("Username cannot be empty in the device's settings menu.");
+    }
+    if (!this.settings.jwt || this.settings.jwt.trim() === '') {
+      return await this.setUnavailable("Please enter the JWT in the device's settings menu.");
+    }
+    try {
+      JSON.parse(Buffer.from(this.settings.jwt.split('.')[1], 'base64').toString());
+      // todo validate?
+    } catch (e) {
+      return await this.setUnavailable(
+        "Error parsing JWT. Please enter a valid JWT in the device's settings menu.",
+      );
     }
 
     this.client = new NikoMqttClient(this.settings);
@@ -70,29 +86,6 @@ export class ConnectedControllerDevice extends Homey.Device {
   disconnect() {
     this.client?.disconnect();
     this.log('Disconnected from Niko Home Control Controller.');
-  }
-
-  private validDateSettings(): string | undefined {
-    const ipRegex =
-      /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-    if (!this.settings.ip || !ipRegex.test(this.settings.ip)) {
-      return "Invalid IP address in the device's settings menu.";
-    }
-    if (!this.settings.port || isNaN(this.settings.port)) {
-      return "Invalid port number in the device's settings menu.";
-    }
-    if (!this.settings.username || this.settings.username.trim() === '') {
-      return "Username cannot be empty in the device's settings menu.";
-    }
-    if (!this.settings.jwt || this.settings.jwt.trim() === '') {
-      return "Please enter the JWT in the device's settings menu.";
-    }
-    try {
-      JSON.parse(Buffer.from(this.settings.jwt.split('.')[1], 'base64').toString());
-      // todo validate?
-    } catch (e) {
-      return "Error parsing JWT. Please enter a valid JWT in the device's settings menu.";
-    }
   }
 }
 
