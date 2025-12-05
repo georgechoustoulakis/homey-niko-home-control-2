@@ -96,6 +96,8 @@ export class ConnectedControllerDevice extends Homey.Device {
     try {
       JSON.parse(Buffer.from(this.settings.jwt.split('.')[1], 'base64').toString());
       // todo validate?
+      // todo check expiration?
+      // todo notification before expiration?
     } catch (e) {
       return await this.setUnavailable(
         "Error parsing JWT. Please enter a valid JWT in the device's settings menu.",
