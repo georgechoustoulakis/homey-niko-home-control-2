@@ -34,7 +34,6 @@ export class ConnectedControllerDriver extends Homey.Driver {
         jwt: '',
       },
     }));
-    randomUUID();
     devicesFound.push({
       name: 'Manual Configuration',
       data: {
