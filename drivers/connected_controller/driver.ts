@@ -14,7 +14,7 @@ export interface ConnectedControllerPairingData extends GenericDevicePairingData
   settings: ConnectedControllerSettings;
 }
 
-class ConnectedControllerDriver extends Homey.Driver {
+export class ConnectedControllerDriver extends Homey.Driver {
   async onPairListDevices(): Promise<ConnectedControllerPairingData[]> {
     const discoveryStrategy = this.homey.discovery.getStrategy('niko_home_control');
     const results = discoveryStrategy.getDiscoveryResults() as {

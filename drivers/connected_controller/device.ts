@@ -1,8 +1,8 @@
 import Homey from 'homey';
 import { ConnectedControllerSettings } from './driver';
-import { NikoClientState, NikoMqttClient } from './NikoMqttClient';
+import { NikoClientState, NikoDevice, NikoMqttClient } from './NikoMqttClient';
 
-class ConnectedControllerDevice extends Homey.Device {
+export class ConnectedControllerDevice extends Homey.Device {
   private settings!: ConnectedControllerSettings;
   private client!: NikoMqttClient;
 
@@ -26,6 +26,14 @@ class ConnectedControllerDevice extends Homey.Device {
   async onUninit() {
     this.log('Connected Controller Device is being uninitialized');
     this.disconnect();
+  }
+
+  getNikoDevices(): NikoDevice[] {
+    return this.client?.getDevices() ?? [];
+  }
+
+  setDeviceStatus(uuid: string, status: 'On' | 'Off'): void {
+    this.client?.setDeviceStatus(uuid, status);
   }
 
   private onMqttStateChange = async (state: NikoClientState, message?: string) => {
