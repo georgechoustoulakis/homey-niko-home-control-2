@@ -181,6 +181,9 @@ export class NikoMqttClient extends EventEmitter {
         if (this.state !== NikoClientState.CONNECTED) {
           this.setState(NikoClientState.CONNECTED);
         }
+        for (const device of this.devices) {
+          this.emit('deviceupdate', device);
+        }
       }
 
       if (topic === TOPIC.EVT && payload.Method === 'devices.status') {

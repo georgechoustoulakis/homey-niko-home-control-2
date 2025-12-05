@@ -54,15 +54,15 @@ export abstract class NikoDevice extends Homey.Device {
       ?.getNikoDevices(this.device.Model, this.device.Type)
       .find((d) => d.Uuid === this.device.Uuid);
     if (connectedController === undefined) {
-      await this.setUnavailable('The Connected Controller no longer found.');
+      return this.setUnavailable('The Connected Controller no longer found.');
     } else if (!connectedController.getAvailable()) {
-      await this.setUnavailable('The Connected Controller found, but is offline.');
+      return this.setUnavailable('The Connected Controller found, but is offline.');
     } else if (device === undefined) {
-      await this.setUnavailable(
+      return this.setUnavailable(
         'The Connected Controller is available, but the device is not found in the list. Please check the Niko programming software.',
       );
-    } else {
-      await this.setAvailable();
     }
+    this.device = device;
+    return this.updateStatus();
   };
 }
