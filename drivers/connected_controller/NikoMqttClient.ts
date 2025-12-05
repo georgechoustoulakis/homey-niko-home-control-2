@@ -59,8 +59,8 @@ export class NikoMqttClient extends EventEmitter {
       username: this.settings.username,
       password: this.settings.jwt,
       rejectUnauthorized: false,
-      reconnectPeriod: 5000, // Keep retrying on network errors
-      connectTimeout: 10000, // 10-second connection timeout
+      reconnectPeriod: 10000,
+      connectTimeout: 10000,
       protocol: 'mqtts',
     };
 
