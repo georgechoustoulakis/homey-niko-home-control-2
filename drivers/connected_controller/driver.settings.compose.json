@@ -1,0 +1,34 @@
+[
+  {
+    "id": "ip",
+    "type": "text",
+    "label": { "en": "IP Address" },
+    "value": "",
+    "hint": { "en": "The IP of the Connected Controller." }
+  },
+  {
+    "id": "port",
+    "type": "number",
+    "label": { "en": "Port" },
+    "value": 8884,
+    "min": 0,
+    "max": 65535,
+    "hint": { "en": "The Port of the Connected Controller (default = 8884)." }
+  },
+  {
+    "id": "username",
+    "type": "text",
+    "label": { "en": "Username" },
+    "value": "hobby",
+    "hint": { "en": "The username to connect to the Connected Controller (default = hobby)." }
+  },
+  {
+    "id": "jwt",
+    "type": "password",
+    "label": { "en": "Token" },
+    "value": "",
+    "hint": {
+      "en": "The JWT that needs to be generated yearly from the Niko programming software."
+    }
+  }
+]
