@@ -140,9 +140,6 @@
         {
           "id": "list_devices",
           "template": "list_devices",
-          "options": {
-            "singular": true
-          },
           "navigation": {
             "next": "add_devices"
           }
@@ -177,9 +174,6 @@
         {
           "id": "list_devices",
           "template": "list_devices",
-          "options": {
-            "singular": true
-          },
           "navigation": {
             "next": "add_devices"
           }
