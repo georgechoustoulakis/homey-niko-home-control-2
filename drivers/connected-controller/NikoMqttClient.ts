@@ -22,6 +22,15 @@ export interface NikoDevice {
   Online: 'True' | 'False'; // 'True' or 'False'
 }
 
+type DeviceListUpdate = {
+  Method: 'devices.control';
+  Params: [
+    {
+      Devices: DeviceUpdate[];
+    },
+  ];
+};
+
 interface DeviceUpdate {
   Uuid: string;
   Properties: Record<string, any>[];
@@ -42,11 +51,17 @@ export enum NikoClientState {
   ERROR,
 }
 
+type QueuedUpdate = { uuid: string; props: Record<string, any>[] };
+const UPDATE_QUEUE_DELAY_MS = 50;
+
 export class NikoMqttClient extends EventEmitter {
   private client: MqttClient | null = null;
   private readonly settings: ConnectedControllerSettings;
   private _state: NikoClientState = NikoClientState.UNINITIALIZED;
   private _updateInterval: any | undefined = undefined;
+
+  private queuedUpdates: QueuedUpdate[] = [];
+  private batchTimeout: any | undefined = undefined;
 
   private devices: NikoDevice[] = [];
 
@@ -144,30 +159,53 @@ export class NikoMqttClient extends EventEmitter {
     if (!this.client || this.state !== NikoClientState.CONNECTED) {
       throw new Error('Not connected');
     }
-
-    const payload = {
-      Method: 'devices.control',
-      Params: [
-        {
-          Devices: [
-            {
-              Uuid: uuid,
-              Properties: props,
-            },
-          ],
-        },
-      ],
-    };
     if (DEBUG_MQTT) {
-      console.log(`Setting device ${uuid} status to`, props);
+      console.log(`Queueing device ${uuid} properties update:`, props);
     }
-    return new Promise((resolve, reject) => {
-      this.client?.publish(TOPIC.CMD, JSON.stringify(payload), (err) => {
-        if (err) reject(err);
-        else resolve();
-      });
-    });
+    this.queuedUpdates.push({ uuid, props });
+    this.sendBatchedUpdate();
   }
+
+  private sendBatchedUpdate = (): void => {
+    if (!this.client || this.state !== NikoClientState.CONNECTED) {
+      this.queuedUpdates = [];
+      return;
+    }
+
+    if (this.batchTimeout) {
+      return;
+    }
+
+    if (this.queuedUpdates.length === 0) {
+      return;
+    }
+    this.batchTimeout = setTimeout(() => {
+      const payload: DeviceListUpdate = {
+        Method: 'devices.control',
+        Params: [
+          {
+            Devices: [],
+          },
+        ],
+      };
+
+      for (const update of this.queuedUpdates) {
+        payload.Params[0].Devices.push({
+          Uuid: update.uuid,
+          Properties: update.props,
+        });
+      }
+      this.queuedUpdates = [];
+
+      if (DEBUG_MQTT) {
+        console.log(`Sending batched ${payload.Params[0].Devices.length} device updates`);
+      }
+
+      this.client?.publish(TOPIC.CMD, JSON.stringify(payload));
+      this.batchTimeout = undefined;
+      this.sendBatchedUpdate();
+    }, UPDATE_QUEUE_DELAY_MS);
+  };
 
   private handleMessage = (topic: string, message: Buffer): void => {
     try {
@@ -239,5 +277,10 @@ export class NikoMqttClient extends EventEmitter {
       clearInterval(this._updateInterval);
       this._updateInterval = undefined;
     }
+    if (this.batchTimeout) {
+      clearTimeout(this.batchTimeout);
+      this.batchTimeout = undefined;
+    }
+    this.queuedUpdates = [];
   }
 }
