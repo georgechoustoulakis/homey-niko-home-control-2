@@ -66,13 +66,13 @@ class ConnectedControllerDevice extends Homey.Device {
     const ipRegex =
       /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
     if (!this.settings.ip || !ipRegex.test(this.settings.ip)) {
-      return 'Invalid IP address in settings.';
+      return "Invalid IP address in the device's settings menu.";
     }
     if (!this.settings.port || isNaN(this.settings.port)) {
-      return 'Invalid port number in settings.';
+      return "Invalid port number in the device's settings menu.";
     }
     if (!this.settings.username || this.settings.username.trim() === '') {
-      return 'Username cannot be empty in settings.';
+      return "Username cannot be empty in the device's settings menu.";
     }
     if (!this.settings.jwt || this.settings.jwt.trim() === '') {
       return "Please enter the JWT in the device's settings menu.";

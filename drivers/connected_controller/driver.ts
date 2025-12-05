@@ -25,7 +25,7 @@ class ConnectedControllerDriver extends Homey.Driver {
     };
 
     const devicesFound: ConnectedControllerPairingData[] = Object.values(results).map((result) => ({
-      name: `NHC2 ${result.name}`,
+      name: `Connected Controller (${result.address})`,
       data: {
         id: result.name, // Must be unique, this is how Homey identifies the device.
       },
