@@ -54,7 +54,7 @@ class ConnectedControllerDevice extends Homey.Device {
 
     this.client = new NikoMqttClient(this.settings);
     this.client.addListener('statechange', this.onMqttStateChange);
-    await this.client.connect();
+    this.client.connect();
   }
 
   disconnect() {

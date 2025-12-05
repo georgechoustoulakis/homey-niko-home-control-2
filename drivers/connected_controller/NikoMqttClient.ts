@@ -49,29 +49,26 @@ export class NikoMqttClient extends EventEmitter {
     return this._state;
   }
 
-  public async connect(): Promise<void> {
+  public connect(): void {
     if (this._state === NikoClientState.CONNECTING || this._state === NikoClientState.CONNECTED) {
       return;
     }
     this.setState(NikoClientState.CONNECTING);
 
-    return new Promise((resolve, reject) => {
-      this.initialLoadResolver = resolve;
+    const options: IClientOptions = {
+      username: this.settings.username,
+      password: this.settings.jwt,
+      rejectUnauthorized: false,
+      reconnectPeriod: 5000, // Keep retrying on network errors
+      connectTimeout: 10000, // 10-second connection timeout
+      protocol: 'mqtts',
+    };
 
-      const options: IClientOptions = {
-        username: this.settings.username,
-        password: this.settings.jwt,
-        rejectUnauthorized: false,
-        reconnectPeriod: 5000,
-        protocol: 'mqtts',
-      };
-
-      this.client = connect(`mqtts://${this.settings.ip}:${this.settings.port}`, options);
-      this.client.on('connect', this.onConnect);
-      this.client.on('error', (err) => this.onError(err, reject));
-      this.client.on('close', this.onClose);
-      this.client.on('message', this.handleMessage);
-    });
+    this.client = connect(`mqtts://${this.settings.ip}:${this.settings.port}`, options);
+    this.client.on('connect', this.onConnect);
+    this.client.on('error', this.onError);
+    this.client.on('close', this.onClose);
+    this.client.on('message', this.handleMessage);
   }
 
   private onConnect = (): void => {
