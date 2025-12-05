@@ -194,7 +194,9 @@ export class NikoMqttClient extends EventEmitter {
           }
           const device = this.devices.find((d) => d.Uuid === uuid);
           if (!device) {
-            console.warn(`Warning: Received update for unknown device UUID: ${uuid}`);
+            if (DEBUG_MQTT) {
+              console.warn(`Warning: Received update for unknown device UUID: ${uuid}`);
+            }
             return;
           }
 
