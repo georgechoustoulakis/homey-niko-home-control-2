@@ -1,5 +1,5 @@
 {
-  "name": "homey-nhc2",
+  "name": "homey-niko-home-control-2",
   "version": "1.0.0",
   "scripts": {
     "build": "tsc",
