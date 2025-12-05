@@ -1,9 +1,5 @@
 import Homey from 'homey';
 
-export class NikoHomeControlApp extends Homey.App {
-  async onInit() {
-    this.log('NikoHomeControlApp has been initialized');
-  }
-}
+export class NikoHomeControlApp extends Homey.App {}
 
 module.exports = NikoHomeControlApp;

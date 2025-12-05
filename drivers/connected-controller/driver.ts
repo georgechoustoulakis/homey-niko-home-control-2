@@ -48,7 +48,6 @@ export class ConnectedControllerDriver extends Homey.Driver {
       },
     });
 
-    this.log('Devices found during pairing:', devicesFound);
     return devicesFound;
   }
 }

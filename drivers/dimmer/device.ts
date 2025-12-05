@@ -4,8 +4,6 @@ import { DeviceStore } from '../../src/GenericDevicePairingData';
 class NikoDimmer extends NikoDevice {
   async onInit(): Promise<void> {
     this.device = (this.getStore() as DeviceStore).device;
-    console.log('Initializing Niko Dimmer device:', this.device);
-    console.log('Initializing Niko Dimmer device:', this.device.Properties);
     await super.onInit();
     this.registerCapabilityListener('onoff', this.onValueChange);
     this.registerCapabilityListener('dim', this.onDimValueChange);

@@ -17,14 +17,12 @@ export class ConnectedControllerDevice extends Homey.Device {
     // TODO: Validate reconnection strategy.
     // TODO: IP address change must be detected with re-discovery strategy
     this.settings = this.getSettings();
-    this.log('Connected Controller has been initialized with settings:', this.settings);
     void this.connect();
   }
 
   async onSettings(settings: any): Promise<string | void> {
     this.settings = settings.newSettings;
     if (settings.changedKeys.length > 0) {
-      this.log('Device settings changed:', settings.changedKeys);
       await this.connect();
     }
     return await super.onSettings(settings);
@@ -57,7 +55,6 @@ export class ConnectedControllerDevice extends Homey.Device {
   };
 
   private onMqttStateChange = async (state: NikoClientState, message?: string) => {
-    this.log('NikoMqttClient state changed to:', NikoClientState[state]);
     switch (state) {
       case NikoClientState.CONNECTED:
         await this.setAvailable();
