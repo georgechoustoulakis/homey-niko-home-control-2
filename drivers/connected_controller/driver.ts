@@ -1,5 +1,5 @@
 import Homey, { DiscoveryResultMDNSSD } from 'homey';
-import { GenericDevicePairingData } from '../../src/Utils';
+import { GenericDevicePairingData } from '../../src/GenericDevicePairingData';
 import { randomUUID } from 'node:crypto';
 
 export interface ConnectedControllerSettings {
