@@ -9,7 +9,7 @@ class ConnectedControllerDevice extends Homey.Device {
   async onInit() {
     this.settings = this.getSettings();
     this.log('Connected Controller has been initialized with settings:', this.settings);
-    await this.connect();
+    void this.connect();
   }
 
   async onSettings(settings: any): Promise<string | void> {
