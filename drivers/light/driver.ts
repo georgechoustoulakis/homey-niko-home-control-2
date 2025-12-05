@@ -1,6 +1,6 @@
 import { NikoDriver } from '../../src/NikoDriver';
 import { GenericDevicePairingData } from '../../src/GenericDevicePairingData';
-import { NikoDeviceWithOwner } from '../connected_controller/NikoMqttClient';
+import { NikoDeviceWithOwner } from '../connected-controller/NikoMqttClient';
 
 export interface NikoLightStore {
   device: NikoDeviceWithOwner;

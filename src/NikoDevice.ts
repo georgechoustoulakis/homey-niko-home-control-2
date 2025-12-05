@@ -1,7 +1,7 @@
 import Homey from 'homey';
-import { ConnectedControllerDevice } from '../drivers/connected_controller/device';
+import { ConnectedControllerDevice } from '../drivers/connected-controller/device';
 import { clearInterval } from 'node:timers';
-import { NikoDeviceWithOwner } from '../drivers/connected_controller/NikoMqttClient';
+import { NikoDeviceWithOwner } from '../drivers/connected-controller/NikoMqttClient';
 
 export abstract class NikoDevice extends Homey.Device {
   protected device!: NikoDeviceWithOwner;

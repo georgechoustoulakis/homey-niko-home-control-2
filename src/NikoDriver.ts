@@ -4,8 +4,8 @@ import {
   NikoDeviceWithOwner,
   NikoModel,
   NikoType,
-} from '../drivers/connected_controller/NikoMqttClient';
-import { ConnectedControllerDevice } from '../drivers/connected_controller/device';
+} from '../drivers/connected-controller/NikoMqttClient';
+import { ConnectedControllerDevice } from '../drivers/connected-controller/device';
 
 export abstract class NikoDriver extends Homey.Driver {
   protected getNikoDevices(model: NikoModel, type: NikoType): NikoDeviceWithOwner[] {
