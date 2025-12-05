@@ -10,10 +10,6 @@ export interface ConnectedControllerSettings {
 }
 
 export interface ConnectedControllerPairingData extends GenericDevicePairingData {
-  name: string;
-  data: {
-    id: string;
-  };
   settings: ConnectedControllerSettings;
 }
 
