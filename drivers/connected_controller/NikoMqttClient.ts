@@ -175,10 +175,12 @@ export class NikoMqttClient extends EventEmitter {
 
       if (topic === TOPIC.EVT && payload.Method === 'devices.status') {
         const updates = payload.Params?.[0]?.Devices || [];
+        console.log(`Received device status updates for ${updates.length} devices.`);
 
         updates.forEach((update: any) => {
           const uuid = update.Uuid;
           const newProps = update.Properties?.[0];
+          console.log(`Device ${uuid} properties update:`, newProps);
 
           if (this.devices.has(uuid) && newProps) {
             const cachedDevice = this.devices.get(uuid)!;
