@@ -45,6 +45,11 @@
       "connectivity": [
         "lan"
       ],
+      "images": {
+        "small": "/drivers/connected_controller/assets/images/small.png",
+        "large": "/drivers/connected_controller/assets/images/large.png",
+        "xlarge": "/drivers/connected_controller/assets/images/xlarge.png"
+      },
       "pair": [
         {
           "id": "list_devices",
@@ -110,6 +115,43 @@
           }
         }
       ]
+    },
+    {
+      "name": {
+        "en": "light"
+      },
+      "class": "light",
+      "capabilities": [
+        "onoff"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/light/assets/images/small.png",
+        "large": "/drivers/light/assets/images/large.png",
+        "xlarge": "/drivers/light/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "options": {
+            "singular": true
+          },
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "light"
     }
   ],
   "discovery": {
