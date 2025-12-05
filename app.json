@@ -118,6 +118,44 @@
     },
     {
       "name": {
+        "en": "Dimmer"
+      },
+      "class": "light",
+      "capabilities": [
+        "onoff",
+        "dim"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/dimmer/assets/images/small.png",
+        "large": "/drivers/dimmer/assets/images/large.png",
+        "xlarge": "/drivers/dimmer/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "options": {
+            "singular": true
+          },
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "dimmer"
+    },
+    {
+      "name": {
         "en": "Light"
       },
       "class": "light",
