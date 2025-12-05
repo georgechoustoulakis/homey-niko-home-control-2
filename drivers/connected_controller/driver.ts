@@ -1,5 +1,6 @@
 import Homey, { DiscoveryResultMDNSSD } from 'homey';
 import { GenericDevicePairingData } from '../../src/Utils';
+import { randomUUID } from 'node:crypto';
 
 export interface ConnectedControllerSettings {
   name: string;
@@ -33,6 +34,21 @@ class ConnectedControllerDriver extends Homey.Driver {
         jwt: '',
       },
     }));
+    randomUUID();
+    devicesFound.push({
+      name: 'Manual Configuration',
+      data: {
+        id: 'manual_entry_' + randomUUID(),
+      },
+      settings: {
+        name: 'Connected Controller',
+        ip: '',
+        port: 8884,
+        username: 'hobby',
+        jwt: '',
+      },
+    });
+
     this.log('Devices found during pairing:', devicesFound);
     return devicesFound;
   }
