@@ -49,6 +49,13 @@ export class ConnectedControllerDevice extends Homey.Device {
     this.client?.setDeviceStatus(uuid, status);
   }
 
+  private onDeviceUpdate = async (device: NikoDevice) => {
+    this.homey.emit('nikohomecontrol2.deviceupdate', {
+      ...device,
+      ownerControllerId: this.getData().id,
+    });
+  };
+
   private onMqttStateChange = async (state: NikoClientState, message?: string) => {
     this.log('NikoMqttClient state changed to:', NikoClientState[state]);
     switch (state) {
@@ -97,6 +104,7 @@ export class ConnectedControllerDevice extends Homey.Device {
 
     this.client = new NikoMqttClient(this.settings);
     this.client.addListener('statechange', this.onMqttStateChange);
+    this.client.addListener('deviceupdate', this.onDeviceUpdate);
     this.client.connect();
   }
 

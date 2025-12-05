@@ -3,15 +3,24 @@ import { ConnectedControllerDevice } from '../drivers/connected_controller/devic
 import { clearInterval } from 'node:timers';
 import { NikoDeviceWithOwner } from '../drivers/connected_controller/NikoMqttClient';
 
-export class NikoDevice extends Homey.Device {
+export abstract class NikoDevice extends Homey.Device {
   protected device!: NikoDeviceWithOwner;
   private interval!: NodeJS.Timeout;
 
   async onInit(): Promise<void> {
     await super.onInit();
-    // TODO rework this be even-based instead of polling
+    this.homey.addListener('nikohomecontrol2.deviceupdate', this.onDeviceUpdate);
     this.interval = setInterval(this.updateDeviceAvailability, 10_000);
   }
+
+  abstract updateStatus(): Promise<void>;
+
+  private onDeviceUpdate = async (updatedDevice: NikoDeviceWithOwner) => {
+    if (updatedDevice.Uuid === this.device.Uuid) {
+      this.device = updatedDevice;
+      await this.updateStatus();
+    }
+  };
 
   protected getConnectedController(): ConnectedControllerDevice | undefined {
     const controllerDriver = this.homey.drivers.getDriver('connected_controller');

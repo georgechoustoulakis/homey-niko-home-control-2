@@ -13,7 +13,7 @@ class NikoLight extends NikoDevice {
     this.setNikoDeviceStatus(value ? 'On' : 'Off');
   };
 
-  private async updateStatus(): Promise<void> {
+  async updateStatus(): Promise<void> {
     const statusProp = this.device.Properties.find((prop) =>
       Object.prototype.hasOwnProperty.call(prop, 'Status'),
     );
