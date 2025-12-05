@@ -32,7 +32,6 @@ export class NikoMqttClient extends EventEmitter {
   private _state: NikoClientState = NikoClientState.UNINITIALIZED;
 
   private devices: Map<string, NikoDevice> = new Map();
-  private initialLoadResolver: (() => void) | null = null;
 
   constructor(settings: ConnectedControllerSettings) {
     super();
@@ -76,16 +75,30 @@ export class NikoMqttClient extends EventEmitter {
     this.requestDeviceList();
   };
 
-  private onError = (err: Error, reject?: (reason?: any) => void): void => {
-    this.setState(NikoClientState.ERROR);
-    if (reject) reject(err);
-    if (this.initialLoadResolver) {
-      this.initialLoadResolver = null;
+  private onError = (err: Error): void => {
+    console.log('Niko MQTT Client Error:', err.message);
+
+    // Check for non-recoverable authorization errors
+    if (
+      err.message.includes('Not authorized') ||
+      err.message.includes('Bad user name or password')
+    ) {
+      this.setState(
+        NikoClientState.ERROR,
+        "Authorization failed. Please check the token in the device's settings.",
+      );
+      this.client?.end(true);
+    } else {
+      // For other errors (e.g., timeout, network issues),
+      // the client will attempt to reconnect automatically.
+      this.setState(NikoClientState.ERROR, err.message);
     }
   };
 
   private onClose = (): void => {
-    this.setState(NikoClientState.DISCONNECTED);
+    if (this.state !== NikoClientState.ERROR) {
+      this.setState(NikoClientState.DISCONNECTED);
+    }
   };
 
   private subscribeTopics(): void {
@@ -113,7 +126,9 @@ export class NikoMqttClient extends EventEmitter {
     status: 'On' | 'Off',
     brightness?: number,
   ): Promise<void> {
-    if (!this.client) throw new Error('Not connected');
+    if (!this.client || this.state !== NikoClientState.CONNECTED) {
+      throw new Error('Not connected');
+    }
 
     const properties: any = { Status: status };
     if (brightness !== undefined) {
@@ -156,11 +171,6 @@ export class NikoMqttClient extends EventEmitter {
 
         console.log(`Niko MQTT client found ${this.devices.size} devices.`);
         this.setState(NikoClientState.CONNECTED);
-
-        if (this.initialLoadResolver) {
-          this.initialLoadResolver();
-          this.initialLoadResolver = null;
-        }
       }
 
       if (topic === TOPIC.EVT && payload.Method === 'devices.status') {
@@ -174,8 +184,6 @@ export class NikoMqttClient extends EventEmitter {
             const cachedDevice = this.devices.get(uuid)!;
             cachedDevice.Properties = { ...cachedDevice.Properties, ...newProps };
             this.devices.set(uuid, cachedDevice);
-
-            console.log(`Model Updated for ${uuid}:`, newProps);
 
             this.emit('deviceupdate', { uuid, properties: newProps });
           }
