@@ -8,8 +8,9 @@
     "local"
   ],
   "name": {
-    "en": "Niko Home Control II - Hobby API"
+    "en": "Niko Home Control 2"
   },
+  "brandColor": "#1a1a1a",
   "description": {
     "en": "Adds support for a Niko Home Control II installation using the hobby API."
   },
@@ -26,6 +27,11 @@
     "email": "homey@choustoulakis.com",
     "name": "George Choustoulakis"
   },
+  "bugs": {
+    "url": "https://github.com/georgechoustoulakis/com.choustoulakis.homey-niko-home-control-2/issues"
+  },
+  "source": "https://github.com/georgechoustoulakis/com.choustoulakis.homey-niko-home-control-2",
+  "homepage": "https://www.niko.eu/en/our-products/home-automation",
   "drivers": [
     {
       "name": {
