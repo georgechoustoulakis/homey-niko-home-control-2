@@ -8,11 +8,13 @@
     "local"
   ],
   "name": {
-    "en": "Niko Home Control 2"
+    "en": "Niko Home Control 2",
+    "nl": "Niko Home Control 2"
   },
   "brandColor": "#1a1a1a",
   "description": {
-    "en": "A home that adapts all day to your lifestyle."
+    "en": "A home that adapts all day to your lifestyle.",
+    "nl": "Een huis dat zich de hele dag aanpast aan jouw levensstijl."
   },
   "category": [
     "lights"
@@ -28,9 +30,9 @@
     "name": "George Choustoulakis"
   },
   "bugs": {
-    "url": "https://github.com/georgechoustoulakis/com.choustoulakis.homey-niko-home-control-2/issues"
+    "url": "https://github.com/georgechoustoulakis/homey-niko-home-control-2/issues"
   },
-  "source": "https://github.com/georgechoustoulakis/com.choustoulakis.homey-niko-home-control-2",
+  "source": "https://github.com/georgechoustoulakis/homey-niko-home-control-2",
   "homepage": "https://www.niko.eu/en/our-products/home-automation",
   "contributing": {
     "donate": {
@@ -40,10 +42,12 @@
     }
   },
   "support": "mailto:homey@choustoulakis.com",
+  "homeyCommunityTopicId": 146467,
   "drivers": [
     {
       "name": {
-        "en": "Connected Controller"
+        "en": "Connected Controller",
+        "nl": "Connected Controller"
       },
       "class": "bridge",
       "capabilities": [],
@@ -80,53 +84,62 @@
           "id": "ip",
           "type": "text",
           "label": {
-            "en": "IP Address"
+            "en": "IP Address",
+            "nl": "IP-adres"
           },
           "value": "",
           "hint": {
-            "en": "The IP of the Connected Controller."
+            "en": "The IP of the Connected Controller.",
+            "nl": "Het IP-adres van de Connected Controller."
           }
         },
         {
           "id": "port",
           "type": "number",
           "label": {
-            "en": "Port"
+            "en": "Port",
+            "nl": "Poort"
           },
           "value": 8884,
           "min": 0,
           "max": 65535,
           "hint": {
-            "en": "The Port of the Connected Controller (default = 8884)."
+            "en": "The Port of the Connected Controller (default = 8884).",
+            "nl": "De poort van de Connected Controller (default = 8884)."
           }
         },
         {
           "id": "username",
           "type": "text",
           "label": {
-            "en": "Username"
+            "en": "Username",
+            "nl": "Gebruikersnaam"
           },
           "value": "hobby",
           "hint": {
-            "en": "The username to connect to the Connected Controller (default = hobby)."
+            "en": "The username to connect to the Connected Controller (default = hobby).",
+            "nl": "De gebruikersnaam om verbinding te maken met de Connected Controller (default = hobby)."
           }
         },
         {
           "id": "jwt",
           "type": "password",
           "label": {
-            "en": "Token"
+            "en": "Token",
+            "nl": "Token"
           },
           "value": "",
           "hint": {
-            "en": "The JWT that needs to be generated yearly from the Niko programming software."
+            "en": "The JWT that needs to be generated yearly from the Niko programming software.",
+            "nl": "De JWT die jaarlijks moet worden gegenereerd via de Niko programmeersoftware."
           }
         }
       ]
     },
     {
       "name": {
-        "en": "Dimmer module"
+        "en": "Universal Dimmer",
+        "nl": "Universele Dimmer"
       },
       "class": "light",
       "capabilities": [
@@ -161,7 +174,8 @@
     },
     {
       "name": {
-        "en": "Switching module"
+        "en": "Light",
+        "nl": "Licht"
       },
       "class": "light",
       "capabilities": [
