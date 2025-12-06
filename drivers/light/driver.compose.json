@@ -1,6 +1,6 @@
 {
   "name": {
-    "en": "Switching module"
+    "en": "Light"
   },
   "class": "light",
   "capabilities": ["onoff"],

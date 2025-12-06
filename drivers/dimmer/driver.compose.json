@@ -1,6 +1,6 @@
 {
   "name": {
-    "en": "Dimmer module"
+    "en": "Universal Dimmer"
   },
   "class": "light",
   "capabilities": ["onoff", "dim"],
