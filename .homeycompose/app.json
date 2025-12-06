@@ -7,11 +7,13 @@
     "local"
   ],
   "name": {
-    "en": "Niko Home Control 2"
+    "en": "Niko Home Control 2",
+    "nl": "Niko Home Control 2"
   },
   "brandColor": "#1a1a1a",
   "description": {
-    "en": "A home that adapts all day to your lifestyle."
+    "en": "A home that adapts all day to your lifestyle.",
+    "nl": "Een huis dat zich de hele dag aanpast aan jouw levensstijl."
   },
   "category": [
     "lights"
