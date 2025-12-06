@@ -1,6 +1,7 @@
 {
   "name": {
-    "en": "Connected Controller"
+    "en": "Connected Controller",
+    "nl": "Connected Controller"
   },
   "class": "bridge",
   "capabilities": [],

@@ -2,33 +2,43 @@
   {
     "id": "ip",
     "type": "text",
-    "label": { "en": "IP Address" },
+    "label": { "en": "IP Address", "nl": "IP-adres" },
     "value": "",
-    "hint": { "en": "The IP of the Connected Controller." }
+    "hint": {
+      "en": "The IP of the Connected Controller.",
+      "nl": "Het IP-adres van de Connected Controller."
+    }
   },
   {
     "id": "port",
     "type": "number",
-    "label": { "en": "Port" },
+    "label": { "en": "Port", "nl": "Poort" },
     "value": 8884,
     "min": 0,
     "max": 65535,
-    "hint": { "en": "The Port of the Connected Controller (default = 8884)." }
+    "hint": {
+      "en": "The Port of the Connected Controller (default = 8884).",
+      "nl": "De poort van de Connected Controller (default = 8884)."
+    }
   },
   {
     "id": "username",
     "type": "text",
-    "label": { "en": "Username" },
+    "label": { "en": "Username", "nl": "Gebruikersnaam" },
     "value": "hobby",
-    "hint": { "en": "The username to connect to the Connected Controller (default = hobby)." }
+    "hint": {
+      "en": "The username to connect to the Connected Controller (default = hobby).",
+      "nl": "De gebruikersnaam om verbinding te maken met de Connected Controller (default = hobby)."
+    }
   },
   {
     "id": "jwt",
     "type": "password",
-    "label": { "en": "Token" },
+    "label": { "en": "Token", "nl": "Token" },
     "value": "",
     "hint": {
-      "en": "The JWT that needs to be generated yearly from the Niko programming software."
+      "en": "The JWT that needs to be generated yearly from the Niko programming software.",
+      "nl": "De JWT die jaarlijks moet worden gegenereerd via de Niko programmeersoftware."
     }
   }
 ]
