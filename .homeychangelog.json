@@ -4,5 +4,8 @@
   },
   "1.1.0": {
     "en": "Added support for light and dimmer modules."
+  },
+  "1.1.1": {
+    "en": "Updated the app id for publishing."
   }
 }
