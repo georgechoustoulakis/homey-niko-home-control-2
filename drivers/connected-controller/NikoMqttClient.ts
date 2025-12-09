@@ -4,6 +4,9 @@ import { ConnectedControllerSettings } from './driver';
 
 export type NikoModel =
   | 'light'
+  | 'socket'
+  | 'switched-fan'
+  | 'switched-generic'
   | 'dimmer'
   | 'rolldownshutter'
   | 'sunblind'
