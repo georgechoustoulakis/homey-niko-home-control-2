@@ -222,6 +222,12 @@ export class NikoMqttClient extends EventEmitter {
           this.setState(NikoClientState.CONNECTED);
         }
         for (const device of this.devices) {
+          if (DEBUG_MQTT) {
+            console.log(
+              `Device loaded: ${device.Name} (${device.Uuid}), ${device.Type}, ${device.Model}, Properties:`,
+              device.Properties,
+            );
+          }
           this.emit('deviceupdate', device);
         }
       }
