@@ -2,7 +2,18 @@ import { connect, IClientOptions, MqttClient } from 'mqtt';
 import { EventEmitter } from 'events';
 import { ConnectedControllerSettings } from './driver';
 
-export type NikoModel = 'light' | 'dimmer' | 'sunblind' | 'alloff' | 'generic';
+export type NikoModel =
+  | 'light'
+  | 'socket'
+  | 'switched-fan'
+  | 'switched-generic'
+  | 'dimmer'
+  | 'rolldownshutter'
+  | 'sunblind'
+  | 'gate'
+  | 'venetianblind'
+  | 'alloff'
+  | 'generic';
 export type NikoType = 'relay' | 'dimmer' | 'motor' | 'action' | 'energyhome';
 
 export interface NikoDeviceWithOwner extends NikoDevice {
@@ -151,8 +162,8 @@ export class NikoMqttClient extends EventEmitter {
     this.client.publish(TOPIC.CMD, payload);
   }
 
-  public getNikoDevices(model: NikoModel, type: NikoType): NikoDevice[] {
-    return this.devices.filter((device) => device.Model === model && device.Type === type);
+  public getNikoDevices(models: NikoModel[], type: NikoType): NikoDevice[] {
+    return this.devices.filter((device) => models.includes(device.Model) && device.Type === type);
   }
 
   public async setDeviceProps(uuid: string, props: Record<string, any>[]): Promise<void> {
@@ -222,6 +233,12 @@ export class NikoMqttClient extends EventEmitter {
           this.setState(NikoClientState.CONNECTED);
         }
         for (const device of this.devices) {
+          if (DEBUG_MQTT) {
+            console.log(
+              `Device loaded: ${device.Name} (${device.Uuid}), ${device.Type}, ${device.Model}, Properties:`,
+              device.Properties,
+            );
+          }
           this.emit('deviceupdate', device);
         }
       }

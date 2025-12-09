@@ -51,7 +51,7 @@ export abstract class NikoDevice extends Homey.Device {
   private updateDeviceAvailability = async () => {
     const connectedController = this.getConnectedController();
     const device = connectedController
-      ?.getNikoDevices(this.device.Model, this.device.Type)
+      ?.getNikoDevices([this.device.Model], this.device.Type)
       .find((d) => d.Uuid === this.device.Uuid);
     if (connectedController === undefined) {
       return this.setUnavailable('The Connected Controller no longer found.');

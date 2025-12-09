@@ -206,6 +206,41 @@
         }
       ],
       "id": "light"
+    },
+    {
+      "name": {
+        "en": "Motor",
+        "nl": "Motor"
+      },
+      "class": "blinds",
+      "capabilities": [
+        "windowcoverings_state"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/motor/assets/images/small.png",
+        "large": "/drivers/motor/assets/images/large.png",
+        "xlarge": "/drivers/motor/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "motor"
     }
   ],
   "discovery": {

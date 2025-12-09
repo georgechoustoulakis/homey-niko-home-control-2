@@ -8,7 +8,7 @@ import {
 import { ConnectedControllerDevice } from '../drivers/connected-controller/device';
 
 export abstract class NikoDriver extends Homey.Driver {
-  protected getNikoDevices(model: NikoModel, type: NikoType): NikoDeviceWithOwner[] {
+  protected getNikoDevices(models: NikoModel[], type: NikoType): NikoDeviceWithOwner[] {
     const controllerDriver = this.homey.drivers.getDriver('connected-controller');
     const controllerDevices = controllerDriver.getDevices() as ConnectedControllerDevice[];
 
@@ -18,7 +18,7 @@ export abstract class NikoDriver extends Homey.Driver {
 
     const allDevices: NikoDeviceWithOwner[] = [];
     for (const controllerDevice of controllerDevices) {
-      allDevices.push(...controllerDevice.getNikoDevices(model, type));
+      allDevices.push(...controllerDevice.getNikoDevices(models, type));
     }
     return allDevices;
   }
