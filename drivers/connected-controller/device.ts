@@ -32,11 +32,11 @@ export class ConnectedControllerDevice extends Homey.Device {
     this.disconnect();
   }
 
-  getNikoDevices(model: NikoModel, type: NikoType): NikoDeviceWithOwner[] {
+  getNikoDevices(models: NikoModel[], type: NikoType): NikoDeviceWithOwner[] {
     if (!this.getAvailable()) {
       return [];
     }
-    const devices = this.client?.getNikoDevices(model, type) ?? [];
+    const devices = this.client?.getNikoDevices(models, type) ?? [];
     return devices.map((device) => ({
       ...device,
       ownerControllerId: this.getData().id,
