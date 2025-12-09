@@ -2,7 +2,15 @@ import { connect, IClientOptions, MqttClient } from 'mqtt';
 import { EventEmitter } from 'events';
 import { ConnectedControllerSettings } from './driver';
 
-export type NikoModel = 'light' | 'dimmer' | 'sunblind' | 'alloff' | 'generic';
+export type NikoModel =
+  | 'light'
+  | 'dimmer'
+  | 'rolldownshutter'
+  | 'sunblind'
+  | 'gate'
+  | 'venetianblind'
+  | 'alloff'
+  | 'generic';
 export type NikoType = 'relay' | 'dimmer' | 'motor' | 'action' | 'energyhome';
 
 export interface NikoDeviceWithOwner extends NikoDevice {
