@@ -209,7 +209,8 @@
     },
     {
       "name": {
-        "en": "Motor"
+        "en": "Motor",
+        "nl": "Motor"
       },
       "class": "blinds",
       "capabilities": [
