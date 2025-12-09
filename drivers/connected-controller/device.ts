@@ -108,7 +108,13 @@ export class ConnectedControllerDevice extends Homey.Device {
   }
 
   disconnect() {
+    this.client.removeListener('statechange', this.onMqttStateChange);
+    this.client.removeListener('deviceupdate', this.onDeviceUpdate);
     this.client?.disconnect();
+  }
+
+  async onDeleted() {
+    this.disconnect();
   }
 }
 
