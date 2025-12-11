@@ -10,5 +10,8 @@
   },
   "1.2.0": {
     "en": "Added support for motor module."
+  },
+  "1.3.0": {
+    "en": "Added comfort sensors and alloff routine."
   }
 }
