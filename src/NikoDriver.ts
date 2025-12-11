@@ -6,9 +6,10 @@ import {
   NikoType,
 } from '../drivers/connected-controller/NikoMqttClient';
 import { ConnectedControllerDevice } from '../drivers/connected-controller/device';
+import { DevicePairingData } from './GenericDevicePairingData';
 
 export abstract class NikoDriver extends Homey.Driver {
-  protected getNikoByTypeAndModel(type: NikoType, models: NikoModel[]): NikoDeviceWithOwner[] {
+  protected getNikoByTypeAndModel(type: NikoType, models: NikoModel[]): DevicePairingData[] {
     const controllerDriver = this.homey.drivers.getDriver('connected-controller');
     const controllerDevices = controllerDriver.getDevices() as ConnectedControllerDevice[];
 
@@ -20,6 +21,14 @@ export abstract class NikoDriver extends Homey.Driver {
     for (const controllerDevice of controllerDevices) {
       allDevices.push(...controllerDevice.getNikoByTypeAndModel(type, models));
     }
-    return allDevices;
+    return allDevices.map((nikoDevice) => ({
+      name: nikoDevice.Name,
+      data: {
+        id: nikoDevice.Uuid,
+      },
+      store: {
+        device: nikoDevice,
+      },
+    }));
   }
 }
