@@ -3,10 +3,12 @@ import { DevicePairingData } from '../../src/GenericDevicePairingData';
 
 class NikoMotorDriver extends NikoDriver {
   async onPairListDevices(): Promise<DevicePairingData[]> {
-    const devices = this.getNikoDevices(
-      ['rolldownshutter', 'sunblind', 'gate', 'venetianblind'],
-      'action',
-    );
+    const devices = this.getNikoByTypeAndModel('action', [
+      'rolldownshutter',
+      'sunblind',
+      'gate',
+      'venetianblind',
+    ]);
     return devices.map((nikoDevice) => ({
       name: nikoDevice.Name,
       data: {

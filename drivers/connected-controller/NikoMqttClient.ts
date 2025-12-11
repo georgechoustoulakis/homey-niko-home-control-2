@@ -162,8 +162,8 @@ export class NikoMqttClient extends EventEmitter {
     this.client.publish(TOPIC.CMD, payload);
   }
 
-  public getNikoDevices(models: NikoModel[], type: NikoType): NikoDevice[] {
-    return this.devices.filter((device) => models.includes(device.Model) && device.Type === type);
+  public getNikoByTypeAndModel(type: NikoType, models: NikoModel[]): NikoDevice[] {
+    return this.devices.filter((device) => device.Type === type && models.includes(device.Model));
   }
 
   public async setDeviceProps(uuid: string, props: Record<string, any>[]): Promise<void> {
