@@ -13,8 +13,17 @@ export type NikoModel =
   | 'gate'
   | 'venetianblind'
   | 'alloff'
-  | 'generic';
-export type NikoType = 'relay' | 'dimmer' | 'motor' | 'action' | 'energyhome';
+  | 'generic'
+  | 'flag'
+  | 'thermoswitchx1'
+  | 'thermoswitchx1feedback'
+  | 'thermoswitchx2feedback'
+  | 'thermoswitchx4feedback'
+  | 'thermoswitchx6feedback'
+  | 'thermoventilationcontrollerfeedback'
+  | 'overallcomfort';
+
+export type NikoType = 'relay' | 'dimmer' | 'motor' | 'action' | 'energyhome' | 'multisensor';
 
 export interface NikoDeviceWithOwner extends NikoDevice {
   ownerControllerId: string;

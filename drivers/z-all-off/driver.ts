@@ -1,10 +1,10 @@
 import { NikoDriver } from '../../src/NikoDriver';
 import { DevicePairingData } from '../../src/GenericDevicePairingData';
 
-class NikoDimmerDriver extends NikoDriver {
+class NikoAllOffDriver extends NikoDriver {
   async onPairListDevices(): Promise<DevicePairingData[]> {
-    return this.getNikoByTypeAndModel('action', ['dimmer']);
+    return this.getNikoByTypeAndModel('action', ['alloff']);
   }
 }
 
-module.exports = NikoDimmerDriver;
+module.exports = NikoAllOffDriver;
