@@ -1,7 +1,7 @@
 {
   "name": {
-    "en": "Motor",
-    "nl": "Motor"
+    "en": " Motor",
+    "nl": " Motor"
   },
   "class": "blinds",
   "capabilities": ["windowcoverings_state"],
