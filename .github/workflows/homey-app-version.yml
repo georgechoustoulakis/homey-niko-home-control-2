@@ -1,4 +1,4 @@
-name: Update Homey App Version
+name: Update and Publish Homey App
 on:
   workflow_dispatch:
     inputs:
@@ -22,7 +22,7 @@ permissions:
 
 jobs:
   main:
-    name: Update Homey App Version
+    name: Update and Publish Homey App
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -48,3 +48,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN: ${{ github.token }}
+
+      - name: Publish Homey App
+        uses: athombv/github-action-homey-app-publish@master
+        id: publish
+        with:
+          personal_access_token: ${{ secrets.HOMEY_PAT }}
+
+      - name: URL
+        run: |
+          echo "Manage your app at ${{ steps.publish.outputs.url }}." >> $GITHUB_STEP_SUMMARY
