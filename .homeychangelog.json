@@ -16,5 +16,8 @@
   },
   "1.3.1": {
     "en": "Add new drivers."
+  },
+  "1.3.2": {
+    "en": "Fixed device order in store."
   }
 }
