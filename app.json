@@ -46,8 +46,79 @@
   "drivers": [
     {
       "name": {
-        "en": "Connected Controller",
-        "nl": "Connected Controller"
+        "en": "All off",
+        "nl": "Alles uit"
+      },
+      "class": "other",
+      "capabilities": [
+        "onoff"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/all-off/assets/images/small.png",
+        "large": "/drivers/all-off/assets/images/large.png",
+        "xlarge": "/drivers/all-off/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "all-off"
+    },
+    {
+      "name": {
+        "en": "Device with comfort sensors",
+        "nl": "Apparaat met comfort sensoren"
+      },
+      "class": "sensor",
+      "capabilities": [
+        "measure_temperature",
+        "measure_humidity"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/comfort-sensor/assets/images/small.png",
+        "large": "/drivers/comfort-sensor/assets/images/large.png",
+        "xlarge": "/drivers/comfort-sensor/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "comfort-sensor"
+    },
+    {
+      "name": {
+        "en": " Connected Controller",
+        "nl": " Connected Controller"
       },
       "class": "bridge",
       "capabilities": [],
@@ -138,8 +209,8 @@
     },
     {
       "name": {
-        "en": "Universal Dimmer",
-        "nl": "Universele Dimmer"
+        "en": " Universal Dimmer",
+        "nl": " Universele Dimmer"
       },
       "class": "light",
       "capabilities": [
@@ -174,8 +245,8 @@
     },
     {
       "name": {
-        "en": "Light",
-        "nl": "Licht"
+        "en": " Light",
+        "nl": " Licht"
       },
       "class": "light",
       "capabilities": [
@@ -241,77 +312,6 @@
         }
       ],
       "id": "motor"
-    },
-    {
-      "name": {
-        "en": "All off",
-        "nl": "Alles uit"
-      },
-      "class": "other",
-      "capabilities": [
-        "onoff"
-      ],
-      "platforms": [
-        "local"
-      ],
-      "connectivity": [
-        "lan"
-      ],
-      "images": {
-        "small": "/drivers/z-all-off/assets/images/small.png",
-        "large": "/drivers/z-all-off/assets/images/large.png",
-        "xlarge": "/drivers/z-all-off/assets/images/xlarge.png"
-      },
-      "pair": [
-        {
-          "id": "list_devices",
-          "template": "list_devices",
-          "navigation": {
-            "next": "add_devices"
-          }
-        },
-        {
-          "id": "add_devices",
-          "template": "add_devices"
-        }
-      ],
-      "id": "z-all-off"
-    },
-    {
-      "name": {
-        "en": "Device with comfort sensors",
-        "nl": "Apparaat met comfort sensoren"
-      },
-      "class": "sensor",
-      "capabilities": [
-        "measure_temperature",
-        "measure_humidity"
-      ],
-      "platforms": [
-        "local"
-      ],
-      "connectivity": [
-        "lan"
-      ],
-      "images": {
-        "small": "/drivers/z-comfort-sensor/assets/images/small.png",
-        "large": "/drivers/z-comfort-sensor/assets/images/large.png",
-        "xlarge": "/drivers/z-comfort-sensor/assets/images/xlarge.png"
-      },
-      "pair": [
-        {
-          "id": "list_devices",
-          "template": "list_devices",
-          "navigation": {
-            "next": "add_devices"
-          }
-        },
-        {
-          "id": "add_devices",
-          "template": "add_devices"
-        }
-      ],
-      "id": "z-comfort-sensor"
     }
   ],
   "discovery": {
