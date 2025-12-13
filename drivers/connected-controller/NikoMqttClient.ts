@@ -1,6 +1,8 @@
 import { connect, IClientOptions, MqttClient } from 'mqtt';
 import { EventEmitter } from 'events';
 import { ConnectedControllerSettings } from './driver';
+import Homey from 'homey/lib/Homey';
+import { Device } from 'homey';
 
 export type NikoModel =
   | 'light'
@@ -75,8 +77,11 @@ type QueuedUpdate = { uuid: string; props: Record<string, any>[] };
 const UPDATE_QUEUE_DELAY_MS = 50;
 
 export class NikoMqttClient extends EventEmitter {
-  private client: MqttClient | null = null;
   private readonly settings: ConnectedControllerSettings;
+  private readonly homey: Homey;
+  private readonly ownerControllerId: string;
+
+  private client: MqttClient | null = null;
   private _state: NikoClientState = NikoClientState.UNINITIALIZED;
   private _updateInterval: any | undefined = undefined;
 
@@ -85,8 +90,15 @@ export class NikoMqttClient extends EventEmitter {
 
   private devices: NikoDevice[] = [];
 
-  constructor(settings: ConnectedControllerSettings) {
+  constructor(config: {
+    settings: ConnectedControllerSettings;
+    homey: Device.Homey;
+    ownerControllerId: string;
+  }) {
     super();
+    const { settings, homey, ownerControllerId } = config;
+    this.homey = homey;
+    this.ownerControllerId = ownerControllerId;
     this.settings = settings;
   }
 
@@ -248,7 +260,7 @@ export class NikoMqttClient extends EventEmitter {
               device.Properties,
             );
           }
-          this.emit('deviceupdate', device);
+          this.sendUpdate(device);
         }
       }
 
@@ -286,13 +298,24 @@ export class NikoMqttClient extends EventEmitter {
             }
           }
 
-          this.emit('deviceupdate', device);
+          this.sendUpdate(device);
         });
       }
     } catch (error) {
       console.error('Error parsing MQTT message:', error);
     }
   };
+
+  private sendUpdate(device: NikoDevice): void {
+    if (DEBUG_MQTT) {
+      console.log(`Emitting device update for ${device.Name} (${device.Uuid})`);
+    }
+    const deviceWithOwner: NikoDeviceWithOwner = {
+      ...device,
+      ownerControllerId: this.ownerControllerId,
+    };
+    this.homey.emit(device.Uuid, deviceWithOwner);
+  }
 
   public disconnect(): void {
     if (this.client) {

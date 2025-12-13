@@ -3,7 +3,6 @@ import { DeviceStore } from '../../src/GenericDevicePairingData';
 
 class NikoMotor extends NikoDevice {
   async onInit(): Promise<void> {
-    this.device = (this.getStore() as DeviceStore).device;
     await super.onInit();
     this.registerCapabilityListener('windowcoverings_state', this.onStateChange as any);
     await this.updateStatus();

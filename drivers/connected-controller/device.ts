@@ -101,7 +101,11 @@ export class ConnectedControllerDevice extends Homey.Device {
       );
     }
 
-    this.client = new NikoMqttClient(this.settings);
+    this.client = new NikoMqttClient({
+      settings: this.settings,
+      homey: this.homey,
+      ownerControllerId: this.getData().id,
+    });
     this.client.addListener('statechange', this.onMqttStateChange);
     this.client.addListener('deviceupdate', this.onDeviceUpdate);
     this.client.connect();

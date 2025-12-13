@@ -3,7 +3,6 @@ import { DeviceStore } from './GenericDevicePairingData';
 
 export class OnOffDevice extends NikoDevice {
   async onInit(): Promise<void> {
-    this.device = (this.getStore() as DeviceStore).device;
     await super.onInit();
     this.registerCapabilityListener('onoff', this.onValueChange);
     await this.updateStatus();

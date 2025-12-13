@@ -2,6 +2,7 @@ import Homey from 'homey';
 import { ConnectedControllerDevice } from '../drivers/connected-controller/device';
 import { clearInterval } from 'node:timers';
 import { NikoDeviceWithOwner } from '../drivers/connected-controller/NikoMqttClient';
+import { DeviceStore } from './GenericDevicePairingData';
 
 export abstract class NikoDevice extends Homey.Device {
   protected device!: NikoDeviceWithOwner;
@@ -9,7 +10,8 @@ export abstract class NikoDevice extends Homey.Device {
 
   async onInit(): Promise<void> {
     await super.onInit();
-    this.homey.addListener('nikohomecontrol2.deviceupdate', this.onDeviceUpdate);
+    this.device = (this.getStore() as DeviceStore).device;
+    this.homey.addListener(this.device.Uuid, this.onDeviceUpdate);
     this.interval = setInterval(this.updateDeviceAvailability, 10_000);
   }
 
@@ -62,7 +64,6 @@ export abstract class NikoDevice extends Homey.Device {
         'The Connected Controller is available, but the device is not found in the list. Please check the Niko programming software.',
       );
     }
-    this.device = device;
     return this.updateStatus();
   };
 }

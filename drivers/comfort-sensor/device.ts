@@ -3,7 +3,6 @@ import { DeviceStore } from '../../src/GenericDevicePairingData';
 
 class NikoComfortSensorDevice extends NikoDevice {
   async onInit(): Promise<void> {
-    this.device = (this.getStore() as DeviceStore).device;
     await super.onInit();
     await this.updateStatus();
   }
