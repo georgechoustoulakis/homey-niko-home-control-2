@@ -45,7 +45,7 @@ export interface NikoDevice {
   Type: NikoType;
   Properties: Record<string, any>[]; // e.g. [{ Status: 'On' }]
   PropertyDefinitions: any; // TODO
-  Online: 'True' | 'False'; // 'True' or 'False'
+  Online: 'True' | 'False';
 }
 
 type DeviceListUpdate = {
