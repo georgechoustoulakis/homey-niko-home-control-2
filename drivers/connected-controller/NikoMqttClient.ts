@@ -4,28 +4,32 @@ import { ConnectedControllerSettings } from './driver';
 import Homey from 'homey/lib/Homey';
 import { Device } from 'homey';
 
-export type NikoModel =
-  | 'light'
-  | 'socket'
-  | 'switched-fan'
-  | 'switched-generic'
-  | 'dimmer'
-  | 'rolldownshutter'
-  | 'sunblind'
-  | 'gate'
-  | 'venetianblind'
-  | 'alloff'
-  | 'generic'
-  | 'flag'
-  | 'thermoswitchx1'
-  | 'thermoswitchx1feedback'
-  | 'thermoswitchx2feedback'
-  | 'thermoswitchx4feedback'
-  | 'thermoswitchx6feedback'
-  | 'thermoventilationcontrollerfeedback'
-  | 'overallcomfort';
+const NIKO_MODELS = [
+  'light',
+  'socket',
+  'switched-fan',
+  'switched-generic',
+  'dimmer',
+  'rolldownshutter',
+  'sunblind',
+  'gate',
+  'venetianblind',
+  'alloff',
+  'generic',
+  'flag',
+  'thermoswitchx1',
+  'thermoswitchx1feedback',
+  'thermoswitchx2feedback',
+  'thermoswitchx4feedback',
+  'thermoswitchx6feedback',
+  'thermoventilationcontrollerfeedback',
+  'overallcomfort',
+] as const;
 
-export type NikoType = 'relay' | 'dimmer' | 'motor' | 'action' | 'energyhome' | 'multisensor';
+const NIKO_TYPES = ['relay', 'dimmer', 'motor', 'action', 'energyhome', 'multisensor'] as const;
+
+export type NikoType = (typeof NIKO_TYPES)[number];
+export type NikoModel = (typeof NIKO_MODELS)[number];
 
 export interface NikoDeviceWithOwner extends NikoDevice {
   ownerControllerId: string;
@@ -307,6 +311,18 @@ export class NikoMqttClient extends EventEmitter {
   };
 
   private sendUpdate(device: NikoDevice): void {
+    if (
+      !device.Uuid ||
+      NIKO_TYPES.indexOf(device.Type) === -1 ||
+      NIKO_MODELS.indexOf(device.Model) === -1
+    ) {
+      if (DEBUG_MQTT) {
+        console.log(
+          `Skipping unsupported device ${device.Name} (${device.Uuid}), ${device.Type}, ${device.Model}`,
+        );
+      }
+      return;
+    }
     if (DEBUG_MQTT) {
       console.log(`Emitting device update for ${device.Name} (${device.Uuid})`);
     }
