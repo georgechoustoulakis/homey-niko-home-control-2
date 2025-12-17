@@ -46,8 +46,15 @@ export abstract class NikoDevice extends Homey.Device {
   }
 
   onUninit(): Promise<void> {
+    this.homey.removeListener(this.device.Uuid, this.onDeviceUpdate);
     clearInterval(this.interval);
     return super.onUninit();
+  }
+
+  onDeleted() {
+    this.homey.removeListener(this.device.Uuid, this.onDeviceUpdate);
+    clearInterval(this.interval);
+    super.onDeleted();
   }
 
   private updateDeviceAvailability = async () => {
