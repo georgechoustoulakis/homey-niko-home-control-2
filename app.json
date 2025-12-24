@@ -174,8 +174,8 @@
     },
     {
       "name": {
-        "en": "Fan",
-        "nl": "Ventilator"
+        "en": " Fan",
+        "nl": " Ventilator"
       },
       "class": "fan",
       "capabilities": [
