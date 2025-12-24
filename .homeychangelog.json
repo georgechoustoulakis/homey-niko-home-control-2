@@ -28,5 +28,8 @@
   },
   "1.4.0": {
     "en": "Added support for the Niko Fan module."
+  },
+  "1.4.1": {
+    "en": "Fixed the Fan icon."
   }
 }
