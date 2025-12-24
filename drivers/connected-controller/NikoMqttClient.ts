@@ -24,6 +24,7 @@ const NIKO_MODELS = [
   'thermoswitchx6feedback',
   'thermoventilationcontrollerfeedback',
   'overallcomfort',
+  'fan',
 ] as const;
 
 const NIKO_TYPES = ['relay', 'dimmer', 'motor', 'action', 'energyhome', 'multisensor'] as const;
