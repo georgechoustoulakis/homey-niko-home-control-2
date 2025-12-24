@@ -25,5 +25,8 @@
   },
   "1.3.4": {
     "en": "Fixed an application crash that can happen when a device is deleted."
+  },
+  "1.4.0": {
+    "en": "Added support for the Niko Fan module."
   }
 }
