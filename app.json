@@ -46,42 +46,6 @@
   "drivers": [
     {
       "name": {
-        "en": "Device with comfort sensors",
-        "nl": "Apparaat met comfort sensoren"
-      },
-      "class": "sensor",
-      "capabilities": [
-        "measure_temperature",
-        "measure_humidity"
-      ],
-      "platforms": [
-        "local"
-      ],
-      "connectivity": [
-        "lan"
-      ],
-      "images": {
-        "small": "/drivers/comfort-sensor/assets/images/small.png",
-        "large": "/drivers/comfort-sensor/assets/images/large.png",
-        "xlarge": "/drivers/comfort-sensor/assets/images/xlarge.png"
-      },
-      "pair": [
-        {
-          "id": "list_devices",
-          "template": "list_devices",
-          "navigation": {
-            "next": "add_devices"
-          }
-        },
-        {
-          "id": "add_devices",
-          "template": "add_devices"
-        }
-      ],
-      "id": "comfort-sensor"
-    },
-    {
-      "name": {
         "en": " Connected Controller",
         "nl": " Connected Controller"
       },
