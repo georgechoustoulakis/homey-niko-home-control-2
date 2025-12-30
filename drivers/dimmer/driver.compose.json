@@ -1,7 +1,7 @@
 {
   "name": {
-    "en": " Universal Dimmer",
-    "nl": " Universele Dimmer"
+    "en": "Universal Dimmer",
+    "nl": "Universele Dimmer"
   },
   "class": "light",
   "capabilities": ["onoff", "dim"],

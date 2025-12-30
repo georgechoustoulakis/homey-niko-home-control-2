@@ -1,7 +1,7 @@
 {
   "name": {
-    "en": " Light",
-    "nl": " Licht"
+    "en": "Light",
+    "nl": "Licht"
   },
   "class": "light",
   "capabilities": ["onoff"],
