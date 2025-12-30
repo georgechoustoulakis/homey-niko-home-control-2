@@ -46,6 +46,150 @@
   "drivers": [
     {
       "name": {
+        "en": "Comfort sensor single button",
+        "nl": "Comfort sensor enkele knop"
+      },
+      "class": "sensor",
+      "capabilities": [
+        "measure_temperature",
+        "measure_humidity"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/comfort-sensor-x1/assets/images/small.png",
+        "large": "/drivers/comfort-sensor-x1/assets/images/large.png",
+        "xlarge": "/drivers/comfort-sensor-x1/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "comfort-sensor-x1"
+    },
+    {
+      "name": {
+        "en": "Comfort sensor double button",
+        "nl": "Comfort sensor dubbele knop"
+      },
+      "class": "sensor",
+      "capabilities": [
+        "measure_temperature",
+        "measure_humidity"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/comfort-sensor-x2/assets/images/small.png",
+        "large": "/drivers/comfort-sensor-x2/assets/images/large.png",
+        "xlarge": "/drivers/comfort-sensor-x2/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "comfort-sensor-x2"
+    },
+    {
+      "name": {
+        "en": "Comfort sensor fourfold button",
+        "nl": "Comfort sensor viervourdige knop"
+      },
+      "class": "sensor",
+      "capabilities": [
+        "measure_temperature",
+        "measure_humidity"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/comfort-sensor-x4/assets/images/small.png",
+        "large": "/drivers/comfort-sensor-x4/assets/images/large.png",
+        "xlarge": "/drivers/comfort-sensor-x4/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "comfort-sensor-x4"
+    },
+    {
+      "name": {
+        "en": "Comfort sensor sixfold button",
+        "nl": "Comfort sensor zesvoudige knop"
+      },
+      "class": "sensor",
+      "capabilities": [
+        "measure_temperature",
+        "measure_humidity"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/comfort-sensor-x6/assets/images/small.png",
+        "large": "/drivers/comfort-sensor-x6/assets/images/large.png",
+        "xlarge": "/drivers/comfort-sensor-x6/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "comfort-sensor-x6"
+    },
+    {
+      "name": {
         "en": "Connected Controller",
         "nl": "Connected Controller"
       },
@@ -310,42 +454,6 @@
         }
       ],
       "id": "motor"
-    },
-    {
-      "name": {
-        "en": "Push button with comfort sensors",
-        "nl": "Drukknop met comfort sensoren"
-      },
-      "class": "sensor",
-      "capabilities": [
-        "measure_temperature",
-        "measure_humidity"
-      ],
-      "platforms": [
-        "local"
-      ],
-      "connectivity": [
-        "lan"
-      ],
-      "images": {
-        "small": "/drivers/push-comfort-sensor/assets/images/small.png",
-        "large": "/drivers/push-comfort-sensor/assets/images/large.png",
-        "xlarge": "/drivers/push-comfort-sensor/assets/images/xlarge.png"
-      },
-      "pair": [
-        {
-          "id": "list_devices",
-          "template": "list_devices",
-          "navigation": {
-            "next": "add_devices"
-          }
-        },
-        {
-          "id": "add_devices",
-          "template": "add_devices"
-        }
-      ],
-      "id": "push-comfort-sensor"
     }
   ],
   "discovery": {
