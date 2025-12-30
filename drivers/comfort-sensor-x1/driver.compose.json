@@ -1,7 +1,7 @@
 {
   "name": {
-    "en": "Push button with comfort sensors",
-    "nl": "Drukknop met comfort sensoren"
+    "en": "Comfort sensor single button",
+    "nl": "Comfort sensor enkele knop"
   },
   "class": "sensor",
   "capabilities": ["measure_temperature", "measure_humidity"],
