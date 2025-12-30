@@ -34,5 +34,8 @@
   },
   "1.5.0": {
     "en": "Added all comfort sensor button variants."
+  },
+  "1.5.1": {
+    "en": "Improve images for comfort sensors."
   }
 }
