@@ -31,5 +31,8 @@
   },
   "1.4.1": {
     "en": "Fixed the Fan icon."
+  },
+  "1.5.0": {
+    "en": "Added all comfort sensor button variants."
   }
 }
