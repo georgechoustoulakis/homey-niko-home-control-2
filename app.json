@@ -46,8 +46,8 @@
   "drivers": [
     {
       "name": {
-        "en": " Connected Controller",
-        "nl": " Connected Controller"
+        "en": "Connected Controller",
+        "nl": "Connected Controller"
       },
       "class": "bridge",
       "capabilities": [],
@@ -138,8 +138,8 @@
     },
     {
       "name": {
-        "en": " Universal Dimmer",
-        "nl": " Universele Dimmer"
+        "en": "Universal Dimmer",
+        "nl": "Universele Dimmer"
       },
       "class": "light",
       "capabilities": [
@@ -174,8 +174,8 @@
     },
     {
       "name": {
-        "en": " Fan",
-        "nl": " Ventilator"
+        "en": "Ventilation",
+        "nl": "Ventilatie"
       },
       "class": "fan",
       "capabilities": [
@@ -243,8 +243,8 @@
     },
     {
       "name": {
-        "en": " Light",
-        "nl": " Licht"
+        "en": "Light",
+        "nl": "Licht"
       },
       "class": "light",
       "capabilities": [
@@ -278,8 +278,8 @@
     },
     {
       "name": {
-        "en": " Motor",
-        "nl": " Motor"
+        "en": "Motor",
+        "nl": "Motor"
       },
       "class": "blinds",
       "capabilities": [
@@ -310,6 +310,42 @@
         }
       ],
       "id": "motor"
+    },
+    {
+      "name": {
+        "en": "Push button with comfort sensors",
+        "nl": "Drukknop met comfort sensoren"
+      },
+      "class": "sensor",
+      "capabilities": [
+        "measure_temperature",
+        "measure_humidity"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/push-comfort-sensor/assets/images/small.png",
+        "large": "/drivers/push-comfort-sensor/assets/images/large.png",
+        "xlarge": "/drivers/push-comfort-sensor/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "push-comfort-sensor"
     }
   ],
   "discovery": {
