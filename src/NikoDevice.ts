@@ -34,15 +34,20 @@ export abstract class NikoDevice extends Homey.Device {
     }
   }
 
-  protected setNikoDeviceProps(props: Record<string, any>[]): { error?: string } | void {
+  protected setNikoDeviceProps(props: Record<string, any>[]): void {
     const controller = this.getConnectedController();
     if (controller === undefined) {
-      return {
-        error:
-          '⚠️ The Connected Controller device is not found. Please add a Connected Controller first.',
-      };
+      void this.setUnavailable('The Connected Controller no longer found.');
+      return;
     }
-    controller.setDeviceProps(this.device.Uuid, props);
+    try {
+      controller.setDeviceProps(this.device.Uuid, props);
+    } catch (error: any) {
+      void this.setUnavailable(
+        'Failed to send command to Niko Home Control Controller. Please check the connection and try again.',
+      );
+      return;
+    }
   }
 
   onUninit(): Promise<void> {
