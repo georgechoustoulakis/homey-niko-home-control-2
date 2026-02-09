@@ -32,64 +32,14 @@ export class ConnectedControllerDevice extends Homey.Device {
     this.disconnect();
   }
 
-  getNikoByTypeAndModel(type: NikoType, models: NikoModel[]): NikoDeviceWithOwner[] {
-    if (!this.getAvailable()) {
-      return [];
-    }
-    const devices = this.client?.getNikoByTypeAndModel(type, models) ?? [];
-    return devices.map((device) => ({
-      ...device,
-      ownerControllerId: this.getData().id,
-    }));
-  }
-
-  setDeviceProps(uuid: string, props: Record<string, any>[]): void {
-    this.client?.setDeviceProps(uuid, props);
-  }
-
-  private onDeviceUpdate = async (device: NikoDevice) => {
-    this.homey.emit('nikohomecontrol2.deviceupdate', {
-      ...device,
-      ownerControllerId: this.getData().id,
-    });
-  };
-
-  private onMqttStateChange = async (state: NikoClientState, message?: string) => {
-    switch (state) {
-      case NikoClientState.CONNECTED:
-        await this.setAvailable();
-        break;
-      case NikoClientState.DISCONNECTED:
-        await this.setUnavailable('Disconnected from Niko Home Control Controller.');
-        break;
-      case NikoClientState.ERROR:
-        await this.setUnavailable(
-          message || 'An unknown error occurred with the Niko Home Control Controller connection.',
-        );
-        setTimeout(() => {
-          void this.connect();
-        }, 30_000);
-        break;
-    }
-  };
-
   async connect(): Promise<void> {
     this.disconnect();
-    // Validate settings
-    const ipRegex =
-      /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-    if (!this.settings.ip || !ipRegex.test(this.settings.ip)) {
-      return await this.setUnavailable("Invalid IP address in the device's settings menu.");
+
+    const settingsError = this.checkSettingsForErrors();
+    if (settingsError) {
+      return await this.setUnavailable(settingsError);
     }
-    if (!this.settings.port || isNaN(this.settings.port)) {
-      return await this.setUnavailable("Invalid port number in the device's settings menu.");
-    }
-    if (!this.settings.username || this.settings.username.trim() === '') {
-      return await this.setUnavailable("Username cannot be empty in the device's settings menu.");
-    }
-    if (!this.settings.jwt || this.settings.jwt.trim() === '') {
-      return await this.setUnavailable("Please enter the JWT in the device's settings menu.");
-    }
+
     try {
       JSON.parse(Buffer.from(this.settings.jwt.split('.')[1], 'base64').toString());
       // todo validate?
@@ -111,6 +61,23 @@ export class ConnectedControllerDevice extends Homey.Device {
     this.client.connect();
   }
 
+  private checkSettingsForErrors(): string | undefined {
+    const ipRegex =
+      /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    if (!this.settings.ip || !ipRegex.test(this.settings.ip)) {
+      return "Invalid IP address in the device's settings menu.";
+    }
+    if (!this.settings.port || isNaN(this.settings.port)) {
+      return "Invalid port number in the device's settings menu.";
+    }
+    if (!this.settings.username || this.settings.username.trim() === '') {
+      return "Username cannot be empty in the device's settings menu.";
+    }
+    if (!this.settings.jwt || this.settings.jwt.trim() === '') {
+      return "Please enter the JWT in the device's settings menu.";
+    }
+  }
+
   disconnect() {
     this.client?.removeListener('statechange', this.onMqttStateChange);
     this.client?.removeListener('deviceupdate', this.onDeviceUpdate);
@@ -120,6 +87,47 @@ export class ConnectedControllerDevice extends Homey.Device {
   async onDeleted() {
     this.disconnect();
   }
+
+  private onMqttStateChange = async (state: NikoClientState, message?: string) => {
+    switch (state) {
+      case NikoClientState.CONNECTED:
+        await this.setAvailable();
+        break;
+      case NikoClientState.DISCONNECTED:
+        await this.setUnavailable('Disconnected from Niko Home Control Controller.');
+        break;
+      case NikoClientState.ERROR:
+        await this.setUnavailable(
+          message || 'An unknown error occurred with the Niko Home Control Controller connection.',
+        );
+        setTimeout(() => {
+          void this.connect();
+        }, 30_000);
+        break;
+    }
+  };
+
+  getNikoByTypeAndModel(type: NikoType, models: NikoModel[]): NikoDeviceWithOwner[] {
+    if (!this.getAvailable()) {
+      return [];
+    }
+    const devices = this.client?.getNikoByTypeAndModel(type, models) ?? [];
+    return devices.map((device) => ({
+      ...device,
+      ownerControllerId: this.getData().id,
+    }));
+  }
+
+  setDeviceProps(uuid: string, props: Record<string, any>[]): void {
+    this.client?.setDeviceProps(uuid, props);
+  }
+
+  private onDeviceUpdate = async (device: NikoDevice) => {
+    this.homey.emit('nikohomecontrol2.deviceupdate', {
+      ...device,
+      ownerControllerId: this.getData().id,
+    });
+  };
 }
 
 module.exports = ConnectedControllerDevice;
