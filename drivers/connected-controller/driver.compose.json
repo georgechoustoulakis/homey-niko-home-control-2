@@ -4,7 +4,7 @@
     "nl": "Connected Controller"
   },
   "class": "bridge",
-  "capabilities": [],
+  "capabilities": ["jwt_remaining_days"],
   "platforms": ["local"],
   "connectivity": ["lan"],
   "images": {

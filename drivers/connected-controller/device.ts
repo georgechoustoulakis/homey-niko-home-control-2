@@ -8,20 +8,33 @@ import {
   NikoMqttClient,
   NikoType,
 } from './NikoMqttClient';
+import { clearInterval } from 'node:timers';
 
 export class ConnectedControllerDevice extends Homey.Device {
   private settings!: ConnectedControllerSettings;
   private client!: NikoMqttClient;
 
+  private remainingDaysInterval!: NodeJS.Timeout;
+
   async onInit() {
     // TODO: Validate reconnection strategy.
     // TODO: IP address change must be detected with re-discovery strategy
+
+    // Add capability if it doesn't exist (for existing devices)
+    if (!this.hasCapability('jwt_remaining_days')) {
+      await this.addCapability('jwt_remaining_days');
+    }
+
     this.settings = this.getSettings();
-    void this.connect();
+    await this.updateJwtRemainingDays();
+    await this.connect();
+    this.remainingDaysInterval = setInterval(this.updateJwtRemainingDays, 60_000);
+    await super.onInit();
   }
 
   async onSettings(settings: any): Promise<string | void> {
     this.settings = settings.newSettings;
+    await this.updateJwtRemainingDays();
     if (settings.changedKeys.length > 0) {
       await this.connect();
     }
@@ -29,7 +42,8 @@ export class ConnectedControllerDevice extends Homey.Device {
   }
 
   async onUninit() {
-    this.disconnect();
+    this.unload();
+    return await super.onUninit();
   }
 
   async connect(): Promise<void> {
@@ -40,14 +54,11 @@ export class ConnectedControllerDevice extends Homey.Device {
       return await this.setUnavailable(settingsError);
     }
 
-    try {
-      JSON.parse(Buffer.from(this.settings.jwt.split('.')[1], 'base64').toString());
-      // todo validate?
-      // todo check expiration?
-      // todo notification before expiration?
-    } catch (e) {
+    await this.updateJwtRemainingDays();
+
+    if (this.getCapabilityValue('jwt_remaining_days') < 0) {
       return await this.setUnavailable(
-        "Error parsing JWT. Please enter a valid JWT in the device's settings menu.",
+        "The provided JWT has expired. Please enter a valid JWT in the device's settings menu.",
       );
     }
 
@@ -78,14 +89,43 @@ export class ConnectedControllerDevice extends Homey.Device {
     }
   }
 
+  private readonly updateJwtRemainingDays = async () => {
+    if (this.settings.jwt === undefined || this.settings.jwt.trim() === '') {
+      void this.setCapabilityValue('jwt_remaining_days', 0).catch(this.error);
+      return;
+    }
+    try {
+      const jwtPayload = JSON.parse(
+        Buffer.from(this.settings.jwt.split('.')[1], 'base64').toString(),
+      );
+
+      if (jwtPayload.exp) {
+        const currentTime = Math.floor(Date.now() / 1000);
+        const remainingSeconds = jwtPayload.exp - currentTime;
+        const remainingDays = Math.floor(remainingSeconds / (60 * 60 * 24));
+        await this.setCapabilityValue('jwt_remaining_days', remainingDays);
+      } else {
+        await this.setCapabilityValue('jwt_remaining_days', 0);
+      }
+    } catch (e) {
+      await this.setCapabilityValue('jwt_remaining_days', 0);
+    }
+  };
+
   disconnect() {
     this.client?.removeListener('statechange', this.onMqttStateChange);
     this.client?.removeListener('deviceupdate', this.onDeviceUpdate);
     this.client?.disconnect();
   }
 
-  async onDeleted() {
+  unload() {
+    clearInterval(this.remainingDaysInterval);
     this.disconnect();
+  }
+
+  async onDeleted() {
+    this.unload();
+    super.onDeleted();
   }
 
   private onMqttStateChange = async (state: NikoClientState, message?: string) => {

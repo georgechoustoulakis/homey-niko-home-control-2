@@ -1,0 +1,17 @@
+{
+  "type": "number",
+  "title": {
+    "en": "JWT Remaining Days",
+    "nl": "JWT Resterende Dagen"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "/assets/time.svg",
+  "units": {
+    "en": "days",
+    "nl": "dagen"
+  },
+  "min": 0,
+  "max": 365
+}
