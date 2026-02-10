@@ -194,7 +194,8 @@ export class NikoMqttClient extends EventEmitter {
 
   public async setDeviceProps(uuid: string, props: Record<string, any>[]): Promise<void> {
     if (!this.client || this.state !== NikoClientState.CONNECTED) {
-      throw new Error('Not connected');
+      console.error('Tried to update device props when mqtt is offline', props);
+      return;
     }
     if (DEBUG_MQTT) {
       console.log(`Queueing device ${uuid} properties update:`, props);
