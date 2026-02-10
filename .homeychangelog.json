@@ -37,5 +37,8 @@
   },
   "1.5.1": {
     "en": "Improve images for comfort sensors."
+  },
+  "1.5.2": {
+    "en": "Fixed a few crashes and added capability to Connected Controller."
   }
 }
