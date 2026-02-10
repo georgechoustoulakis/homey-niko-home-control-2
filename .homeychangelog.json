@@ -40,5 +40,8 @@
   },
   "1.5.2": {
     "en": "Fixed a few crashes and added capability to Connected Controller."
+  },
+  "1.6.0": {
+    "en": "Added the All-off routine."
   }
 }
