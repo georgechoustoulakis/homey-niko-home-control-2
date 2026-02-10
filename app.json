@@ -456,6 +456,41 @@
         }
       ],
       "id": "motor"
+    },
+    {
+      "name": {
+        "en": "Routine: All off",
+        "nl": "Routine: Alles uit"
+      },
+      "class": "other",
+      "capabilities": [
+        "onoff"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/routine-all-off/assets/images/small.png",
+        "large": "/drivers/routine-all-off/assets/images/large.png",
+        "xlarge": "/drivers/routine-all-off/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "routine-all-off"
     }
   ],
   "capabilities": {

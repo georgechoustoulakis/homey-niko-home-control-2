@@ -1,7 +1,7 @@
 {
   "name": {
-    "en": "All off",
-    "nl": "Alles uit"
+    "en": "Routine: All off",
+    "nl": "Routine: Alles uit"
   },
   "class": "other",
   "capabilities": ["onoff"],
