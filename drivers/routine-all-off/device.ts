@@ -8,7 +8,9 @@ class AllOffDevice extends NikoDevice {
   }
 
   private onValueChange = async (value: boolean) => {
-    this.setNikoDeviceProps([{ BasicState: 'Triggered' }]);
+    if (value) {
+      this.setNikoDeviceProps([{ BasicState: 'Triggered' }]);
+    }
   };
 
   async updateStatus(): Promise<void> {
