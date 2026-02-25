@@ -88,10 +88,10 @@ export class NikoMqttClient extends EventEmitter {
 
   private client: MqttClient | null = null;
   private _state: NikoClientState = NikoClientState.UNINITIALIZED;
-  private _updateInterval: any | undefined = undefined;
+  private _updateInterval: NodeJS.Timeout | undefined = undefined;
 
   private queuedUpdates: QueuedUpdate[] = [];
-  private batchTimeout: any | undefined = undefined;
+  private batchTimeout: NodeJS.Timeout | undefined = undefined;
 
   private devices: NikoDevice[] = [];
 
