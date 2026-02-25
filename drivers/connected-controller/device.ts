@@ -93,9 +93,12 @@ export class ConnectedControllerDevice extends Homey.Device {
       return;
     }
     try {
-      const jwtPayload = JSON.parse(
-        Buffer.from(this.settings.jwt.split('.')[1], 'base64').toString(),
-      );
+      const jwtParts = this.settings.jwt.split('.');
+      if (jwtParts.length !== 3) {
+        await this.setCapabilityValue('jwt_remaining_days', 0);
+        return;
+      }
+      const jwtPayload = JSON.parse(Buffer.from(jwtParts[1], 'base64').toString());
 
       if (jwtPayload.exp) {
         const currentTime = Math.floor(Date.now() / 1000);
