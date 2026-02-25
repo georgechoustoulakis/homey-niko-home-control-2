@@ -287,20 +287,15 @@ export class NikoMqttClient extends EventEmitter {
             return;
           }
 
-          if (device.Properties.length === update.Properties.length) {
-            // shortcut
-            device.Properties = changedProps;
-          } else {
-            for (const prop of changedProps) {
-              const propKey = Object.keys(prop)[0];
-              const existingProp = device.Properties.find((p) =>
-                Object.prototype.hasOwnProperty.call(p, propKey),
-              );
-              if (existingProp) {
-                existingProp[propKey] = prop[propKey];
-              } else {
-                device.Properties.push(prop);
-              }
+          for (const prop of changedProps) {
+            const propKey = Object.keys(prop)[0];
+            const existingProp = device.Properties.find((p) =>
+              Object.prototype.hasOwnProperty.call(p, propKey),
+            );
+            if (existingProp) {
+              existingProp[propKey] = prop[propKey];
+            } else {
+              device.Properties.push(prop);
             }
           }
 

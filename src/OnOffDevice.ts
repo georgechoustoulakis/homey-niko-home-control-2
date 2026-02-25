@@ -1,5 +1,4 @@
 import { NikoDevice } from './NikoDevice';
-import { DeviceStore } from './GenericDevicePairingData';
 
 export class OnOffDevice extends NikoDevice {
   async onInit(): Promise<void> {

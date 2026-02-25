@@ -1,5 +1,4 @@
 import { NikoDevice } from '../../src/NikoDevice';
-import { DeviceStore } from '../../src/GenericDevicePairingData';
 
 class NikoMotor extends NikoDevice {
   async onInit(): Promise<void> {

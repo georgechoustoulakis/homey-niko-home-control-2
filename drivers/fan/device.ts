@@ -1,5 +1,4 @@
 import { NikoDevice } from '../../src/NikoDevice';
-import { DeviceStore } from '../../src/GenericDevicePairingData';
 
 class NikoFanDevice extends NikoDevice {
   async onInit(): Promise<void> {
@@ -9,7 +8,6 @@ class NikoFanDevice extends NikoDevice {
   }
 
   private onStateChange = async (state: 'up' | 'idle' | 'down') => {
-    console.log(`Setting fan state to ${state}`);
     this.setNikoDeviceProps([{ FanSpeed: state }]);
   };
 

@@ -12,16 +12,14 @@ export abstract class NikoDevice extends Homey.Device {
     await super.onInit();
     this.device = (this.getStore() as DeviceStore).device;
     this.homey.addListener(this.device.Uuid, this.onDeviceUpdate);
-    this.interval = setInterval(this.updateDeviceAvailability, 10_000);
+    this.interval = setInterval(this.updateDeviceAvailability, 30_000);
   }
 
   abstract updateStatus(): Promise<void>;
 
   private onDeviceUpdate = async (updatedDevice: NikoDeviceWithOwner) => {
-    if (updatedDevice.Uuid === this.device.Uuid) {
-      this.device = updatedDevice;
-      await this.updateStatus();
-    }
+    this.device = updatedDevice;
+    await this.updateStatus();
   };
 
   protected getConnectedController(): ConnectedControllerDevice | undefined {
@@ -64,14 +62,15 @@ export abstract class NikoDevice extends Homey.Device {
 
   private updateDeviceAvailability = async () => {
     const connectedController = this.getConnectedController();
-    const device = connectedController
-      ?.getNikoByTypeAndModel(this.device.Type, [this.device.Model])
-      .find((d) => d.Uuid === this.device.Uuid);
     if (connectedController === undefined) {
       return this.setUnavailable('The Connected Controller no longer found.');
     } else if (!connectedController.getAvailable()) {
       return this.setUnavailable('The Connected Controller found, but is offline.');
-    } else if (device === undefined) {
+    }
+    const device = connectedController
+      .getNikoByTypeAndModel(this.device.Type, [this.device.Model])
+      .find((d) => d.Uuid === this.device.Uuid);
+    if (device === undefined) {
       return this.setUnavailable(
         'The Connected Controller is available, but the device is not found in the list. Please check the Niko programming software.',
       );

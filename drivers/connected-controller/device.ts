@@ -2,7 +2,6 @@ import Homey from 'homey';
 import { ConnectedControllerSettings } from './driver';
 import {
   NikoClientState,
-  NikoDevice,
   NikoDeviceWithOwner,
   NikoModel,
   NikoMqttClient,
@@ -28,7 +27,7 @@ export class ConnectedControllerDevice extends Homey.Device {
     this.settings = this.getSettings();
     await this.updateJwtRemainingDays();
     await this.connect();
-    this.remainingDaysInterval = setInterval(this.updateJwtRemainingDays, 60_000);
+    this.remainingDaysInterval = setInterval(this.updateJwtRemainingDays, 3_600_000);
     await super.onInit();
   }
 
@@ -68,7 +67,6 @@ export class ConnectedControllerDevice extends Homey.Device {
       ownerControllerId: this.getData().id,
     });
     this.client.addListener('statechange', this.onMqttStateChange);
-    this.client.addListener('deviceupdate', this.onDeviceUpdate);
     this.client.connect();
   }
 
@@ -114,7 +112,6 @@ export class ConnectedControllerDevice extends Homey.Device {
 
   disconnect() {
     this.client?.removeListener('statechange', this.onMqttStateChange);
-    this.client?.removeListener('deviceupdate', this.onDeviceUpdate);
     this.client?.disconnect();
   }
 
@@ -162,12 +159,6 @@ export class ConnectedControllerDevice extends Homey.Device {
     this.client?.setDeviceProps(uuid, props);
   }
 
-  private onDeviceUpdate = async (device: NikoDevice) => {
-    this.homey.emit('nikohomecontrol2.deviceupdate', {
-      ...device,
-      ownerControllerId: this.getData().id,
-    });
-  };
 }
 
 module.exports = ConnectedControllerDevice;
