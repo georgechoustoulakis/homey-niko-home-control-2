@@ -1,4 +1,5 @@
 import Homey from 'homey';
+import type DiscoveryStrategy from 'homey/lib/DiscoveryStrategy';
 import { ConnectedControllerSettings } from './driver';
 import {
   NikoClientState,
@@ -16,9 +17,6 @@ export class ConnectedControllerDevice extends Homey.Device {
   private remainingDaysInterval!: NodeJS.Timeout;
 
   async onInit() {
-    // TODO: Validate reconnection strategy.
-    // TODO: IP address change must be detected with re-discovery strategy
-
     // Add capability if it doesn't exist (for existing devices)
     if (!this.hasCapability('jwt_remaining_days')) {
       await this.addCapability('jwt_remaining_days');
@@ -50,10 +48,18 @@ export class ConnectedControllerDevice extends Homey.Device {
 
     const settingsError = this.checkSettingsForErrors();
     if (settingsError) {
-      return await this.setUnavailable(settingsError);
+      if (this.settings.ip) {
+        return await this.setUnavailable(settingsError);
+      } else {
+        // We'll give it a try with discovery if the IP is purely missing,
+        // but if it's invalid we error out.
+        this.log('Missing IP in settings, will attempt discovery.');
+      }
     }
 
     await this.updateJwtRemainingDays();
+
+    await this.discoverIpIfNeeded();
 
     if (this.getCapabilityValue('jwt_remaining_days') < 0) {
       return await this.setUnavailable(
@@ -109,9 +115,30 @@ export class ConnectedControllerDevice extends Homey.Device {
         await this.setCapabilityValue('jwt_remaining_days', 0);
       }
     } catch (e) {
+      this.error('Failed to parse JWT for remaining days check', e);
       await this.setCapabilityValue('jwt_remaining_days', 0);
     }
   };
+
+  private async discoverIpIfNeeded() {
+    try {
+      const strategy = this.homey.discovery.getStrategy('niko_home_control') as DiscoveryStrategy;
+      const results = strategy.getDiscoveryResults();
+      const fpId = this.getData().id;
+
+      if (results[fpId] && 'address' in results[fpId]) {
+        const discoveredIp = (results[fpId] as any).address;
+        if (discoveredIp && this.settings.ip !== discoveredIp) {
+          this.log(`Discovered new IP address: ${discoveredIp}. Updating settings...`);
+          const newSettings = { ...this.settings, ip: discoveredIp };
+          await this.setSettings(newSettings);
+          this.settings = newSettings;
+        }
+      }
+    } catch (e) {
+      this.error('Failed to run MDNS discovery for connected controller.', e);
+    }
+  }
 
   disconnect() {
     this.client?.removeListener('statechange', this.onMqttStateChange);
@@ -161,7 +188,6 @@ export class ConnectedControllerDevice extends Homey.Device {
   setDeviceProps(uuid: string, props: Record<string, any>[]): void {
     this.client?.setDeviceProps(uuid, props);
   }
-
 }
 
 module.exports = ConnectedControllerDevice;

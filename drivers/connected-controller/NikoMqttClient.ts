@@ -45,7 +45,7 @@ export interface NikoDevice {
   Technology: 'nikohomecontrol' | string;
   Type: NikoType;
   Properties: Record<string, any>[]; // e.g. [{ Status: 'On' }]
-  PropertyDefinitions: any; // TODO
+  PropertyDefinitions: Record<string, any>;
   Online: 'True' | 'False';
 }
 
