@@ -3,11 +3,11 @@ import { NikoDevice } from '../../src/NikoDevice';
 class NikoFanDevice extends NikoDevice {
   async onInit(): Promise<void> {
     await super.onInit();
-    this.registerCapabilityListener('fan_mode', this.onStateChange as any);
+    this.registerCapabilityListener('fan_mode', this.onStateChange);
     await this.updateStatus();
   }
 
-  private onStateChange = async (state: 'up' | 'idle' | 'down') => {
+  private onStateChange = async (state: 'Low' | 'Medium' | 'High' | 'Boost') => {
     this.setNikoDeviceProps([{ FanSpeed: state }]);
   };
 
