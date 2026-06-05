@@ -15,6 +15,8 @@ export class ConnectedControllerDevice extends Homey.Device {
   private client!: NikoMqttClient;
 
   private remainingDaysInterval!: NodeJS.Timeout;
+  private reconnectTimeout?: NodeJS.Timeout;
+  private isUnloaded = false;
 
   async onInit() {
     // Add capability if it doesn't exist (for existing devices)
@@ -94,6 +96,8 @@ export class ConnectedControllerDevice extends Homey.Device {
   }
 
   private readonly updateJwtRemainingDays = async () => {
+    if (this.isUnloaded) return;
+
     if (this.settings.jwt === undefined || this.settings.jwt.trim() === '') {
       void this.setCapabilityValue('jwt_remaining_days', 0).catch(this.error);
       return;
@@ -146,7 +150,11 @@ export class ConnectedControllerDevice extends Homey.Device {
   }
 
   unload() {
+    this.isUnloaded = true;
     clearInterval(this.remainingDaysInterval);
+    if (this.reconnectTimeout) {
+      clearTimeout(this.reconnectTimeout);
+    }
     this.disconnect();
   }
 
@@ -156,6 +164,7 @@ export class ConnectedControllerDevice extends Homey.Device {
   }
 
   private onMqttStateChange = async (state: NikoClientState, message?: string) => {
+    if (this.isUnloaded) return;
     switch (state) {
       case NikoClientState.CONNECTED:
         await this.setAvailable();
@@ -167,8 +176,10 @@ export class ConnectedControllerDevice extends Homey.Device {
         await this.setUnavailable(
           message || 'An unknown error occurred with the Niko Home Control Controller connection.',
         );
-        setTimeout(() => {
-          void this.connect();
+        this.reconnectTimeout = setTimeout(() => {
+          if (!this.isUnloaded) {
+            void this.connect();
+          }
         }, 30_000);
         break;
     }
