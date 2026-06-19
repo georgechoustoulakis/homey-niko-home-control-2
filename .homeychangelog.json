@@ -49,5 +49,8 @@
   },
   "1.6.2": {
     "en": "Fix a few crashes due to devices no longe being available."
+  },
+  "1.7.0": {
+    "en": "Added ability to set motor position to specific percentage instead of only open/close."
   }
 }
