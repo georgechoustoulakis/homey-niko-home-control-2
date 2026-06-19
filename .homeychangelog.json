@@ -46,5 +46,8 @@
   },
   "1.6.1": {
     "en": "Improved the images for the All-off routine."
+  },
+  "1.6.2": {
+    "en": "Fix a few crashes due to devices no longe being available."
   }
 }
