@@ -429,7 +429,8 @@
       },
       "class": "blinds",
       "capabilities": [
-        "windowcoverings_state"
+        "windowcoverings_state",
+        "windowcoverings_set"
       ],
       "platforms": [
         "local"

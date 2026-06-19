@@ -4,7 +4,7 @@
     "nl": "Motor"
   },
   "class": "blinds",
-  "capabilities": ["windowcoverings_state"],
+  "capabilities": ["windowcoverings_state", "windowcoverings_set"],
   "platforms": ["local"],
   "connectivity": ["lan"],
   "images": {
