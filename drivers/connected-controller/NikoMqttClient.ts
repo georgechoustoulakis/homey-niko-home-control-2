@@ -70,12 +70,12 @@ export enum TOPIC {
 }
 
 export enum NikoClientState {
-  UNINITIALIZED,
-  DISCONNECTED,
-  CONNECTING,
-  CONNECTED,
-  DISCONNECTING,
-  ERROR,
+  UNINITIALIZED = 'UNINITIALIZED',
+  DISCONNECTED = 'DISCONNECTED',
+  CONNECTING = 'CONNECTING',
+  CONNECTED = 'CONNECTED',
+  DISCONNECTING = 'DISCONNECTING',
+  ERROR = 'ERROR',
 }
 
 type QueuedUpdate = { uuid: string; props: Record<string, any>[] };
@@ -88,6 +88,7 @@ export class NikoMqttClient extends EventEmitter {
 
   private client: MqttClient | null = null;
   private _state: NikoClientState = NikoClientState.UNINITIALIZED;
+  private _lastErrorMessage: string | undefined = undefined;
   private _updateInterval: NodeJS.Timeout | undefined = undefined;
 
   private queuedUpdates: QueuedUpdate[] = [];
@@ -107,9 +108,23 @@ export class NikoMqttClient extends EventEmitter {
     this.settings = settings;
   }
 
+  getState(): NikoClientState {
+    return this.state;
+  }
+
+  getLastErrorMessage(): string | undefined {
+    return this._lastErrorMessage;
+  }
+
+  getDevices(): NikoDevice[] {
+    return this.devices;
+  }
+
   private setState(newState: NikoClientState, message?: string) {
     if (this._state === newState) return;
     this._state = newState;
+    if (newState === NikoClientState.ERROR) {
+    }
     this.emit('statechange', this._state, message);
   }
 
