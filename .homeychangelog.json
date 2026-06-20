@@ -52,5 +52,8 @@
   },
   "1.7.0": {
     "en": "Added ability to set motor position to specific percentage instead of only open/close."
+  },
+  "1.8.0": {
+    "en": "Added a diagnostic report to the advanced settings menu of the Connected Controller."
   }
 }
