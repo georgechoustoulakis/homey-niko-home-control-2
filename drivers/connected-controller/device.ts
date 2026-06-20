@@ -33,6 +33,7 @@ export class ConnectedControllerDevice extends Homey.Device {
 
   async onSettings(settings: any): Promise<string | void> {
     this.settings = settings.newSettings;
+    await this.updateDebugInfo();
     await this.updateJwtRemainingDays();
     if (settings.changedKeys.length > 0) {
       await this.connect();
@@ -50,6 +51,7 @@ export class ConnectedControllerDevice extends Homey.Device {
 
     const settingsError = this.checkSettingsForErrors();
     if (settingsError) {
+      await this.updateDebugInfo();
       if (this.settings.ip) {
         return await this.setUnavailable(settingsError);
       } else {
@@ -64,6 +66,7 @@ export class ConnectedControllerDevice extends Homey.Device {
     await this.discoverIpIfNeeded();
 
     if (this.getCapabilityValue('jwt_remaining_days') < 0) {
+      await this.updateDebugInfo();
       return await this.setUnavailable(
         "The provided JWT has expired. Please enter a valid JWT in the device's settings menu.",
       );
@@ -74,6 +77,8 @@ export class ConnectedControllerDevice extends Homey.Device {
       homey: this.homey,
       ownerControllerId: this.getData().id,
     });
+    await this.updateDebugInfo();
+
     this.client.addListener('statechange', this.onMqttStateChange);
     this.client.connect();
   }
@@ -183,6 +188,7 @@ export class ConnectedControllerDevice extends Homey.Device {
         }, 30_000);
         break;
     }
+    await this.updateDebugInfo();
   };
 
   getNikoByTypeAndModel(type: NikoType, models: NikoModel[]): NikoDeviceWithOwner[] {
@@ -198,6 +204,66 @@ export class ConnectedControllerDevice extends Homey.Device {
 
   setDeviceProps(uuid: string, props: Record<string, any>[]): void {
     this.client?.setDeviceProps(uuid, props);
+  }
+
+  async updateDebugInfo(): Promise<void> {
+    let report = 'Processing...';
+
+    if (this.client) {
+      const settings = this.client.settings;
+      const devices = this.client.getDevices();
+
+      // Redact JWT because this will be shared by users on the forum, probably.
+      const jwt = settings.jwt || '';
+      const visibleLength = 4;
+      const redactedJwt =
+        jwt.length > visibleLength * 2
+          ? `${jwt.substring(0, visibleLength)}...${jwt.substring(jwt.length - visibleLength)}`
+          : '***invalid_or_short_jwt***';
+
+      const lines = [
+        '[Connection Details]',
+        `name: ${settings.name}`,
+        `ip: ${settings.ip}`,
+        `port: ${settings.port}`,
+        `username: ${settings.username}`,
+        `jwt: ${redactedJwt}`,
+        '',
+        '[MQTT State]',
+        `status: ${this.client.getState()}`,
+        `error: ${this.client.getLastErrorMessage() || 'None'}`,
+        '',
+        '[Niko Devices]',
+      ];
+
+      if (devices.length > 0) {
+        for (const device of devices) {
+          lines.push(`• ${device.Name} [${device.Type} - ${device.Model}]`);
+        }
+      } else {
+        const validationError = this.checkSettingsForErrors();
+        const isExpired = this.getCapabilityValue('jwt_remaining_days') < 0;
+
+        const lines = [
+          '[Connection Details]',
+          `ip: ${this.settings.ip || 'Missing'}`,
+          `port: ${this.settings.port || 'Missing'}`,
+          '',
+          '[MQTT State]',
+          `status: NOT_INITIALIZED`,
+          `error: ${validationError || (isExpired ? 'JWT Expired' : 'Awaiting initialization/discovery...')}`,
+        ];
+        report = lines.join('\n');
+      }
+
+      report = lines.join('\n');
+    }
+
+    // Update device settings
+    await this.setSettings({
+      ...this.settings,
+      debugReport: report,
+    });
   }
 }
 

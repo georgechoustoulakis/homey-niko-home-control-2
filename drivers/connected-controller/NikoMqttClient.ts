@@ -82,7 +82,7 @@ type QueuedUpdate = { uuid: string; props: Record<string, any>[] };
 const UPDATE_QUEUE_DELAY_MS = 50;
 
 export class NikoMqttClient extends EventEmitter {
-  private readonly settings: ConnectedControllerSettings;
+  readonly settings: ConnectedControllerSettings;
   private readonly homey: Homey;
   private readonly ownerControllerId: string;
 

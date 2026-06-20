@@ -8,6 +8,7 @@ export interface ConnectedControllerSettings {
   port: number;
   username: string;
   jwt: string;
+  debugReport: string;
 }
 
 export interface ConnectedControllerPairingData extends GenericDevicePairingData {
@@ -32,6 +33,7 @@ export class ConnectedControllerDriver extends Homey.Driver {
         port: 8884,
         username: 'hobby',
         jwt: '',
+        debugReport: 'no report yet.',
       },
     }));
     devicesFound.push({
@@ -45,6 +47,7 @@ export class ConnectedControllerDriver extends Homey.Driver {
         port: 8884,
         username: 'hobby',
         jwt: '',
+        debugReport: 'no report yet.',
       },
     });
 

@@ -40,5 +40,17 @@
       "en": "The JWT that needs to be generated yearly from the Niko programming software.",
       "nl": "De JWT die jaarlijks moet worden gegenereerd via de Niko programmeersoftware."
     }
+  },
+  {
+    "id": "debugReport",
+    "type": "textarea",
+    "label": {
+      "en": "Debugging information"
+    },
+    "value": "No logs recorded yet.",
+    "readyOnly": true,
+    "hint": {
+      "en": "Double-tap or long-press to select all text for copying on mobile."
+    }
   }
 ]
