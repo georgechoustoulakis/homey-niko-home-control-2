@@ -31,14 +31,27 @@ export class ConnectedControllerDevice extends Homey.Device {
     await super.onInit();
   }
 
-  async onSettings(settings: any): Promise<string | void> {
-    this.settings = settings.newSettings;
+  async onSettings({
+    oldSettings,
+    newSettings,
+    changedKeys,
+  }: {
+    oldSettings: { [key: string]: boolean | string | number | undefined | null };
+    newSettings: { [key: string]: boolean | string | number | undefined | null };
+    changedKeys: string[];
+  }): Promise<string | void> {
+    this.settings = newSettings as any as ConnectedControllerSettings;
     await this.updateDebugInfo();
     await this.updateJwtRemainingDays();
-    if (settings.changedKeys.length > 0) {
-      await this.connect();
+    if (
+      changedKeys.includes('ip') ||
+      changedKeys.includes('port') ||
+      changedKeys.includes('username') ||
+      changedKeys.includes('jwt')
+    ) {
+      void this.connect();
     }
-    return await super.onSettings(settings);
+    return await super.onSettings({ oldSettings, newSettings, changedKeys });
   }
 
   async onUninit() {
@@ -51,7 +64,7 @@ export class ConnectedControllerDevice extends Homey.Device {
 
     const settingsError = this.checkSettingsForErrors();
     if (settingsError) {
-      await this.updateDebugInfo();
+      await this.updateDebugInfoAndSettings();
       if (this.settings.ip) {
         return await this.setUnavailable(settingsError);
       } else {
@@ -66,7 +79,7 @@ export class ConnectedControllerDevice extends Homey.Device {
     await this.discoverIpIfNeeded();
 
     if (this.getCapabilityValue('jwt_remaining_days') < 0) {
-      await this.updateDebugInfo();
+      await this.updateDebugInfoAndSettings();
       return await this.setUnavailable(
         "The provided JWT has expired. Please enter a valid JWT in the device's settings menu.",
       );
@@ -77,7 +90,7 @@ export class ConnectedControllerDevice extends Homey.Device {
       homey: this.homey,
       ownerControllerId: this.getData().id,
     });
-    await this.updateDebugInfo();
+    await this.updateDebugInfoAndSettings();
 
     this.client.addListener('statechange', this.onMqttStateChange);
     this.client.connect();
@@ -188,7 +201,7 @@ export class ConnectedControllerDevice extends Homey.Device {
         }, 30_000);
         break;
     }
-    await this.updateDebugInfo();
+    await this.updateDebugInfoAndSettings();
   };
 
   getNikoByTypeAndModel(type: NikoType, models: NikoModel[]): NikoDeviceWithOwner[] {
@@ -258,12 +271,15 @@ export class ConnectedControllerDevice extends Homey.Device {
 
       report = lines.join('\n');
     }
-
-    // Update device settings
-    await this.setSettings({
+    this.settings = {
       ...this.settings,
       debugReport: report,
-    });
+    };
+  }
+
+  async updateDebugInfoAndSettings(): Promise<void> {
+    await this.updateDebugInfo();
+    await this.setSettings(this.settings);
   }
 }
 
