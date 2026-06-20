@@ -55,5 +55,8 @@
   },
   "1.8.0": {
     "en": "Added a diagnostic report to the advanced settings menu of the Connected Controller."
+  },
+  "1.8.1": {
+    "en": "Fixed an issue where settings could no longer be updated on the Connected Controller."
   }
 }
