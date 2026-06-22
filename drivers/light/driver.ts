@@ -4,7 +4,7 @@ import { LIGHT_ACTION } from '../connected-controller/NikoTypes';
 
 class NikoLightDriver extends NikoDriver {
   async onPairListDevices(): Promise<DevicePairingData[]> {
-    return super.getNikoByTypeAndModel(LIGHT_ACTION);
+    return super.getDevicesByAction(LIGHT_ACTION);
   }
 }
 

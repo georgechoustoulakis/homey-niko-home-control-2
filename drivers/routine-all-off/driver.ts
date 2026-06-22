@@ -4,7 +4,7 @@ import { ALL_OFF_ACTION } from '../connected-controller/NikoTypes';
 
 class NikoAllOffDriver extends NikoDriver {
   async onPairListDevices(): Promise<DevicePairingData[]> {
-    return this.getNikoByTypeAndModel(ALL_OFF_ACTION);
+    return this.getDevicesByAction(ALL_OFF_ACTION);
   }
 }
 

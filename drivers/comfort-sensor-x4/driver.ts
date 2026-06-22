@@ -4,7 +4,7 @@ import { THERMO_SWITCH_X4 } from '../connected-controller/NikoTypes';
 
 class NikoFourfoldComfortSensorDriver extends NikoDriver {
   async onPairListDevices(): Promise<DevicePairingData[]> {
-    return this.getNikoByTypeAndModel(THERMO_SWITCH_X4);
+    return this.getDevicesByAction(THERMO_SWITCH_X4);
   }
 }
 

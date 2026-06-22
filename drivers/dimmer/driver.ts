@@ -4,7 +4,7 @@ import { DIMMER_ACTION } from '../connected-controller/NikoTypes';
 
 class NikoDimmerDriver extends NikoDriver {
   async onPairListDevices(): Promise<DevicePairingData[]> {
-    return this.getNikoByTypeAndModel(DIMMER_ACTION);
+    return this.getDevicesByAction(DIMMER_ACTION);
   }
 }
 

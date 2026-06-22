@@ -4,7 +4,7 @@ import { MOOD_ACTION } from '../connected-controller/NikoTypes';
 
 class NikoMoodDriver extends NikoDriver {
   async onPairListDevices(): Promise<DevicePairingData[]> {
-    return this.getNikoByTypeAndModel(MOOD_ACTION);
+    return this.getDevicesByAction(MOOD_ACTION);
   }
 }
 

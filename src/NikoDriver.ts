@@ -5,7 +5,7 @@ import { DevicePairingData } from './GenericDevicePairingData';
 import { AllNikoActions } from '../drivers/connected-controller/NikoTypes';
 
 export abstract class NikoDriver extends Homey.Driver {
-  protected getNikoByTypeAndModel(action: AllNikoActions): DevicePairingData[] {
+  protected getDevicesByAction(action: AllNikoActions): DevicePairingData[] {
     const controllerDriver = this.homey.drivers.getDriver('connected-controller');
     const controllerDevices = controllerDriver.getDevices() as ConnectedControllerDevice[];
 
