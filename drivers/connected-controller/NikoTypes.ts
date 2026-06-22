@@ -64,6 +64,15 @@ export type ALL_OFF_PAYLOAD = {
   Properties: [{ BasicState: 'On' | 'Off' | 'Triggered' }, { AllOffActive: 'True' | 'False' }];
 };
 
+export const MOOD_ACTION = {
+  types: 'action',
+  models: ['comfort'],
+} as const satisfies BaseAction;
+
+export type MOOD_PAYLOAD = {
+  Properties: [{ BasicState: 'On' | 'Off' | 'Triggered' }, { MoodActive: 'True' | 'False' }];
+};
+
 export const FAN_ACTION = {
   types: 'action',
   models: ['fan'],
@@ -110,6 +119,7 @@ export enum NikoDeviceKey {
   LIGHT = 'LIGHT',
   MOTOR = 'MOTOR',
   ALL_OFF = 'ALL_OFF',
+  MOOD = 'MOOD',
   FAN = 'FAN',
   DIMMER = 'DIMMER',
   THERMO_SWITCH_X1 = 'THERMO_SWITCH_X1',
@@ -122,6 +132,7 @@ export const NIKO_ACTIONS = {
   [NikoDeviceKey.LIGHT]: LIGHT_ACTION,
   [NikoDeviceKey.MOTOR]: MOTOR_ACTION,
   [NikoDeviceKey.ALL_OFF]: ALL_OFF_ACTION,
+  [NikoDeviceKey.MOOD]: MOOD_ACTION,
   [NikoDeviceKey.FAN]: FAN_ACTION,
   [NikoDeviceKey.DIMMER]: DIMMER_ACTION,
   [NikoDeviceKey.THERMO_SWITCH_X1]: THERMO_SWITCH_X1,
@@ -134,6 +145,7 @@ export interface NikoPayloadRegistry {
   [NikoDeviceKey.LIGHT]: LIGHT_PAYLOAD;
   [NikoDeviceKey.MOTOR]: MOTOR_PAYLOAD;
   [NikoDeviceKey.ALL_OFF]: ALL_OFF_PAYLOAD;
+  [NikoDeviceKey.MOOD]: MOOD_PAYLOAD;
   [NikoDeviceKey.FAN]: FAN_PAYLOAD;
   [NikoDeviceKey.DIMMER]: DIMMER_PAYLOAD;
   [NikoDeviceKey.THERMO_SWITCH_X1]: THERMO_SWITCH_PAYLOAD;
