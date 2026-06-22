@@ -1,6 +1,7 @@
 import { NikoDevice } from '../../src/NikoDevice';
+import { LIGHT_ACTION, NikoDeviceKey } from '../connected-controller/NikoTypes';
 
-class AllOffDevice extends NikoDevice {
+class AllOffDevice extends NikoDevice<NikoDeviceKey.ALL_OFF> {
   async onInit(): Promise<void> {
     await super.onInit();
     this.registerCapabilityListener('onoff', this.onValueChange);
@@ -14,18 +15,13 @@ class AllOffDevice extends NikoDevice {
   };
 
   async updateStatus(): Promise<void> {
-    const allActiveProp = this.device.Properties.find((prop) =>
-      Object.prototype.hasOwnProperty.call(prop, 'AllOffActive'),
-    );
-    const basicStateProp = this.device.Properties.find((prop) =>
-      Object.prototype.hasOwnProperty.call(prop, 'BasicState'),
-    );
-    if (!allActiveProp || !basicStateProp) {
+    const allActive = this.getProperty('AllOffActive');
+    const basicState = this.getProperty('BasicState');
+    if (!allActive || !basicState) {
       return this.setUnavailable('Device is misconfigured, please re-create it.');
     }
     await this.setAvailable();
-    const isActive =
-      allActiveProp.AllOffActive === 'True' || basicStateProp.BasicState === 'Triggered';
+    const isActive = allActive === 'True' || basicState === 'Triggered';
     await this.setCapabilityOptions('onoff', { setable: !isActive });
     await this.setCapabilityValue('onoff', isActive);
   }

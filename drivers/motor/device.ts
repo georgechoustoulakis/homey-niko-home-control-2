@@ -1,6 +1,7 @@
 import { NikoDevice } from '../../src/NikoDevice';
+import { NikoDeviceKey } from '../connected-controller/NikoTypes';
 
-class NikoMotor extends NikoDevice {
+class NikoMotor extends NikoDevice<NikoDeviceKey.MOTOR> {
   async onInit(): Promise<void> {
     await super.onInit();
     this.registerCapabilityListener('windowcoverings_state', this.onStateChange as any);
@@ -27,20 +28,16 @@ class NikoMotor extends NikoDevice {
   };
 
   async updateStatus(): Promise<void> {
-    const movingProp = this.device.Properties.find((prop) =>
-      Object.prototype.hasOwnProperty.call(prop, 'Moving'),
-    );
-    const positionProp = this.device.Properties.find((prop) =>
-      Object.prototype.hasOwnProperty.call(prop, 'Position'),
-    );
+    const moving = this.getProperty('Moving');
+    const position = this.getProperty('Position');
     await this.setAvailable();
-    if (movingProp !== undefined && movingProp.Moving === 'False') {
+    if (moving !== undefined && moving === 'False') {
       await this.setCapabilityValue('windowcoverings_state', 'idle');
 
       // Only set the position after moving is complete, because the sensor is not reporting
       // the correct position during movement.
-      if (positionProp !== undefined) {
-        await this.setCapabilityValue('windowcoverings_set', Number(positionProp.Position) / 100);
+      if (position !== undefined) {
+        await this.setCapabilityValue('windowcoverings_set', Number(position) / 100);
       }
     }
   }

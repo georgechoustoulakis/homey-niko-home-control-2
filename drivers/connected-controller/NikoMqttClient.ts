@@ -3,34 +3,7 @@ import { EventEmitter } from 'events';
 import { ConnectedControllerSettings } from './driver';
 import Homey from 'homey/lib/Homey';
 import { Device } from 'homey';
-
-const NIKO_MODELS = [
-  'light',
-  'socket',
-  'switched-fan',
-  'switched-generic',
-  'dimmer',
-  'rolldownshutter',
-  'sunblind',
-  'gate',
-  'venetianblind',
-  'alloff',
-  'generic',
-  'flag',
-  'thermoswitchx1',
-  'thermoswitchx1feedback',
-  'thermoswitchx2feedback',
-  'thermoswitchx4feedback',
-  'thermoswitchx6feedback',
-  'thermoventilationcontrollerfeedback',
-  'overallcomfort',
-  'fan',
-] as const;
-
-const NIKO_TYPES = ['relay', 'dimmer', 'motor', 'action', 'energyhome', 'multisensor'] as const;
-
-export type NikoType = (typeof NIKO_TYPES)[number];
-export type NikoModel = (typeof NIKO_MODELS)[number];
+import { NIKO_MODELS, NIKO_TYPES, NikoModel, NikoType } from './NikoTypes';
 
 export interface NikoDeviceWithOwner extends NikoDevice {
   ownerControllerId: string;

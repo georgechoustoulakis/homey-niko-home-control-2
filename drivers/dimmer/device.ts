@@ -1,6 +1,7 @@
 import { NikoDevice } from '../../src/NikoDevice';
+import { NikoDeviceKey } from '../connected-controller/NikoTypes';
 
-class NikoDimmer extends NikoDevice {
+class NikoDimmer extends NikoDevice<NikoDeviceKey.DIMMER> {
   async onInit(): Promise<void> {
     await super.onInit();
     this.registerCapabilityListener('onoff', this.onValueChange);
@@ -17,18 +18,15 @@ class NikoDimmer extends NikoDevice {
   };
 
   async updateStatus(): Promise<void> {
-    const statusProp = this.device.Properties.find((prop) =>
-      Object.prototype.hasOwnProperty.call(prop, 'Status'),
-    );
-    const brightnessProp = this.device.Properties.find((prop) =>
-      Object.prototype.hasOwnProperty.call(prop, 'Brightness'),
-    );
-    if (!statusProp || !brightnessProp) {
+    const status = this.getProperty('Status');
+    const brightness = this.getProperty('Brightness');
+
+    if (!status || !brightness) {
       return this.setUnavailable('Device is misconfigured, please re-create it.');
     }
     await this.setAvailable();
-    await this.setCapabilityValue('onoff', statusProp.Status === 'On');
-    await this.setCapabilityValue('dim', Number(brightnessProp.Brightness) / 100);
+    await this.setCapabilityValue('onoff', status === 'On');
+    await this.setCapabilityValue('dim', Number(brightness) / 100);
   }
 }
 

@@ -1,14 +1,9 @@
 import Homey from 'homey';
 import type DiscoveryStrategy from 'homey/lib/DiscoveryStrategy';
 import { ConnectedControllerSettings } from './driver';
-import {
-  NikoClientState,
-  NikoDeviceWithOwner,
-  NikoModel,
-  NikoMqttClient,
-  NikoType,
-} from './NikoMqttClient';
+import { NikoClientState, NikoDeviceWithOwner, NikoMqttClient } from './NikoMqttClient';
 import { clearInterval } from 'node:timers';
+import { NikoModel, NikoType } from './NikoTypes';
 
 export class ConnectedControllerDevice extends Homey.Device {
   private settings!: ConnectedControllerSettings;
