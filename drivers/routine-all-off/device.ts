@@ -1,5 +1,5 @@
 import { NikoDevice } from '../../src/NikoDevice';
-import { LIGHT_ACTION, NikoDeviceKey } from '../connected-controller/NikoTypes';
+import { NikoDeviceKey } from '../connected-controller/NikoTypes';
 
 class AllOffDevice extends NikoDevice<NikoDeviceKey.ALL_OFF> {
   async onInit(): Promise<void> {
