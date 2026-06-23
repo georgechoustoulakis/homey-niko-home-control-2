@@ -27,6 +27,10 @@ export const NIKO_TYPES = ['relay', 'dimmer', 'motor', 'action', 'multisensor'] 
 export type NikoType = (typeof NIKO_TYPES)[number];
 export type NikoModel = (typeof NIKO_MODELS)[number];
 
+export type NikoBoolean = 'True' | 'False';
+export type NikoOnOff = 'On' | 'Off';
+export type NikoTriggerable = NikoOnOff | 'Triggered';
+
 export type BaseAction = {
   readonly types: NikoType;
   readonly models: NikoModel[];
@@ -38,7 +42,7 @@ export const LIGHT_ACTION = {
 } as const satisfies BaseAction;
 
 export type LIGHT_PAYLOAD = {
-  Properties: [{ Status: 'On' | 'Off' }];
+  Properties: [{ Status: NikoOnOff }];
 };
 
 export const MOTOR_ACTION = {
@@ -50,8 +54,8 @@ export type MOTOR_PAYLOAD = {
   Properties: [
     { Action: 'Open' | 'Close' | 'Stop' },
     { Position: string },
-    { Aligned: 'True' | 'False' },
-    { Moving: 'True' | 'False' },
+    { Aligned: NikoBoolean },
+    { Moving: NikoBoolean },
   ];
 };
 
@@ -61,7 +65,7 @@ export const ALL_OFF_ACTION = {
 } as const satisfies BaseAction;
 
 export type ALL_OFF_PAYLOAD = {
-  Properties: [{ BasicState: 'On' | 'Off' | 'Triggered' }, { AllOffActive: 'True' | 'False' }];
+  Properties: [{ BasicState: NikoTriggerable }, { AllOffActive: NikoBoolean }];
 };
 
 export const MOOD_ACTION = {
@@ -70,7 +74,7 @@ export const MOOD_ACTION = {
 } as const satisfies BaseAction;
 
 export type MOOD_PAYLOAD = {
-  Properties: [{ BasicState: 'On' | 'Off' | 'Triggered' }, { MoodActive: 'True' | 'False' }];
+  Properties: [{ BasicState: NikoTriggerable }, { MoodActive: NikoBoolean }];
 };
 
 export const FAN_ACTION = {
@@ -88,7 +92,7 @@ export const DIMMER_ACTION = {
 } as const satisfies BaseAction;
 
 export type DIMMER_PAYLOAD = {
-  Properties: [{ Status: 'On' | 'Off' }, { Brightness: string }];
+  Properties: [{ Status: NikoOnOff }, { Brightness: string }];
 };
 
 export const THERMO_SWITCH_X1 = {
