@@ -139,9 +139,9 @@ export const NIKO_ACTIONS = {
   [NikoDeviceKey.THERMO_SWITCH_X2]: THERMO_SWITCH_X2,
   [NikoDeviceKey.THERMO_SWITCH_X4]: THERMO_SWITCH_X4,
   [NikoDeviceKey.THERMO_SWITCH_X6]: THERMO_SWITCH_X6,
-} as const;
+} as const satisfies Record<NikoDeviceKey, BaseAction>;
 
-export interface NikoPayloadRegistry {
+export interface NikoPayloadRegistry extends Record<NikoDeviceKey, { Properties: any }> {
   [NikoDeviceKey.LIGHT]: LIGHT_PAYLOAD;
   [NikoDeviceKey.MOTOR]: MOTOR_PAYLOAD;
   [NikoDeviceKey.ALL_OFF]: ALL_OFF_PAYLOAD;
