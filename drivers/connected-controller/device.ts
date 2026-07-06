@@ -45,7 +45,7 @@ export class ConnectedControllerDevice extends Homey.Device {
       changedKeys.includes('username') ||
       changedKeys.includes('jwt')
     ) {
-      void this.connect();
+      this.homey.setTimeout(() => this.connect().catch(this.error), 0);
     }
     return await super.onSettings({ oldSettings, newSettings, changedKeys });
   }
