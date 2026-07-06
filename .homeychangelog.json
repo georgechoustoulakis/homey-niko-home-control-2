@@ -61,5 +61,8 @@
   },
   "1.9.0": {
     "en": "Added NHC Mood action support."
+  },
+  "1.9.1": {
+    "en": "Fixed a connection issue when updating the settings of the connected controller."
   }
 }
