@@ -29,13 +29,13 @@ export abstract class NikoDevice<K extends NikoDeviceKey> extends Homey.Device {
   protected getProperty<TKey extends KeysOfUnion<PayloadProps<K>>>(
     key: TKey,
   ): ValueOfKeyInUnion<PayloadProps<K>, TKey> | undefined {
-    const payload = this.device.Properties as unknown as NikoPayloadRegistry[K];
+    const properties = this.device.Properties;
 
-    if (!payload || !Array.isArray(payload.Properties)) {
+    if (!Array.isArray(properties)) {
       return undefined;
     }
 
-    const statusProp = payload.Properties.find((prop) =>
+    const statusProp = properties.find((prop) =>
       Object.prototype.hasOwnProperty.call(prop, key),
     );
 
