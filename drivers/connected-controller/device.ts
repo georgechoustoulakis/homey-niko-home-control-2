@@ -139,8 +139,13 @@ export class ConnectedControllerDevice extends Homey.Device {
   };
 
   private readonly reconnectIfNeeded = async () => {
-    const state = this.client.getState();
-    if (state === NikoClientState.ERROR || state === NikoClientState.DISCONNECTED) {
+    if (this.isUnloaded) return;
+    const state = this.client?.getState();
+    if (
+      state === undefined ||
+      state === NikoClientState.ERROR ||
+      state === NikoClientState.DISCONNECTED
+    ) {
       await this.connect();
     }
   };
