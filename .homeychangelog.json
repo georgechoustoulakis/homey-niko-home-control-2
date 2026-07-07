@@ -64,5 +64,8 @@
   },
   "1.9.1": {
     "en": "Fixed a connection issue when updating the settings of the connected controller."
+  },
+  "1.9.2": {
+    "en": "Fixed an issue where devices incorrectly showed as misconfigured and could not be controlled."
   }
 }
