@@ -72,7 +72,7 @@ export const NIKO_ACTIONS = {
   },
   [NikoDeviceKey.DIMMER]: {
     types: 'action',
-    models: ['fan'],
+    models: ['dimmer'],
   },
   [NikoDeviceKey.THERMO_SWITCH_X1]: {
     types: 'multisensor',
