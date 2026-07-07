@@ -17,7 +17,7 @@ export abstract class NikoDevice<K extends NikoDeviceKey> extends Homey.Device {
     await super.onInit();
     this._device = (this.getStore() as DeviceStore).device;
     this.homey.addListener(this._device.Uuid, this.onDeviceUpdate);
-    this.interval = setInterval(this.updateDeviceAvailability, 30_000);
+    this.interval = this.homey.setInterval(this.updateDeviceAvailability, 30_000);
   }
 
   abstract updateStatus(): Promise<void>;

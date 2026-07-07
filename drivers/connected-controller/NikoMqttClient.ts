@@ -133,7 +133,7 @@ export class NikoMqttClient extends EventEmitter {
     if (this._updateInterval) {
       clearInterval(this._updateInterval);
     }
-    this._updateInterval = setInterval(this.requestDeviceList, 15 * 60_000);
+    this._updateInterval = this.homey.setInterval(this.requestDeviceList, 15 * 60_000);
   };
 
   private onError = (err: Error): void => {
@@ -205,7 +205,7 @@ export class NikoMqttClient extends EventEmitter {
     if (this.queuedUpdates.length === 0) {
       return;
     }
-    this.batchTimeout = setTimeout(() => {
+    this.batchTimeout = this.homey.setTimeout(() => {
       const payload: DeviceListUpdate = {
         Method: 'devices.control',
         Params: [

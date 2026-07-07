@@ -22,8 +22,8 @@ export class ConnectedControllerDevice extends Homey.Device {
     this.settings = this.getSettings();
     await this.updateJwtRemainingDays();
     await this.connect();
-    this.remainingDaysInterval = setInterval(this.updateJwtRemainingDays, 3_600_000);
-    this.reconnectInterval = setInterval(this.reconnectIfNeeded, 30_000);
+    this.remainingDaysInterval = this.homey.setInterval(this.updateJwtRemainingDays, 3_600_000);
+    this.reconnectInterval = this.homey.setInterval(this.reconnectIfNeeded, 30_000);
     await super.onInit();
   }
 
