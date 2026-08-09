@@ -1,7 +1,7 @@
 {
   "name": {
-    "en": "Ventilation",
-    "nl": "Ventilatie"
+    "en": "Ventilation Module",
+    "nl": "Ventilatiemodule"
   },
   "class": "fan",
   "capabilities": ["fan_mode"],

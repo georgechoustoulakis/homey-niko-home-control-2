@@ -332,8 +332,8 @@
     },
     {
       "name": {
-        "en": "Ventilation",
-        "nl": "Ventilatie"
+        "en": "Ventilation Module",
+        "nl": "Ventilatiemodule"
       },
       "class": "fan",
       "capabilities": [
@@ -401,8 +401,8 @@
     },
     {
       "name": {
-        "en": "Light",
-        "nl": "Licht"
+        "en": "Switching Module",
+        "nl": "Schakelmodule"
       },
       "class": "light",
       "capabilities": [
@@ -436,8 +436,8 @@
     },
     {
       "name": {
-        "en": "Motor",
-        "nl": "Motor"
+        "en": "Motor Module",
+        "nl": "Motormodule"
       },
       "class": "blinds",
       "capabilities": [

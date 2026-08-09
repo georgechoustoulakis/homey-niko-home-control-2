@@ -1,7 +1,7 @@
 {
   "name": {
-    "en": "Switch",
-    "nl": "Schakelaar"
+    "en": "Switching Module",
+    "nl": "Schakelmodule"
   },
   "class": "light",
   "capabilities": ["onoff"],
