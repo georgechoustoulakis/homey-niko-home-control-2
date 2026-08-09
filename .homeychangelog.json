@@ -67,5 +67,8 @@
   },
   "1.9.2": {
     "en": "Fixed an issue where devices incorrectly showed as misconfigured and could not be controlled."
+  },
+  "1.10.0": {
+    "en": "Added ability to change what is plugged into the relay module."
   }
 }
