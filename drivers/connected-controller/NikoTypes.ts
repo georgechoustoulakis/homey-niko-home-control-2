@@ -37,7 +37,7 @@ export type BaseAction = {
 };
 
 export enum NikoDeviceKey {
-  LIGHT = 'LIGHT',
+  RELAY = 'RELAY',
   MOTOR = 'MOTOR',
   ALL_OFF = 'ALL_OFF',
   MOOD = 'MOOD',
@@ -50,7 +50,7 @@ export enum NikoDeviceKey {
 }
 
 export const NIKO_ACTIONS = {
-  [NikoDeviceKey.LIGHT]: {
+  [NikoDeviceKey.RELAY]: {
     types: 'action',
     models: ['light', 'socket', 'switched-fan', 'switched-generic'],
   },
@@ -93,7 +93,7 @@ export const NIKO_ACTIONS = {
 } as const satisfies Record<NikoDeviceKey, BaseAction>;
 
 export interface NikoPayloadRegistry extends Record<NikoDeviceKey, { Properties: any }> {
-  [NikoDeviceKey.LIGHT]: {
+  [NikoDeviceKey.RELAY]: {
     Properties: [{ Status: NikoOnOff }];
   };
   [NikoDeviceKey.MOTOR]: {

@@ -1,7 +1,7 @@
 import { NikoDeviceKey } from '../connected-controller/NikoTypes';
 import { NikoDevice } from '../../src/NikoDevice';
 
-export class NikoLightDevice extends NikoDevice<NikoDeviceKey.LIGHT> {
+export class NikoLightDevice extends NikoDevice<NikoDeviceKey.RELAY> {
   async onInit(): Promise<void> {
     await super.onInit();
     await this.updateDeviceClassIfNeeded();
