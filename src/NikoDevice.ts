@@ -39,9 +39,7 @@ export abstract class NikoDevice<K extends NikoDeviceKey> extends Homey.Device {
       return undefined;
     }
 
-    const statusProp = properties.find((prop) =>
-      Object.prototype.hasOwnProperty.call(prop, key),
-    );
+    const statusProp = properties.find((prop) => Object.prototype.hasOwnProperty.call(prop, key));
 
     return statusProp
       ? ((statusProp as Record<string, any>)[key as string] as ValueOfKeyInUnion<
