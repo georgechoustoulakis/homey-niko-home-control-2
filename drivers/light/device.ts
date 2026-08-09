@@ -4,6 +4,7 @@ import { NikoDevice } from '../../src/NikoDevice';
 export class NikoLightDevice extends NikoDevice<NikoDeviceKey.LIGHT> {
   async onInit(): Promise<void> {
     await super.onInit();
+    await this.updateDeviceClassIfNeeded();
     this.registerCapabilityListener('onoff', this.onValueChange);
     await this.updateStatus();
   }
@@ -19,6 +20,15 @@ export class NikoLightDevice extends NikoDevice<NikoDeviceKey.LIGHT> {
     }
     await this.setAvailable();
     await this.setCapabilityValue('onoff', status === 'On');
+  }
+
+  private async updateDeviceClassIfNeeded(): Promise<void> {
+    if (this.rawDevice.Model === 'light' && this.getClass() !== 'light') {
+      await this.setClass('light');
+    } else {
+      // Users can select through the UI what device type is plugged in.
+      await this.setClass('socket');
+    }
   }
 }
 

@@ -22,6 +22,10 @@ export abstract class NikoDevice<K extends NikoDeviceKey> extends Homey.Device {
 
   abstract updateStatus(): Promise<void>;
 
+  get rawDevice(): NikoDeviceWithOwner {
+    return this._device;
+  }
+
   get device(): NikoPayloadRegistry[K] {
     return this._device as unknown as NikoPayloadRegistry[K];
   }
