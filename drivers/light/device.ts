@@ -1,6 +1,6 @@
 import { NikoDevice } from '../../src/NikoDevice';
 
-import { NikoProperty, RelayMqttDevice } from '../connected-controller/NikoTypes';
+import { NikoModel, NikoProperty, RelayMqttDevice } from '../connected-controller/NikoTypes';
 
 export class NikoLightDevice extends NikoDevice<RelayMqttDevice> {
   async onInit(): Promise<void> {
@@ -24,10 +24,11 @@ export class NikoLightDevice extends NikoDevice<RelayMqttDevice> {
   }
 
   private async updateDeviceClassIfNeeded(): Promise<void> {
+    const isLight = this.device.Model === NikoModel.LIGHT;
     const currentClass = this.getClass();
-    if (this.device.Model === 'light' && currentClass !== 'light') {
+    if (isLight && currentClass !== 'light') {
       await this.setClass('light');
-    } else if (currentClass !== 'socket') {
+    } else if (!isLight && currentClass !== 'socket') {
       // Users can select through the UI what device type is plugged in.
       await this.setClass('socket');
     }
