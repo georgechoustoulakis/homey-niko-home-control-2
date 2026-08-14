@@ -1,3 +1,3 @@
-import { NikoComfortSensorDevice } from '../comfort-sensor-x1/device';
+import { NikoComfortDevice } from '../../src/ComfortDevice';
 
-module.exports = NikoComfortSensorDevice;
+module.exports = NikoComfortDevice;
