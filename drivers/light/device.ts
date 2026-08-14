@@ -24,9 +24,10 @@ export class NikoLightDevice extends NikoDevice<RelayMqttDevice> {
   }
 
   private async updateDeviceClassIfNeeded(): Promise<void> {
-    if (this.rawDevice.Model === 'light' && this.getClass() !== 'light') {
+    const currentClass = this.getClass();
+    if (this.device.Model === 'light' && currentClass !== 'light') {
       await this.setClass('light');
-    } else {
+    } else if (currentClass !== 'socket') {
       // Users can select through the UI what device type is plugged in.
       await this.setClass('socket');
     }
