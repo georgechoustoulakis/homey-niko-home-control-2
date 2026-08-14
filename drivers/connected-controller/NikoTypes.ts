@@ -52,7 +52,7 @@ type Enumerate<N extends number, Acc extends number[] = []> = Acc['length'] exte
   ? Acc[number]
   : Enumerate<N, [...Acc, Acc['length']]>;
 
-export type NikoRange = `${Enumerate<101>}`; // 0 -> 100
+export type NikoRange = `${Enumerate<101>} ` & {}; // 0 -> 100
 export type NikoTemperature = `-${Exclude<Enumerate<51>, 0>}` | NikoRange; // -50 -> 100
 
 export interface NikoMqttDevice {
