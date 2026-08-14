@@ -2,6 +2,7 @@
   "name": "homey-niko-home-control-2",
   "version": "1.0.0",
   "scripts": {
+    "debug": "homey app run",
     "build": "tsc",
     "lint:fix": "eslint --fix & prettier . --write",
     "lint:check": "eslint & prettier . --check"
