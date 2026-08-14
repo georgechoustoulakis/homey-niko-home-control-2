@@ -1,10 +1,12 @@
-import { NikoDriver } from '../../src/NikoDriver';
-import { DevicePairingData } from '../../src/GenericDevicePairingData';
-import { NIKO_ACTIONS, NikoDeviceKey } from '../connected-controller/NikoTypes';
+import { DevicePairingData, NikoDriver } from '../../src/NikoDriver';
+import { NikoModel, NikoType } from '../connected-controller/NikoTypes';
 
 class NikoAllOffDriver extends NikoDriver {
   async onPairListDevices(): Promise<DevicePairingData[]> {
-    return this.getDevicesByAction(NIKO_ACTIONS[NikoDeviceKey.ALL_OFF]);
+    return this.getDevicesByAction({
+      types: NikoType.ACTION,
+      models: [NikoModel.ALL_OFF],
+    });
   }
 }
 

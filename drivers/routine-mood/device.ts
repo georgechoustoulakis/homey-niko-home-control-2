@@ -1,7 +1,8 @@
 import { NikoDevice } from '../../src/NikoDevice';
-import { NikoDeviceKey } from '../connected-controller/NikoTypes';
 
-class MoodDevice extends NikoDevice<NikoDeviceKey.MOOD> {
+import { MoodMqttDevice, NikoProperty } from '../connected-controller/NikoTypes';
+
+class MoodDevice extends NikoDevice<MoodMqttDevice> {
   async onInit(): Promise<void> {
     await super.onInit();
     this.registerCapabilityListener('onoff', this.onValueChange);
@@ -15,8 +16,8 @@ class MoodDevice extends NikoDevice<NikoDeviceKey.MOOD> {
   };
 
   async updateStatus(): Promise<void> {
-    const mood = this.getProperty('MoodActive');
-    const state = this.getProperty('BasicState');
+    const mood = this.getProperty(NikoProperty.MOOD_ACTIVE);
+    const state = this.getProperty(NikoProperty.BASIC_STATE);
     if (!mood || !state) {
       return this.setUnavailable('Device is misconfigured, please re-create it.');
     }

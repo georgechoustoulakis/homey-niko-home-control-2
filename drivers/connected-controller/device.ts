@@ -84,7 +84,7 @@ export class ConnectedControllerDevice extends Homey.Device {
     this.client = new NikoMqttClient({
       settings: this.settings,
       homey: this.homey,
-      ownerControllerId: this.getData().id,
+      connectedControllerId: this.getData().id,
     });
     await this.updateDebugInfoAndSettings();
 
@@ -211,8 +211,8 @@ export class ConnectedControllerDevice extends Homey.Device {
     }
     const devices = this.client?.getNikoByTypeAndModel(type, models) ?? [];
     return devices.map((device) => ({
-      ...device,
-      ownerControllerId: this.getData().id,
+      device,
+      connectedControllerId: this.getData().id,
     }));
   }
 

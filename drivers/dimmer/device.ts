@@ -1,7 +1,8 @@
 import { NikoDevice } from '../../src/NikoDevice';
-import { NikoDeviceKey } from '../connected-controller/NikoTypes';
 
-class NikoDimmer extends NikoDevice<NikoDeviceKey.DIMMER> {
+import { DimmerMqttDevice, NikoProperty, NikoRange } from '../connected-controller/NikoTypes';
+
+class NikoDimmer extends NikoDevice<DimmerMqttDevice> {
   async onInit(): Promise<void> {
     await super.onInit();
     this.registerCapabilityListener('onoff', this.onValueChange);
@@ -14,12 +15,12 @@ class NikoDimmer extends NikoDevice<NikoDeviceKey.DIMMER> {
   };
 
   private onDimValueChange = async (value: number) => {
-    this.setNikoDeviceProps([{ Brightness: String((value * 100).toFixed(0)) }]);
+    this.setNikoDeviceProps([{ Brightness: String((value * 100).toFixed(0)) as NikoRange }]);
   };
 
   async updateStatus(): Promise<void> {
-    const status = this.getProperty('Status');
-    const brightness = this.getProperty('Brightness');
+    const status = this.getProperty(NikoProperty.STATUS);
+    const brightness = this.getProperty(NikoProperty.BRIGHTNESS);
 
     if (!status || !brightness) {
       return this.setUnavailable('Device is misconfigured, please re-create it.');

@@ -1,7 +1,8 @@
 import { NikoDevice } from '../../src/NikoDevice';
-import { NikoDeviceKey } from '../connected-controller/NikoTypes';
 
-class NikoMotor extends NikoDevice<NikoDeviceKey.MOTOR> {
+import { MotorMqttDevice, NikoProperty, NikoRange } from '../connected-controller/NikoTypes';
+
+class NikoMotor extends NikoDevice<MotorMqttDevice> {
   async onInit(): Promise<void> {
     await super.onInit();
     this.registerCapabilityListener('windowcoverings_state', this.onStateChange as any);
@@ -24,12 +25,14 @@ class NikoMotor extends NikoDevice<NikoDeviceKey.MOTOR> {
   };
 
   private onSetPosition = async (position: number) => {
-    return this.setNikoDeviceProps([{ Position: String((position * 100).toFixed(0)) }]);
+    return this.setNikoDeviceProps([
+      { Position: String((position * 100).toFixed(0)) as NikoRange },
+    ]);
   };
 
   async updateStatus(): Promise<void> {
-    const moving = this.getProperty('Moving');
-    const position = this.getProperty('Position');
+    const moving = this.getProperty(NikoProperty.MOVING);
+    const position = this.getProperty(NikoProperty.POSITION);
     await this.setAvailable();
     if (moving !== undefined && moving === 'False') {
       await this.setCapabilityValue('windowcoverings_state', 'idle');

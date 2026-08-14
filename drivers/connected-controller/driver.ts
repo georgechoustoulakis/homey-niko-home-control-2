@@ -1,6 +1,6 @@
 import Homey, { DiscoveryResultMDNSSD } from 'homey';
-import { GenericDevicePairingData } from '../../src/GenericDevicePairingData';
 import { randomUUID } from 'node:crypto';
+import { GenericDevicePairingData } from '../../src/NikoDriver';
 
 export interface ConnectedControllerSettings {
   name: string;

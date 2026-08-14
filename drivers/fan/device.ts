@@ -1,7 +1,8 @@
 import { NikoDevice } from '../../src/NikoDevice';
-import { NikoDeviceKey } from '../connected-controller/NikoTypes';
 
-class NikoFanDevice extends NikoDevice<NikoDeviceKey.FAN> {
+import { FanMqttDevice, NikoProperty } from '../connected-controller/NikoTypes';
+
+class NikoFanDevice extends NikoDevice<FanMqttDevice> {
   async onInit(): Promise<void> {
     await super.onInit();
     this.registerCapabilityListener('fan_mode', this.onStateChange);
@@ -13,7 +14,7 @@ class NikoFanDevice extends NikoDevice<NikoDeviceKey.FAN> {
   };
 
   async updateStatus(): Promise<void> {
-    const fanSpeed = this.getProperty('FanSpeed');
+    const fanSpeed = this.getProperty(NikoProperty.FAN_SPEED);
     if (!fanSpeed) {
       return this.setUnavailable('Device received incorrect state. Please report this issue.');
     }

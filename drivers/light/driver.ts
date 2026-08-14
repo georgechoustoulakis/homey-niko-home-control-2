@@ -1,10 +1,17 @@
-import { NikoDriver } from '../../src/NikoDriver';
-import { DevicePairingData } from '../../src/GenericDevicePairingData';
-import { NIKO_ACTIONS, NikoDeviceKey } from '../connected-controller/NikoTypes';
+import { DevicePairingData, NikoDriver } from '../../src/NikoDriver';
+import { NikoModel, NikoType } from '../connected-controller/NikoTypes';
 
 class NikoLightDriver extends NikoDriver {
   async onPairListDevices(): Promise<DevicePairingData[]> {
-    return super.getDevicesByAction(NIKO_ACTIONS[NikoDeviceKey.RELAY]);
+    return super.getDevicesByAction({
+      types: NikoType.ACTION,
+      models: [
+        NikoModel.LIGHT,
+        NikoModel.SOCKET,
+        NikoModel.SWITCHED_FAN,
+        NikoModel.SWITCHED_GENERIC,
+      ],
+    });
   }
 }
 

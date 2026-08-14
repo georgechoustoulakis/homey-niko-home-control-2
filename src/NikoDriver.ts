@@ -1,11 +1,37 @@
 import Homey from 'homey';
-import { NikoDeviceWithOwner } from '../drivers/connected-controller/NikoMqttClient';
+import {
+  LegacyNikoDeviceWithOwner,
+  NikoDeviceWithOwner,
+} from '../drivers/connected-controller/NikoMqttClient';
 import { ConnectedControllerDevice } from '../drivers/connected-controller/device';
-import { DevicePairingData } from './GenericDevicePairingData';
-import { AllNikoActions } from '../drivers/connected-controller/NikoTypes';
+import { NikoModel, NikoType } from '../drivers/connected-controller/NikoTypes';
+
+export type DeviceGroup = {
+  readonly types: NikoType;
+  readonly models: NikoModel[];
+};
+
+export interface GenericDevicePairingData {
+  name: string;
+  data: {
+    id: string;
+  };
+}
+
+export interface DevicePairingData extends GenericDevicePairingData {
+  store: DeviceStore;
+}
+
+export interface DeviceStore {
+  /**
+   * @deprecated
+   */
+  device?: LegacyNikoDeviceWithOwner;
+  deviceWithOwner?: NikoDeviceWithOwner;
+}
 
 export abstract class NikoDriver extends Homey.Driver {
-  protected getDevicesByAction(action: AllNikoActions): DevicePairingData[] {
+  protected getDevicesByAction(group: DeviceGroup): DevicePairingData[] {
     const controllerDriver = this.homey.drivers.getDriver('connected-controller');
     const controllerDevices = controllerDriver.getDevices() as ConnectedControllerDevice[];
 
@@ -15,16 +41,22 @@ export abstract class NikoDriver extends Homey.Driver {
 
     const allDevices: NikoDeviceWithOwner[] = [];
     for (const controllerDevice of controllerDevices) {
-      allDevices.push(...controllerDevice.getNikoByTypeAndModel(action.types, action.models));
+      allDevices.push(...controllerDevice.getNikoByTypeAndModel(group.types, group.models));
     }
-    return allDevices.map((nikoDevice) => ({
-      name: nikoDevice.Name,
-      data: {
-        id: nikoDevice.Uuid,
-      },
-      store: {
-        device: nikoDevice,
-      },
-    }));
+    return allDevices.map(
+      (deviceWithOwner: NikoDeviceWithOwner): DevicePairingData => ({
+        name: deviceWithOwner.device.Name,
+        data: {
+          id: deviceWithOwner.device.Uuid,
+        },
+        store: {
+          device: {
+            ...deviceWithOwner.device,
+            ownerControllerId: deviceWithOwner.connectedControllerId,
+          },
+          deviceWithOwner: deviceWithOwner,
+        },
+      }),
+    );
   }
 }

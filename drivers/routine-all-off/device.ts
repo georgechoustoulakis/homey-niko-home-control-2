@@ -1,7 +1,8 @@
 import { NikoDevice } from '../../src/NikoDevice';
-import { NikoDeviceKey } from '../connected-controller/NikoTypes';
 
-class AllOffDevice extends NikoDevice<NikoDeviceKey.ALL_OFF> {
+import { AllOffMqttDevice, NikoProperty } from '../connected-controller/NikoTypes';
+
+class AllOffDevice extends NikoDevice<AllOffMqttDevice> {
   async onInit(): Promise<void> {
     await super.onInit();
     this.registerCapabilityListener('onoff', this.onValueChange);
@@ -15,8 +16,8 @@ class AllOffDevice extends NikoDevice<NikoDeviceKey.ALL_OFF> {
   };
 
   async updateStatus(): Promise<void> {
-    const allActive = this.getProperty('AllOffActive');
-    const basicState = this.getProperty('BasicState');
+    const allActive = this.getProperty(NikoProperty.ALL_OFF_ACTIVE);
+    const basicState = this.getProperty(NikoProperty.BASIC_STATE);
     if (!allActive || !basicState) {
       return this.setUnavailable('Device is misconfigured, please re-create it.');
     }

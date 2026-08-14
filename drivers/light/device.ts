@@ -1,7 +1,8 @@
-import { NikoDeviceKey } from '../connected-controller/NikoTypes';
 import { NikoDevice } from '../../src/NikoDevice';
 
-export class NikoLightDevice extends NikoDevice<NikoDeviceKey.RELAY> {
+import { NikoProperty, RelayMqttDevice } from '../connected-controller/NikoTypes';
+
+export class NikoLightDevice extends NikoDevice<RelayMqttDevice> {
   async onInit(): Promise<void> {
     await super.onInit();
     await this.updateDeviceClassIfNeeded();
@@ -14,7 +15,7 @@ export class NikoLightDevice extends NikoDevice<NikoDeviceKey.RELAY> {
   };
 
   async updateStatus(): Promise<void> {
-    const status = this.getProperty('Status');
+    const status = this.getProperty(NikoProperty.STATUS);
     if (status === undefined) {
       return this.setUnavailable('Device is misconfigured, please re-create it.');
     }

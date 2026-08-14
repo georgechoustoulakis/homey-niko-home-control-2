@@ -3,38 +3,27 @@ import { EventEmitter } from 'events';
 import { ConnectedControllerSettings } from './driver';
 import Homey from 'homey/lib/Homey';
 import { Device } from 'homey';
-import { NIKO_MODELS, NIKO_TYPES, NikoModel, NikoType } from './NikoTypes';
+import { NikoMqttDevice, NikoModel, NikoProperty, NikoType } from './NikoTypes';
 
-export interface NikoDeviceWithOwner extends NikoDevice {
+export interface LegacyNikoDeviceWithOwner extends NikoMqttDevice {
   ownerControllerId: string;
 }
 
-const DEBUG_MQTT = false;
-
-export interface NikoDevice {
-  Uuid: string;
-  Name: string;
-  Model: NikoModel;
-  Technology: 'nikohomecontrol' | string;
-  Type: NikoType;
-  Properties: Record<string, any>[]; // e.g. [{ Status: 'On' }]
-  PropertyDefinitions: Record<string, any>;
-  Online: 'True' | 'False';
+export interface NikoDeviceWithOwner {
+  device: NikoMqttDevice;
+  connectedControllerId: string;
 }
+
+const DEBUG_MQTT = false;
 
 type DeviceListUpdate = {
   Method: 'devices.control';
   Params: [
     {
-      Devices: DeviceUpdate[];
+      Devices: Pick<NikoMqttDevice, 'Uuid' | 'Properties'>[];
     },
   ];
 };
-
-interface DeviceUpdate {
-  Uuid: string;
-  Properties: Record<string, any>[];
-}
 
 export enum TOPIC {
   CMD = 'hobby/control/devices/cmd',
@@ -57,7 +46,7 @@ const UPDATE_QUEUE_DELAY_MS = 50;
 export class NikoMqttClient extends EventEmitter {
   readonly settings: ConnectedControllerSettings;
   private readonly homey: Homey;
-  private readonly ownerControllerId: string;
+  private readonly connectedControllerId: string;
 
   private client: MqttClient | null = null;
   private _state: NikoClientState = NikoClientState.UNINITIALIZED;
@@ -67,17 +56,17 @@ export class NikoMqttClient extends EventEmitter {
   private queuedUpdates: QueuedUpdate[] = [];
   private batchTimeout: NodeJS.Timeout | undefined = undefined;
 
-  private devices: NikoDevice[] = [];
+  private devices: NikoMqttDevice[] = [];
 
   constructor(config: {
     settings: ConnectedControllerSettings;
     homey: Device.Homey;
-    ownerControllerId: string;
+    connectedControllerId: string;
   }) {
     super();
-    const { settings, homey, ownerControllerId } = config;
+    const { settings, homey, connectedControllerId } = config;
     this.homey = homey;
-    this.ownerControllerId = ownerControllerId;
+    this.connectedControllerId = connectedControllerId;
     this.settings = settings;
   }
 
@@ -89,7 +78,7 @@ export class NikoMqttClient extends EventEmitter {
     return this._lastErrorMessage;
   }
 
-  getDevices(): NikoDevice[] {
+  getDevices(): NikoMqttDevice[] {
     return this.devices;
   }
 
@@ -177,7 +166,7 @@ export class NikoMqttClient extends EventEmitter {
     this.client.publish(TOPIC.CMD, payload);
   }
 
-  public getNikoByTypeAndModel(type: NikoType, models: NikoModel[]): NikoDevice[] {
+  public getNikoByTypeAndModel(type: NikoType, models: NikoModel[]): NikoMqttDevice[] {
     return this.devices.filter((device) => device.Type === type && models.includes(device.Model));
   }
 
@@ -239,7 +228,7 @@ export class NikoMqttClient extends EventEmitter {
       const payload = JSON.parse(message.toString());
 
       if (topic === TOPIC.RSP && payload.Method === 'devices.list') {
-        const receivedDevices: NikoDevice[] = payload.Params?.[0]?.Devices || [];
+        const receivedDevices: NikoMqttDevice[] = payload.Params?.[0]?.Devices || [];
         this.devices.length = 0;
         this.devices.push(...receivedDevices);
         if (DEBUG_MQTT) {
@@ -259,10 +248,11 @@ export class NikoMqttClient extends EventEmitter {
         }
       }
 
+      // TODO: improve types so casting is not needed
       if (topic === TOPIC.EVT && payload.Method === 'devices.status') {
-        const updates: DeviceUpdate[] = payload.Params?.[0]?.Devices || [];
+        const updates: NikoMqttDevice[] = payload.Params?.[0]?.Devices || [];
 
-        updates.forEach((update: DeviceUpdate) => {
+        updates.forEach((update: NikoMqttDevice) => {
           const uuid = update.Uuid;
           const changedProps = update.Properties;
           if (DEBUG_MQTT) {
@@ -277,7 +267,7 @@ export class NikoMqttClient extends EventEmitter {
           }
 
           for (const prop of changedProps) {
-            const propKey = Object.keys(prop)[0];
+            const propKey = Object.keys(prop)[0] as NikoProperty;
             const existingProp = device.Properties.find((p) =>
               Object.prototype.hasOwnProperty.call(p, propKey),
             );
@@ -296,11 +286,12 @@ export class NikoMqttClient extends EventEmitter {
     }
   };
 
-  private sendUpdate(device: NikoDevice): void {
+  private sendUpdate(device: NikoMqttDevice): void {
     if (
       !device.Uuid ||
-      NIKO_TYPES.indexOf(device.Type) === -1 ||
-      NIKO_MODELS.indexOf(device.Model) === -1
+      // if type or model is not in our enums, skip it
+      !Object.values(NikoType).includes(device.Type) ||
+      !Object.values(NikoModel).includes(device.Model)
     ) {
       if (DEBUG_MQTT) {
         console.log(
@@ -312,11 +303,11 @@ export class NikoMqttClient extends EventEmitter {
     if (DEBUG_MQTT) {
       console.log(`Emitting device update for ${device.Name} (${device.Uuid})`);
     }
-    const deviceWithOwner: NikoDeviceWithOwner = {
-      ...device,
-      ownerControllerId: this.ownerControllerId,
+    const update: NikoDeviceWithOwner = {
+      device,
+      connectedControllerId: this.connectedControllerId,
     };
-    this.homey.emit(device.Uuid, deviceWithOwner);
+    this.homey.emit(device.Uuid, update);
   }
 
   public disconnect(): void {
