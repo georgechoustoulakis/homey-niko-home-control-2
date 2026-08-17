@@ -17,11 +17,14 @@ export enum NikoModel {
   THERMO_X6_FEEDBACK = 'thermoswitchx6feedback',
   THERMO_VENTILATION_FEEDBACK = 'thermoventilationcontrollerfeedback',
   FAN = 'fan',
+  THERMOSTAT = 'thermostat',
+  TOUCH_SWITCH = 'touchswitch',
 }
 
 export enum NikoType {
   ACTION = 'action',
   MULTISENSOR = 'multisensor',
+  HVAC = 'hvac',
 }
 
 export enum NikoProperty {
@@ -37,6 +40,13 @@ export enum NikoProperty {
   FAN_SPEED = 'FanSpeed',
   AMBIENT_TEMPERATURE = 'AmbientTemperature',
   HUMIDITY = 'Humidity',
+  PROGRAM = 'Program',
+  SETPOINT_TEMPERATURE = 'SetpointTemperature',
+  OVERRULE_ACTIVE = 'OverruleActive',
+  OVERRULE_SETPOINT = 'OverruleSetpoint',
+  OVERRULE_TIME = 'OverruleTime',
+  ECO_SAVE = 'EcoSave',
+  DEMAND = 'Demand',
 }
 
 export enum NikoTechnology {
@@ -48,6 +58,8 @@ export type NikoFanSpeed = 'Low' | 'Medium' | 'High' | 'Boost';
 export type NikoBoolean = 'True' | 'False';
 export type NikoOnOff = 'On' | 'Off';
 export type NikoTriggerable = NikoOnOff | 'Triggered';
+export type NikoProgram = 'Day' | 'Night' | 'Eco' | 'Off' | 'Prog1' | 'Prog2' | 'Prog3';
+export type NikoDemand = 'Heating' | 'Cooling' | 'None';
 type Enumerate<N extends number, Acc extends number[] = []> = Acc['length'] extends N
   ? Acc[number]
   : Enumerate<N, [...Acc, Acc['length']]>;
@@ -125,5 +137,21 @@ export interface ThermoMqttDevice extends NikoMqttDevice {
   Properties: [
     { [NikoProperty.AMBIENT_TEMPERATURE]: NikoTemperature },
     { [NikoProperty.HUMIDITY]: NikoRange },
+  ];
+}
+
+export interface ThermostatMqttDevice extends NikoMqttDevice {
+  Type: NikoType.HVAC;
+  Technology: NikoTechnology.NIKO_HOME_CONTROL;
+  Model: NikoModel.THERMOSTAT | NikoModel.TOUCH_SWITCH;
+  Properties: [
+    { [NikoProperty.PROGRAM]: NikoProgram },
+    { [NikoProperty.AMBIENT_TEMPERATURE]: NikoRange }, // Range(-5, 45, 0.5)
+    { [NikoProperty.SETPOINT_TEMPERATURE]: NikoRange }, // Range(5, 30, 0.5)
+    { [NikoProperty.OVERRULE_ACTIVE]: NikoBoolean },
+    { [NikoProperty.OVERRULE_SETPOINT]: NikoRange }, // Range(5, 30, 0.5)
+    { [NikoProperty.OVERRULE_TIME]: NikoRange }, // Range(1, 1439, 1)
+    { [NikoProperty.ECO_SAVE]: NikoBoolean },
+    { [NikoProperty.DEMAND]: NikoRange },
   ];
 }
