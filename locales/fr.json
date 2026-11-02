@@ -31,7 +31,8 @@
       "saveAnyway": "Enregistrer sans connexion fonctionnelle",
       "confirmSaveAnyway": "La connexion n'a pas fonctionné. Enregistrer quand même ces réglages ?",
       "repairSubtitle": "Collez un nouveau jeton ou corrigez l'adresse IP de __name__."
-    }
+    },
+    "energyHomeName": "Énergie du domicile"
   },
   "controller": {
     "invalidIp": "Adresse IP non valide dans les paramètres de l'appareil.",

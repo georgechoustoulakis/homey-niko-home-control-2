@@ -31,7 +31,8 @@
       "saveAnyway": "Gem uden fungerende forbindelse",
       "confirmSaveAnyway": "Forbindelsen virkede ikke. Gem disse indstillinger alligevel?",
       "repairSubtitle": "Indsæt et nyt token eller ret IP-adressen for __name__."
-    }
+    },
+    "energyHomeName": "Hjemmets energi"
   },
   "controller": {
     "invalidIp": "Ugyldig IP-adresse i enhedens indstillinger.",

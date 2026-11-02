@@ -31,7 +31,8 @@
       "saveAnyway": "Opslaan zonder werkende verbinding",
       "confirmSaveAnyway": "De verbinding werkte niet. Deze instellingen toch opslaan?",
       "repairSubtitle": "Plak een nieuw token of corrigeer het IP-adres van __name__."
-    }
+    },
+    "energyHomeName": "Energie woning"
   },
   "controller": {
     "invalidIp": "Ongeldig IP-adres in de instellingen van het apparaat.",

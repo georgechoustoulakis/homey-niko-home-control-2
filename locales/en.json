@@ -31,7 +31,8 @@
       "saveAnyway": "Save without a working connection",
       "confirmSaveAnyway": "The connection did not work. Save these settings anyway?",
       "repairSubtitle": "Paste a new token or correct the IP address of __name__."
-    }
+    },
+    "energyHomeName": "Home energy"
   },
   "controller": {
     "invalidIp": "Invalid IP address in the device's settings.",

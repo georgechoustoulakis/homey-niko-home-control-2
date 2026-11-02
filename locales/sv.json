@@ -31,7 +31,8 @@
       "saveAnyway": "Spara utan fungerande anslutning",
       "confirmSaveAnyway": "Anslutningen fungerade inte. Spara inställningarna ändå?",
       "repairSubtitle": "Klistra in en ny token eller rätta IP-adressen för __name__."
-    }
+    },
+    "energyHomeName": "Hemmets energi"
   },
   "controller": {
     "invalidIp": "Ogiltig IP-adress i enhetens inställningar.",
