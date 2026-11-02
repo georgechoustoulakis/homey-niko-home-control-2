@@ -50,6 +50,9 @@ Architecture, data flow and rules: see [AGENTS.md](AGENTS.md).
 
 ## Releasing (maintainer)
 
-Run the **Update and Publish Homey App** workflow with the version bump and changelog. It commits
-the version, tags, creates a GitHub release and publishes to Homey. Finish the submission via the
-link in the job summary.
+Two manual workflows, as in Athom's templates (`homey app add-github-workflows`):
+
+1. **Update Homey App Version**: pick the version bump and enter the changelog. It commits the
+   version, tags it and creates a GitHub release.
+2. **Publish Homey App**: builds the current `main` and uploads it to Homey. Finish the submission
+   (test or live) via the link in the job summary.
