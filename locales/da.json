@@ -1,7 +1,7 @@
 {
   "pair": {
-    "noController": "⚠️ Tilføj først en Controller.",
-    "deviceName": "Controller",
+    "noController": "⚠️ Tilføj først en Connected controller.",
+    "deviceName": "Connected controller",
     "discover": {
       "title": "Find din controller",
       "subtitle": "Controllere fundet på dit netværk",

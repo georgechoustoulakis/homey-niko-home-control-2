@@ -46,7 +46,7 @@ and [guide](https://guide.niko.eu/en/connhc2/lv/hobby-api) for details.
 | Motor                         | `rolldownshutter`, `sunblind`, `gate`, `venetianblind`                                                             |
 | Fan with speeds               | `fan`                                                                                                              |
 | Routine: All off              | `alloff`                                                                                                           |
-| Routine: Mood                 | `comfort`                                                                                                          |
+| Routine: Scene                | `comfort`                                                                                                          |
 | Routine: Custom               | `generic` (custom routine / free start-stop)                                                                       |
 | Routine: House status         | `overallcomfort`                                                                                                   |
 | Routine: Presence alert       | `alarms` (intruder alarm, can be arming)                                                                           |

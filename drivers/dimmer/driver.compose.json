@@ -1,9 +1,9 @@
 {
   "name": {
     "en": "Light with dimmer",
-    "nl": "Verlichting met dimmer",
+    "nl": "Licht met dimmer",
     "fr": "Éclairage avec variateur",
-    "da": "Lys med lysdæmper",
+    "da": "Belysning med dæmper",
     "sv": "Belysning med dimmer"
   },
   "class": "light",

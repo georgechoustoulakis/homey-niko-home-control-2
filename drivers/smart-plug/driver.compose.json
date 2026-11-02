@@ -2,9 +2,9 @@
   "name": {
     "en": "Smart plug",
     "nl": "Slimme stekker",
-    "fr": "Prise connectée",
+    "fr": "Prise intelligente",
     "da": "Smart stik",
-    "sv": "Smart kontakt"
+    "sv": "Smart plug"
   },
   "class": "socket",
   "capabilities": ["onoff", "measure_power"],

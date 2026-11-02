@@ -1,9 +1,9 @@
 {
   "name": {
     "en": "Light",
-    "nl": "Verlichting",
+    "nl": "Licht",
     "fr": "Éclairage",
-    "da": "Lys",
+    "da": "Belysning",
     "sv": "Belysning"
   },
   "class": "light",

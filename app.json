@@ -211,7 +211,7 @@
         "en": "Connected Controller",
         "nl": "Connected Controller",
         "fr": "Unité de contrôle connectée",
-        "da": "Controller",
+        "da": "Connected controller",
         "sv": "Ansluten kontrollenhet"
       },
       "class": "bridge",
@@ -371,9 +371,9 @@
     {
       "name": {
         "en": "Light with dimmer",
-        "nl": "Verlichting met dimmer",
+        "nl": "Licht met dimmer",
         "fr": "Éclairage avec variateur",
-        "da": "Lys med lysdæmper",
+        "da": "Belysning med dæmper",
         "sv": "Belysning med dimmer"
       },
       "class": "light",
@@ -607,9 +607,9 @@
     {
       "name": {
         "en": "Light",
-        "nl": "Verlichting",
+        "nl": "Licht",
         "fr": "Éclairage",
-        "da": "Lys",
+        "da": "Belysning",
         "sv": "Belysning"
       },
       "class": "light",
@@ -686,7 +686,7 @@
         "en": "Routine: All off",
         "nl": "Routine: Alles uit",
         "fr": "Routine : Tout éteint",
-        "da": "Rutine: Sluk-alt",
+        "da": "Rutine: Sluk alt",
         "sv": "Rutin: Allt av"
       },
       "class": "other",
@@ -797,7 +797,7 @@
     },
     {
       "name": {
-        "en": "Routine: Mood",
+        "en": "Routine: Scene",
         "nl": "Routine: Sfeer",
         "fr": "Routine : Ambiance",
         "da": "Rutine: Scenarie",
@@ -1027,9 +1027,9 @@
       "name": {
         "en": "Smart plug",
         "nl": "Slimme stekker",
-        "fr": "Prise connectée",
+        "fr": "Prise intelligente",
         "da": "Smart stik",
-        "sv": "Smart kontakt"
+        "sv": "Smart plug"
       },
       "class": "socket",
       "capabilities": [
