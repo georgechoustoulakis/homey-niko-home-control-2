@@ -88,5 +88,8 @@
   },
   "1.14.0": {
     "en": "Added routines for custom routines, house status, presence alert, warning mode, presence simulation, solar mode and peak mode, with matching Niko-style images."
+  },
+  "1.14.1": {
+    "en": "Home energy now shows kWh from and to the grid."
   }
 }
