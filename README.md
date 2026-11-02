@@ -35,30 +35,30 @@ and [guide](https://guide.niko.eu/en/connhc2/lv/hobby-api) for details.
 
 ## Supported devices
 
-| Homey device                  | Niko models                                                                               |
-| ----------------------------- | ----------------------------------------------------------------------------------------- |
-| Connected Controller          | The gateway, add this first                                                               |
-| Light                         | `light` (sockets and switched outputs added before 1.13 also stay here)                   |
-| Socket                        | `socket`                                                                                  |
-| Fan                           | `switched-fan`                                                                            |
-| Switched output               | `switched-generic`                                                                        |
-| Light with dimmer             | `dimmer`                                                                                  |
-| Motor                         | `rolldownshutter`, `sunblind`, `gate`, `venetianblind`                                    |
-| Fan with speeds               | `fan`                                                                                     |
-| Routine: All off              | `alloff`                                                                                  |
-| Routine: Mood                 | `comfort`                                                                                 |
-| Routine: Custom               | `generic` (custom routine / free start-stop)                                              |
-| Routine: House status         | `overallcomfort`                                                                          |
-| Routine: Presence alert       | `alarms` (intruder alarm, can be arming)                                                  |
-| Routine: Warning mode         | `alarms` (panic)                                                                          |
-| Routine: Presence simulation  | `simulation`                                                                              |
-| Routine: Solar mode           | `solarmode`                                                                               |
-| Routine: Peak mode            | `peakmode`                                                                                |
-| Comfort sensor (1/2/4/6 keys) | `thermoswitchx1`, `thermoswitchx{1,2,4,6}feedback`, `thermoventilationcontrollerfeedback` |
-| Home energy                   | `energyhome` (central meter, e.g. P1): live power and monthly peak, shown in Homey Energy |
-| Thermostat                    | Wall thermostat, touch switch, Digital Black, virtual and HVAC thermostats                |
-| Smart plug                    | Zigbee `smartplug` (Niko and generic): on/off and live power                              |
-| Virtual flag                  | `flag`                                                                                    |
+| Homey device                  | Niko models                                                                                                        |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Connected Controller          | The gateway, add this first                                                                                        |
+| Light                         | `light` (sockets and switched outputs added before 1.13 also stay here)                                            |
+| Socket                        | `socket`                                                                                                           |
+| Fan                           | `switched-fan`                                                                                                     |
+| Switched output               | `switched-generic`                                                                                                 |
+| Light with dimmer             | `dimmer`                                                                                                           |
+| Motor                         | `rolldownshutter`, `sunblind`, `gate`, `venetianblind`                                                             |
+| Fan with speeds               | `fan`                                                                                                              |
+| Routine: All off              | `alloff`                                                                                                           |
+| Routine: Mood                 | `comfort`                                                                                                          |
+| Routine: Custom               | `generic` (custom routine / free start-stop)                                                                       |
+| Routine: House status         | `overallcomfort`                                                                                                   |
+| Routine: Presence alert       | `alarms` (intruder alarm, can be arming)                                                                           |
+| Routine: Warning mode         | `alarms` (panic)                                                                                                   |
+| Routine: Presence simulation  | `simulation`                                                                                                       |
+| Routine: Solar mode           | `solarmode`                                                                                                        |
+| Routine: Peak mode            | `peakmode`                                                                                                         |
+| Comfort sensor (1/2/4/6 keys) | `thermoswitchx1`, `thermoswitchx{1,2,4,6}feedback`, `thermoventilationcontrollerfeedback`                          |
+| Home energy                   | `energyhome` (central meter, e.g. P1 or clamps): live power, monthly peak and kWh from/to the grid in Homey Energy |
+| Thermostat                    | Wall thermostat, touch switch, Digital Black, virtual and HVAC thermostats                                         |
+| Smart plug                    | Zigbee `smartplug` (Niko and generic): on/off and live power                                                       |
+| Virtual flag                  | `flag`                                                                                                             |
 
 ## Renewing the token
 

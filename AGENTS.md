@@ -76,7 +76,10 @@ There is no automated test suite yet.
   shows flags through actions; the Homey driver deliberately exposes the flag itself.
 - Energy Home: power is only reported while `ReportInstantUsage` is True (Niko resets it after
   30 s; the device re-requests it). Energy counters have `HasStatus: false`: not on MQTT, only via
-  the REST measurements API as quarter-hour values.
+  the REST measurements API (`src/niko/NikoMeasurements.ts`) as Wh per quarter-hour, labelled with
+  the quarter's end in local time. The device polls every 5 min and sums them into
+  `meter_power.imported/exported` (cursor per total in the store). Recovery after an outage is capped
+  at 3 hours: Homey books recovered energy as a spike when the total jumps.
 - Real installations: reading (`devices.list`, subscriptions) is fine. `devices.control` moves real
   motors and gates: only with the owner's explicit consent.
 - Custom pair views (`drivers/*/pair/*.html`): Homey renders all views of a pair session in one
