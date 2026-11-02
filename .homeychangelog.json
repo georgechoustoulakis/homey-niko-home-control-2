@@ -91,5 +91,8 @@
   },
   "1.14.1": {
     "en": "Home energy now shows kWh from and to the grid."
+  },
+  "1.14.2": {
+    "en": "Device names now match the Niko programming software in all languages, the Mood routine is now called Scene, and Home energy gets a proper name when you add it."
   }
 }
