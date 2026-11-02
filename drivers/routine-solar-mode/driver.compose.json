@@ -1,9 +1,9 @@
 {
   "name": {
     "en": "Routine: Solar mode",
-    "nl": "Routine: Zonnemodus",
+    "nl": "Routine: Solar mode",
     "fr": "Routine : Mode solaire",
-    "da": "Rutine: Solcelletilstand",
+    "da": "Rutine: Solcellefunktion",
     "sv": "Rutin: Solläge"
   },
   "class": "other",

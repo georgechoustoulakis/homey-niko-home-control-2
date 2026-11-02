@@ -1,10 +1,10 @@
 {
   "name": {
     "en": "Routine: Warning mode",
-    "nl": "Routine: Waarschuwingsmodus",
-    "fr": "Routine : Mode d'alerte",
-    "da": "Rutine: Advarselstilstand",
-    "sv": "Rutin: Varningsläge"
+    "nl": "Routine: Waarschuwingsactie",
+    "fr": "Routine : Mode d'avertissement",
+    "da": "Rutine: Advarselsfunktion",
+    "sv": "Rutin: Varningsfunktion"
   },
   "class": "other",
   "capabilities": ["onoff"],

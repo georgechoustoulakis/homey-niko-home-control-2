@@ -1,10 +1,10 @@
 {
   "name": {
     "en": "Routine: Peak mode",
-    "nl": "Routine: Piekmodus",
-    "fr": "Routine : Mode pointe",
-    "da": "Rutine: Spidsbelastningstilstand",
-    "sv": "Rutin: Toppeffektläge"
+    "nl": "Routine: Peak mode",
+    "fr": "Routine : Mode délestage",
+    "da": "Rutine: Spidsbelastningsfunktion",
+    "sv": "Rutin: Läge för toppbelastningsutjämning"
   },
   "class": "other",
   "capabilities": ["onoff"],

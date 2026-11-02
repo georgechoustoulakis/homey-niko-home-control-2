@@ -1,10 +1,10 @@
 {
   "name": {
     "en": "Routine: House status",
-    "nl": "Routine: Huisstatus",
-    "fr": "Routine : Statut de la maison",
-    "da": "Rutine: Husstatus",
-    "sv": "Rutin: Husstatus"
+    "nl": "Routine: Woningstatus",
+    "fr": "Routine : État de la maison",
+    "da": "Rutine: Status for boligen",
+    "sv": "Rutin: Status hus"
   },
   "class": "other",
   "capabilities": ["onoff"],

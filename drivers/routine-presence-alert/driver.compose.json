@@ -1,10 +1,10 @@
 {
   "name": {
     "en": "Routine: Presence alert",
-    "nl": "Routine: Aanwezigheidsalarm",
-    "fr": "Routine : Alerte de présence",
-    "da": "Rutine: Tilstedeværelsesalarm",
-    "sv": "Rutin: Närvarolarm"
+    "nl": "Routine: Aanwezigheidswaarschuwing",
+    "fr": "Routine : Alerte présence",
+    "da": "Rutine: Indbrudsvarsling",
+    "sv": "Rutin: Närvarovarning"
   },
   "class": "other",
   "capabilities": ["onoff"],
