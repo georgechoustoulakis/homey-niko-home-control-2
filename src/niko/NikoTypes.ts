@@ -66,6 +66,8 @@ export enum NikoProperty {
   REPORT_INSTANT_USAGE = 'ReportInstantUsage',
   ELECTRICAL_POWER = 'ElectricalPower',
   ELECTRICAL_MONTHLY_PEAK_POWER_FROM_GRID = 'ElectricalMonthlyPeakPowerFromGrid',
+  ELECTRICAL_ENERGY_FROM_GRID = 'ElectricalEnergyFromGrid', // REST only, Wh per quarter-hour
+  ELECTRICAL_ENERGY_TO_GRID = 'ElectricalEnergyToGrid', // REST only, Wh per quarter-hour
   OPERATION_MODE = 'OperationMode',
   THERMOSTAT_ON = 'ThermostatOn',
 }

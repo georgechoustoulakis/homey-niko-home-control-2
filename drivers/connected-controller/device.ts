@@ -7,7 +7,8 @@ import {
   NikoMqttClient,
 } from '../../src/niko/NikoMqttClient';
 import { clearInterval } from 'node:timers';
-import { NikoModel, NikoMqttDevice, NikoType } from '../../src/niko/NikoTypes';
+import { NikoModel, NikoMqttDevice, NikoProperty, NikoType } from '../../src/niko/NikoTypes';
+import { fetchQuarterValues, NikoQuarterValue } from '../../src/niko/NikoMeasurements';
 import { emitControllerChanged } from '../../src/niko/NikoEvents';
 import {
   getConnectionSettingsError,
@@ -243,6 +244,16 @@ export class ConnectedControllerDevice extends Homey.Device {
   // Not getAvailable(): that only updates after an async setAvailable().
   isOnline(): boolean {
     return !this.isUnloaded && this.client?.getState() === NikoClientState.CONNECTED;
+  }
+
+  // Energy counters are only available through the REST measurements API, not over MQTT.
+  fetchQuarterValues(
+    uuid: string,
+    property: NikoProperty,
+    startExclusive: string,
+    endInclusive: string,
+  ): Promise<NikoQuarterValue[]> {
+    return fetchQuarterValues(this.settings, uuid, property, startExclusive, endInclusive);
   }
 
   getNikoDevice(uuid: string): NikoMqttDevice | undefined {
