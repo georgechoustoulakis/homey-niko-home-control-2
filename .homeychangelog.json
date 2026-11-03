@@ -94,5 +94,8 @@
   },
   "1.14.2": {
     "en": "Device names now match the Niko programming software in all languages, the Mood routine is now called Scene, and Home energy gets a proper name when you add it."
+  },
+  "1.14.3": {
+    "en": "Update images"
   }
 }
